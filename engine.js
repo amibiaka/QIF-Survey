@@ -75,9 +75,24 @@ function fmtLocal(usd){
   return "≈ " + fmtBig(lo) + t.to + fmtBig(hi) + " " + cur;
 }
 // guided flow: after a question is completed, glide to the next open one
+// rAF-based glide: works even where programmatic smooth scrolling is disabled
+function glideTo(top){
+  var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  top = Math.max(0, Math.min(top, max));
+  var start = window.scrollY, dist = top - start, t0 = null, dur = 400;
+  if (Math.abs(dist) < 4) return;
+  function step(ts){
+    if (t0 === null) t0 = ts;
+    var p = Math.min(1, (ts - t0) / dur);
+    var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    window.scrollTo(0, start + dist * e);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
 function scrollToBlock(id){
   var el = document.getElementById(id);
-  if (el) { var top = el.getBoundingClientRect().top + window.scrollY - 84; window.scrollTo({ top: top, behavior: "smooth" }); }
+  if (el) { glideTo(el.getBoundingClientRect().top + window.scrollY - 84); }
 }
 function advanceFocus(qid){
   var scr = screens(); var sc = scr[state.screen]; if (!sc) return;
@@ -90,7 +105,7 @@ function advanceFocus(qid){
     if (j !== idx && !validQ(sc.qs[j])) { scrollToBlock("qb_" + sc.qs[j].id); return; }
   }
   var btn = root.querySelector(".navrow .btn.nav:not(.sec)");
-  if (btn) { btn.classList.add("pulse"); btn.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  if (btn) { btn.classList.add("pulse"); glideTo(btn.getBoundingClientRect().top + window.scrollY - (window.innerHeight / 2)); }
 }
 function afterAnswer(qid, complete){
   save(); rerenderScreen();
@@ -454,7 +469,7 @@ function validateScreen(sc){
     if (el) el.classList.toggle("invalid", !ok);
     if (!ok && !firstBad) firstBad = el;
   });
-  if (firstBad) firstBad.scrollIntoView({ behavior:"smooth", block:"center" });
+  if (firstBad) glideTo(firstBad.getBoundingClientRect().top + window.scrollY - (window.innerHeight / 2) + (firstBad.offsetHeight / 2));
   return !firstBad;
 }
 
