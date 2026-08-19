@@ -79,16 +79,19 @@ function fmtLocal(usd){
 function glideTo(top){
   var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   top = Math.max(0, Math.min(top, max));
-  var start = window.scrollY, dist = top - start, t0 = null, dur = 400;
+  var start = window.scrollY, dist = top - start, t0 = null, dur = 400, done = false;
   if (Math.abs(dist) < 4) return;
   function step(ts){
+    if (done) return;
     if (t0 === null) t0 = ts;
     var p = Math.min(1, (ts - t0) / dur);
     var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
     window.scrollTo(0, start + dist * e);
-    if (p < 1) requestAnimationFrame(step);
+    if (p < 1) requestAnimationFrame(step); else done = true;
   }
   requestAnimationFrame(step);
+  // watchdog: if frames are throttled (hidden or occluded window), land instantly
+  setTimeout(function(){ if (!done) { done = true; window.scrollTo(0, top); } }, dur + 150);
 }
 function scrollToBlock(id){
   var el = document.getElementById(id);
