@@ -44,8 +44,58 @@ function totalQuestions(){
 }
 
 // ---- rendering ----
-var root;
-function h(html){ root.innerHTML = html; window.scrollTo(0,0); }
+var root, lastView = "";
+function h(html){
+  var key = state.step + ":" + state.screen;
+  var keep = (key === lastView);
+  var y = window.scrollY || 0;
+  root.innerHTML = html;
+  if (keep) { window.scrollTo(0, y); } else { window.scrollTo(0, 0); lastView = key; }
+}
+// currency helpers: indicative local-currency equivalents on USD bands (wave-1 countries)
+function fxc(){ var c = country(); return (c && c.cur && c.rate) ? c : null; }
+function fmtBig(v){
+  var lang = qiLang;
+  var M = { en:" million", fr:" million(s)", ar:" مليون" }[lang];
+  var B = { en:" billion", fr:" milliard(s)", ar:" مليار" }[lang];
+  function sf2(x){ var m = Math.pow(10, Math.max(0, 2 - Math.ceil(Math.log10(Math.abs(x))))); return Math.round(x * m) / m; }
+  if (v >= 1e9) return sf2(v / 1e9) + B;
+  if (v >= 1e6) return sf2(v / 1e6) + M;
+  var r = sf2(v);
+  return String(Math.round(r)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+function fmtLocal(usd){
+  var c = fxc(); if (!c || !usd) return "";
+  var lo = usd[0] != null ? usd[0] * c.rate : null;
+  var hi = usd[1] != null ? usd[1] * c.rate : null;
+  var cur = c.cur;
+  var t = { en:{ under:"under ", above:"above ", to:" to " }, fr:{ under:"moins de ", above:"plus de ", to:" à " }, ar:{ under:"أقل من ", above:"أكثر من ", to:" إلى " } }[qiLang];
+  if (lo === 0 || lo == null) return "≈ " + t.under + fmtBig(hi) + " " + cur;
+  if (hi == null) return "≈ " + t.above + fmtBig(lo) + " " + cur;
+  return "≈ " + fmtBig(lo) + t.to + fmtBig(hi) + " " + cur;
+}
+// guided flow: after a question is completed, glide to the next open one
+function scrollToBlock(id){
+  var el = document.getElementById(id);
+  if (el) { var top = el.getBoundingClientRect().top + window.scrollY - 84; window.scrollTo({ top: top, behavior: "smooth" }); }
+}
+function advanceFocus(qid){
+  var scr = screens(); var sc = scr[state.screen]; if (!sc) return;
+  var idx = -1;
+  sc.qs.forEach(function(q, i){ if (q.id === qid) idx = i; });
+  for (var i = idx + 1; i < sc.qs.length; i++) {
+    if (!validQ(sc.qs[i])) { scrollToBlock("qb_" + sc.qs[i].id); return; }
+  }
+  for (var j = 0; j < sc.qs.length; j++) {
+    if (j !== idx && !validQ(sc.qs[j])) { scrollToBlock("qb_" + sc.qs[j].id); return; }
+  }
+  var btn = root.querySelector(".navrow .btn.nav:not(.sec)");
+  if (btn) { btn.classList.add("pulse"); btn.scrollIntoView({ behavior: "smooth", block: "center" }); }
+}
+function afterAnswer(qid, complete){
+  save(); rerenderScreen();
+  if (complete) setTimeout(function(){ advanceFocus(qid); }, 60);
+}
 
 function pathChips(){
   var c = country(); if (!c) return "";
@@ -89,9 +139,10 @@ function stepConsent(){
 
 function optHtml(q, o, kind, checked){
   var id = q.id + "_" + o.v;
+  var loc = (o.usd && fxc()) ? '<span class="loc">' + esc(fmtLocal(o.usd)) + '</span>' : "";
   return '<label class="opt' + (checked ? " sel" : "") + '" for="' + id + '">' +
     '<input type="' + kind + '" name="' + q.id + '" id="' + id + '" value="' + o.v + '"' + (checked ? " checked" : "") + '>' +
-    '<span>' + esc(T(o.t)) + '</span></label>' + fuHtml(q, o);
+    '<span>' + esc(T(o.t)) + loc + '</span></label>' + fuHtml(q, o);
 }
 function fuHtml(q, o){
   if (!o.fu) return "";
@@ -171,7 +222,8 @@ function qHtml(q){
       } else if (p.type === "single") {
         body = '<div class="mopts">' + popts.map(function(o){
           var sel = pv[p.key] && pv[p.key].v === o.v;
-          return '<button type="button" data-partopt="' + q.id + ':' + p.key + ':' + o.v + '" class="' + (sel ? "sel" : "") + '">' + esc(T(o.t)) + '</button>';
+          var loc = (o.usd && fxc()) ? ' <small>' + esc(fmtLocal(o.usd)) + '</small>' : "";
+          return '<button type="button" data-partopt="' + q.id + ':' + p.key + ':' + o.v + '" class="' + (sel ? "sel" : "") + '">' + esc(T(o.t)) + loc + '</button>';
         }).join("") + '</div>' + partFuHtml(q, p, popts, pv);
       } else if (p.type === "multi") {
         body = '<div class="mopts">' + popts.map(function(o){
@@ -183,6 +235,16 @@ function qHtml(q){
     }).join("");
     inner = '<div class="matrix">' + inner + '</div>';
   }
+  // rating guide legend (e.g. A10) shown BEFORE the rows so the scale is understood first
+  if (q.scaleLegend) {
+    inner = '<div class="legendbox"><b>' + esc(T(S.ratingGuide)) + '</b>' +
+      q.scaleLegend.map(function(l){ return '<span><i>' + esc(l.n) + '</i> ' + esc(T(l.t)) + '</span>'; }).join("") +
+      '</div>' + inner;
+  }
+  // indicative local-currency note when this question shows converted bands
+  var hasFx = fxc() && ((q.opts || []).some(function(o){ return o.usd; }) ||
+    (q.parts || []).some(function(p){ return (p.opts || []).some(function(o){ return o.usd; }); }));
+  if (hasFx) inner += '<div class="hint">' + esc(T(S.fxNote)) + '</div>';
   var tag = q.tag ? '<span class="qtag">[' + q.tag + ']</span>' : "";
   return '<div class="qb" id="qb_' + q.id + '"><span class="qid">' + q.id + '</span>' + tag +
     '<span class="qtext">' + esc(T(q.t)) + '</span>' + inner + missHtml(q) +
@@ -237,7 +299,8 @@ function bind(sc){
       clearMiss(q.id);
       var a = ans(q.id);
       a.v = (q.type === "scale") ? parseInt(el.value, 10) : el.value;
-      save(); rerenderScreen();
+      var opt = (q.opts || []).find(function(o){ return o.v === el.value; });
+      afterAnswer(q.id, !(opt && opt.fu));   // pause on options with a follow-up field
     });
   });
   root.querySelectorAll("input[type=checkbox]").forEach(function(el){
@@ -254,7 +317,8 @@ function bind(sc){
           a.v.push(el.value);
         }
       } else a.v = a.v.filter(function(v){ return v !== el.value; });
-      save(); rerenderScreen();
+      var done = (opt && opt.excl) || (q.max && a.v.length >= q.max);
+      afterAnswer(q.id, !!done);
     });
   });
   root.querySelectorAll("[data-rank]").forEach(function(el){
@@ -265,7 +329,7 @@ function bind(sc){
       var idx = a.v.indexOf(val);
       if (idx >= 0) a.v.splice(idx, 1);
       else { if (a.v.length >= q.k) return; a.v.push(val); }
-      save(); rerenderScreen();
+      afterAnswer(qid, a.v.length === q.k);
     }
     el.addEventListener("click", toggle);
     el.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
@@ -275,7 +339,8 @@ function bind(sc){
       var pr = el.getAttribute("data-mx").split(":"), qid = pr[0], row = pr[1], col = pr[2];
       clearMiss(qid); var a = ans(qid); a.v = a.v && typeof a.v === "object" && !Array.isArray(a.v) ? a.v : {};
       a.v[row] = isNaN(+col) ? col : +col;
-      save(); rerenderScreen();
+      var q = findQ(qid);
+      afterAnswer(qid, validQ(q));
     });
   });
   root.querySelectorAll("[data-comp]").forEach(function(el){
@@ -284,10 +349,13 @@ function bind(sc){
       clearMiss(qid); var a = ans(qid); a.v = a.v && typeof a.v === "object" ? a.v : {};
       a.v[row] = el.value === "" ? null : Math.max(0, Math.min(100, parseInt(el.value, 10) || 0));
       var q = findQ(qid);
+      var prev = el.__qiPrevSum || 0;
       var sum = q.rows.reduce(function(s, r){ return s + (parseInt(a.v[r.v], 10) || 0); }, 0);
+      el.__qiPrevSum = sum;
       var sl = document.getElementById("sum_" + qid);
       if (sl) { sl.textContent = T(S.sumMustBe) + " " + sum + "%"; sl.className = "sumline " + (sum === 100 ? "ok" : "bad"); }
       save();
+      if (sum === 100 && prev !== 100) setTimeout(function(){ advanceFocus(qid); }, 250);
     });
   });
   root.querySelectorAll("[data-txt]").forEach(function(el){
@@ -307,7 +375,7 @@ function bind(sc){
       var pr = el.getAttribute("data-partopt").split(":"), qid = pr[0], key = pr[1], val = pr[2];
       clearMiss(qid); var a = ans(qid); a.v = a.v || {};
       a.v[key] = { v: val };
-      save(); rerenderScreen();
+      afterAnswer(qid, validQ(findQ(qid)));
     });
   });
   root.querySelectorAll("[data-partmulti]").forEach(function(el){
@@ -321,7 +389,7 @@ function bind(sc){
       if (idx >= 0) arr.splice(idx, 1);
       else if (opt && opt.excl) a.v[key].v = [val];
       else { arr = arr.filter(function(v){ var o = popts.find(function(x){ return x.v === v; }); return !(o && o.excl); }); arr.push(val); a.v[key].v = arr; }
-      save(); rerenderScreen();
+      afterAnswer(qid, false);
     });
   });
   root.querySelectorAll("[data-part]").forEach(function(el){
@@ -341,8 +409,9 @@ function bind(sc){
     el.addEventListener("click", function(){
       var qid = el.getAttribute("data-q"), code = parseInt(el.getAttribute("data-miss"), 10);
       var a = state.answers[qid];
+      var nowSet = !(a && a.miss === code);
       if (a && a.miss === code) delete state.answers[qid]; else setMiss(qid, code);
-      save(); rerenderScreen();
+      afterAnswer(qid, nowSet);
     });
   });
   var org = document.getElementById("c_org"), em = document.getElementById("c_email");
@@ -511,3 +580,4 @@ function render(){
   else stepScreens();
 }
 })();
+
