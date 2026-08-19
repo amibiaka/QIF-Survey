@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Countries and insights · Financing Quality Infrastructure in Africa</title>
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/main.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="main.css">
 </head>
 <body>
 <main id="main">
@@ -30,7 +30,7 @@
       <h3 id="t-board"></h3>
       <div class="demo-wm"><span class="badge real" id="b3"></span></div>
       <div class="cfilter"><input type="search" id="bsearch" autocomplete="off">
-        <a class="btn small nav sec" href="data/QI_Tier_Table_55_AU_States.csv" download id="dl"></a></div>
+        <a class="btn small nav sec" href="QI_Tier_Table_55_AU_States.csv" download id="dl"></a></div>
       <div class="tablewrap" style="max-height:480px;overflow-y:auto">
         <table class="data"><thead><tr id="bhead"></tr></thead><tbody id="board"></tbody></table>
       </div>
@@ -57,9 +57,9 @@
     </div>
   </div></section>
 </main>
-<script src="js/i18n.js"></script>
-<script src="js/common.js"></script>
-<script src="js/data/countries.js"></script>
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="countries.js"></script>
 <script>
 qiMount("insights");
 var N = QI_I18N.insights;
@@ -82,6 +82,6 @@ document.getElementById("bhead").innerHTML = ["country","tier","score","acc","me
   return "<th>" + esc(T(N.cols[k])) + "</th>";
 }).join("");
 </script>
-<script src="js/insights.js"></script>
+<script src="insights.js"></script>
 </body>
 </html>
