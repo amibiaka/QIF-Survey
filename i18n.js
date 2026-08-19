@@ -80,7 +80,7 @@ window.QI_I18N = {
   noRightWrong:{ en:"No right or wrong answers. Use Don't know rather than guessing.",
                  fr:"Ni bonnes ni mauvaises réponses. Utilisez « Ne sait pas » plutôt que de deviner.",
                  ar:"لا توجد إجابات صحيحة أو خاطئة. استخدموا خيار «لا أعرف» بدلاً من التخمين." },
-  dk:{ en:"Don't know", fr:"Ne sait pas", ar:"لا أعرف" },
+  dk:{ en:"Not sure / Don't know", fr:"Pas sûr / Ne sait pas", ar:"لست متأكداً / لا أعرف" },
   na:{ en:"Not applicable", fr:"Sans objet", ar:"لا ينطبق" },
   pnts:{ en:"Prefer not to say", fr:"Préfère ne pas répondre", ar:"أفضّل عدم الإجابة" },
   required:{ en:"Please answer this question or choose one of the response controls.",
@@ -117,7 +117,11 @@ window.QI_I18N = {
              fr:"Note prototype : dans cette démo, les envois arrivent dans la boîte Netlify Forms de ce site.",
              ar:"ملاحظة النموذج التجريبي: في هذا العرض تُرسل الإجابات إلى صندوق Netlify Forms الخاص بالموقع." },
   yourPath:{ en:"Your path", fr:"Votre parcours", ar:"مساركم" },
-  minutes:{ en:"about 20-25 minutes", fr:"environ 20 à 25 minutes", ar:"نحو 20-25 دقيقة" } },
+  minutes:{ en:"about 20-25 minutes", fr:"environ 20 à 25 minutes", ar:"نحو 20-25 دقيقة" },
+  ratingGuide:{ en:"Rating guide, the same scale applies to every row:", fr:"Guide de notation, la même échelle s'applique à chaque ligne :", ar:"دليل التقييم، ينطبق المقياس نفسه على كل سطر:" },
+  fxNote:{ en:"Bands are in USD equivalent. Local amounts are indicative conversions, rounded, at August 2026 rates; answer with the band that fits.",
+           fr:"Les fourchettes sont en équivalent USD. Les montants locaux sont des conversions indicatives, arrondies, aux taux d'août 2026 ; choisissez la fourchette correspondante.",
+           ar:"النطاقات بما يعادلها بالدولار الأمريكي. والمبالغ المحلية تحويلات إرشادية مقرَّبة وفق أسعار صرف أغسطس 2026؛ اختاروا النطاق المناسب." } },
  insights: {
   title:{ en:"Countries and insights", fr:"Pays et données", ar:"البلدان والبيانات" },
   lead:{ en:"Verified international recognition statuses for all 55 African Union member states, and a preview of the analytics the platform will publish once survey data exist.",
@@ -166,3 +170,4 @@ window.QI_I18N = {
           fr:"Les logos officiels de l'ONUDI, de l'AUDA-NEPAD et de la CUA seront placés ici dès réception des éléments de marque.",
           ar:"ستوضع هنا الشعارات الرسمية لليونيدو وأودا-نيباد ومفوضية الاتحاد الأفريقي فور تسلُّم ملفات الهوية البصرية من الشركاء." } }
 };
+
