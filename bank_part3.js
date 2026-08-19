@@ -363,10 +363,10 @@ window.QI_BANK_P3 = {
       fr:"Dépense annuelle typique d'une entreprise membre en services d'IQ (essais, certification, inspection, étalonnage, normes), équivalent USD.",
       ar:"الإنفاق السنوي المعتاد لشركة عضو على خدمات البنية التحتية للجودة (اختبار، شهادات، تفتيش، معايرة، مواصفات)، بما يعادله بالدولار." },
   opts:[
-   { v:"u1k", t:{ en:"Under 1,000", fr:"Moins de 1 000", ar:"أقل من 1,000" } },
-   { v:"1k_10k", t:{ en:"1,000-9,999", fr:"1 000 à 9 999", ar:"من 1,000 إلى 9,999" } },
-   { v:"10k_50k", t:{ en:"10,000-49,999", fr:"10 000 à 49 999", ar:"من 10,000 إلى 49,999" } },
-   { v:"o50k", t:{ en:"50,000 or more", fr:"50 000 ou plus", ar:"50,000 أو أكثر" } }
+   { v:"u1k", usd:[0,1000], t:{ en:"Under 1,000", fr:"Moins de 1 000", ar:"أقل من 1,000" } },
+   { v:"1k_10k", usd:[1000,10000], t:{ en:"1,000-9,999", fr:"1 000 à 9 999", ar:"من 1,000 إلى 9,999" } },
+   { v:"10k_50k", usd:[10000,50000], t:{ en:"10,000-49,999", fr:"10 000 à 49 999", ar:"من 10,000 إلى 49,999" } },
+   { v:"o50k", usd:[50000,null], t:{ en:"50,000 or more", fr:"50 000 ou plus", ar:"50,000 أو أكثر" } }
   ] },
 { id:"F-PSU-2", tag:"PERCEPTION", type:"rank", k:3,
   t:{ en:"From the user side, what most prevents firms from using QI services? Rank your top 3.",
@@ -562,10 +562,10 @@ window.QI_BANK_P3 = {
      ] },
    { key:"val", type:"single", t:{ en:"Committed value (USD)", fr:"Valeur engagée (USD)", ar:"القيمة الملتزم بها (دولار)" },
      opts:[
-      { v:"u1", t:{ en:"Under 1 million", fr:"Moins de 1 million", ar:"أقل من مليون" } },
-      { v:"1_5", t:{ en:"1-5 million", fr:"1 à 5 millions", ar:"من 1 إلى 5 ملايين" } },
-      { v:"5_20", t:{ en:"5-20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
-      { v:"o20", t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } }
+      { v:"u1", usd:[0,1000000], t:{ en:"Under 1 million", fr:"Moins de 1 million", ar:"أقل من مليون" } },
+      { v:"1_5", usd:[1000000,5000000], t:{ en:"1-5 million", fr:"1 à 5 millions", ar:"من 1 إلى 5 ملايين" } },
+      { v:"5_20", usd:[5000000,20000000], t:{ en:"5-20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
+      { v:"o20", usd:[20000000,null], t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } }
      ] }
   ] },
 { id:"F-DEV-2", tag:"FACT", type:"multi",
@@ -604,10 +604,10 @@ window.QI_BANK_P3 = {
      ] },
    { key:"val", type:"single", showIf:{ has:"yes" }, t:{ en:"Indicative value (USD)", fr:"Valeur indicative (USD)", ar:"القيمة الإرشادية (دولار)" },
      opts:[
-      { v:"u1", t:{ en:"Under 1 million", fr:"Moins de 1 million", ar:"أقل من مليون" } },
-      { v:"1_5", t:{ en:"1-5 million", fr:"1 à 5 millions", ar:"من 1 إلى 5 ملايين" } },
-      { v:"5_20", t:{ en:"5-20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
-      { v:"o20", t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } }
+      { v:"u1", usd:[0,1000000], t:{ en:"Under 1 million", fr:"Moins de 1 million", ar:"أقل من مليون" } },
+      { v:"1_5", usd:[1000000,5000000], t:{ en:"1-5 million", fr:"1 à 5 millions", ar:"من 1 إلى 5 ملايين" } },
+      { v:"5_20", usd:[5000000,20000000], t:{ en:"5-20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
+      { v:"o20", usd:[20000000,null], t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } }
      ] }
   ] },
 { id:"F-DEV-5", tag:"PERCEPTION", type:"scale",
@@ -657,3 +657,4 @@ window.QI_BANK_P3 = {
   ] }
 ]
 };
+
