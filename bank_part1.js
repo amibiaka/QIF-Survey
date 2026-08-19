@@ -31,7 +31,7 @@ profile: [
      fu:{ key:"other_txt", kind:"text", t:{ en:"Please specify", fr:"Veuillez préciser", ar:"يُرجى التحديد" } } }
   ] },
 
-{ id:"P3", type:"single", noMiss:true,
+{ id:"P3", type:"single",
   t:{ en:"Decision-making level. Which best describes your position?",
       fr:"Niveau de décision. Quelle description correspond le mieux à votre fonction ?",
       ar:"مستوى اتخاذ القرار. أيّ وصف يعبّر عن موقعكم الوظيفي على أفضل وجه؟" },
@@ -44,7 +44,7 @@ profile: [
    { v:"analyst", t:{ en:"Analyst or desk officer", fr:"Analyste ou chargé de dossier", ar:"محلل أو موظف مكتب" } }
   ] },
 
-{ id:"P4", type:"single", noMiss:true,
+{ id:"P4", type:"single",
   t:{ en:"Formal authority over budget allocation.",
       fr:"Autorité formelle sur l'allocation budgétaire.",
       ar:"الصلاحية الرسمية في تخصيص الموازنة." },
@@ -55,7 +55,7 @@ profile: [
    { v:"stat", t:{ en:"Statutory approval authority", fr:"Autorité d'approbation statutaire", ar:"صلاحية اعتماد قانونية" } }
   ] },
 
-{ id:"P5", type:"single", noMiss:true,
+{ id:"P5", type:"single",
   t:{ en:"Direct access to administrative or financial records relevant to your answers.",
       fr:"Accès direct aux documents administratifs ou financiers pertinents pour vos réponses.",
       ar:"الاطّلاع المباشر على السجلات الإدارية أو المالية ذات الصلة بإجاباتكم." },
@@ -66,7 +66,7 @@ profile: [
    { v:"full", t:{ en:"Direct and full (primary records of the institution concerned)", fr:"Direct et complet (documents primaires de l'institution concernée)", ar:"مباشر وكامل (السجلات الأولية للمؤسسة المعنية)" } }
   ] },
 
-{ id:"P6", type:"single", noMiss:true,
+{ id:"P6", type:"single",
   t:{ en:"Years of relevant experience.", fr:"Années d'expérience pertinente.", ar:"سنوات الخبرة ذات الصلة." },
   opts:[
    { v:"u2", t:{ en:"Under 2 years", fr:"Moins de 2 ans", ar:"أقل من سنتين" } },
@@ -170,12 +170,12 @@ core: [
       fr:"Budget de fonctionnement annuel approximatif de votre institution, dernier exercice clos (équivalent USD).",
       ar:"الموازنة التشغيلية السنوية التقريبية لمؤسستكم في آخر سنة مالية مُقفلة (بما يعادلها بالدولار الأمريكي)." },
   opts:[
-   { v:"b1", t:{ en:"Under 100,000", fr:"Moins de 100 000", ar:"أقل من 100,000" } },
-   { v:"b2", t:{ en:"100,000 to 500,000", fr:"100 000 à 500 000", ar:"من 100,000 إلى 500,000" } },
-   { v:"b3", t:{ en:"500,001 to 2 million", fr:"500 001 à 2 millions", ar:"من 500,001 إلى مليونين" } },
-   { v:"b4", t:{ en:"2 to 5 million", fr:"2 à 5 millions", ar:"من 2 إلى 5 ملايين" } },
-   { v:"b5", t:{ en:"5 to 20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
-   { v:"b6", t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } }
+   { v:"b1", usd:[0,100000], t:{ en:"Under 100,000", fr:"Moins de 100 000", ar:"أقل من 100,000" } },
+   { v:"b2", usd:[100000,500000], t:{ en:"100,000 to 500,000", fr:"100 000 à 500 000", ar:"من 100,000 إلى 500,000" } },
+   { v:"b3", usd:[500000,2000000], t:{ en:"500,001 to 2 million", fr:"500 001 à 2 millions", ar:"من 500,001 إلى مليونين" } },
+   { v:"b4", usd:[2000000,5000000], t:{ en:"2 to 5 million", fr:"2 à 5 millions", ar:"من 2 إلى 5 ملايين" } },
+   { v:"b5", usd:[5000000,20000000], t:{ en:"5 to 20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
+   { v:"b6", usd:[20000000,null], t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } }
   ] },
 
 { id:"A8", group:"G2", tag:"FACT", type:"single",
@@ -203,6 +203,13 @@ core: [
   ] },
 
 { id:"A10", group:"G3", tag:"PERCEPTION", type:"matrix", scaleCols:true,
+  scaleLegend:[
+   { n:"1", t:{ en:"Very inadequate: the service barely exists or cannot be relied on", fr:"Très insuffisante : le service existe à peine ou n'est pas fiable", ar:"غير كافية إطلاقاً: الخدمة تكاد لا توجد أو لا يمكن الاعتماد عليها" } },
+   { n:"2", t:{ en:"Inadequate: available but with major gaps in scope or recognition", fr:"Insuffisante : disponible mais avec des lacunes majeures de portée ou de reconnaissance", ar:"غير كافية: متاحة لكن مع فجوات كبيرة في النطاق أو الاعتراف" } },
+   { n:"3", t:{ en:"Partially adequate: works for routine needs, limits for demanding ones", fr:"Partiellement suffisante : convient aux besoins courants, limitée pour les besoins exigeants", ar:"كافية جزئياً: تفي بالاحتياجات الاعتيادية وتقصر عن المتطلبات العالية" } },
+   { n:"4", t:{ en:"Adequate: meets most needs to international level", fr:"Suffisante : répond à la plupart des besoins au niveau international", ar:"كافية: تلبي معظم الاحتياجات بمستوى دولي" } },
+   { n:"5", t:{ en:"Fully adequate: internationally recognized and dependable", fr:"Pleinement suffisante : reconnue à l'international et fiable", ar:"كافية تماماً: معترف بها دولياً ويمكن الاعتماد عليها" } }
+  ],
   t:{ en:"Rate the current national capacity to deliver internationally recognized QI services. One rating per row. 1 = Very inadequate, 5 = Fully adequate.",
       fr:"Évaluez la capacité nationale actuelle à fournir des services d'IQ reconnus à l'international. Une note par ligne. 1 = Très insuffisante, 5 = Pleinement suffisante.",
       ar:"قيّموا القدرة الوطنية الحالية على تقديم خدمات بنية تحتية للجودة معترف بها دولياً. تقييم واحد لكل سطر. 1 = غير كافية إطلاقاً، 5 = كافية تماماً." },
@@ -239,11 +246,11 @@ core: [
       fr:"Déficit de financement total estimé pour ces investissements (équivalent USD).",
       ar:"الفجوة التمويلية الإجمالية المقدَّرة لهذه الاستثمارات (بما يعادلها بالدولار الأمريكي)." },
   opts:[
-   { v:"g1", t:{ en:"Under 500,000", fr:"Moins de 500 000", ar:"أقل من 500,000" } },
-   { v:"g2", t:{ en:"500,000 to 2 million", fr:"500 000 à 2 millions", ar:"من 500,000 إلى مليونين" } },
-   { v:"g3", t:{ en:"2 to 5 million", fr:"2 à 5 millions", ar:"من 2 إلى 5 ملايين" } },
-   { v:"g4", t:{ en:"5 to 20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
-   { v:"g5", t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } },
+   { v:"g1", usd:[0,500000], t:{ en:"Under 500,000", fr:"Moins de 500 000", ar:"أقل من 500,000" } },
+   { v:"g2", usd:[500000,2000000], t:{ en:"500,000 to 2 million", fr:"500 000 à 2 millions", ar:"من 500,000 إلى مليونين" } },
+   { v:"g3", usd:[2000000,5000000], t:{ en:"2 to 5 million", fr:"2 à 5 millions", ar:"من 2 إلى 5 ملايين" } },
+   { v:"g4", usd:[5000000,20000000], t:{ en:"5 to 20 million", fr:"5 à 20 millions", ar:"من 5 إلى 20 مليوناً" } },
+   { v:"g5", usd:[20000000,null], t:{ en:"Above 20 million", fr:"Plus de 20 millions", ar:"أكثر من 20 مليوناً" } },
    { v:"une", t:{ en:"Unable to estimate", fr:"Impossible à estimer", ar:"يتعذر التقدير" } }
   ] },
 
@@ -351,3 +358,4 @@ core: [
   ] }
 ]
 };
+
