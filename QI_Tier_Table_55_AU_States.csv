@@ -1,0 +1,56 @@
+country,iso3,wave1,score,tier,tier2_upper,accreditation,acc_pts,metrology,met_pts,standards,std_pts,legal_metrology,oiml_pts,regional,reg_pts,gqii2025_rank,gqii_tercile_africa,qi4sd2024_score,qi4sd2024_rank
+Algeria,DZA,,7.0,2,upper,Own ILAC MRA signatory (ALGERAC),3.0,None,0.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,88,top,24,45/48 L
+Angola,AGO,,4.0,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,AFRIMETS,0.5,121,middle,25,43/48 M
+Benin,BEN,,5.0,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,110,middle,28,34/48 M
+Botswana,BWA,,8.5,2,upper,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,"CGPM Associate, 3 CMCs in KCDB",3.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,96,top,44,8/48 M
+Burkina Faso,BFA,Yes,5.5,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,120,middle,37,13/48 M
+Burundi,BDI,,3.0,1,,None,0.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,141,bottom,7,17/18 S
+Cabo Verde,CPV,,0.5,1,,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,AFRIMETS,0.5,174,bottom,not published,
+Cameroon,CMR,Yes,3.0,2,,None,0.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,130,middle,not published,
+Central African Republic,CAF,,0.5,1,,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,AFRIMETS,0.5,178,bottom,not published,
+Chad,TCD,Yes,2.0,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,ARSO+AFRIMETS,1.0,167,bottom,not published,
+Comoros,COM,,2.5,1,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,Not an ISO member,0.0,None,0.0,AFRIMETS,0.5,143,bottom,not published,
+Congo,COG,,3.0,1,,None,0.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,168,bottom,not published,
+Cote d'Ivoire,CIV,Yes,5.0,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,93,top,33,24/48 M
+DR Congo,COD,,5.0,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,112,middle,35,20/48 M
+Djibouti,DJI,Yes,2.0,1,,None,0.0,None,0.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,ARSO,0.5,177,bottom,not published,
+Egypt,EGY,Yes,10.0,3,,Own ILAC MRA signatory (EGAC),3.0,BIPM Member State,3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,26,top,45,33/48 L
+Equatorial Guinea,GNQ,,0.5,1,,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,AFRIMETS,0.5,180,bottom,not published,
+Eritrea,ERI,,1.0,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,None,0.0,not ranked,not ranked,not published,
+Eswatini,SWZ,,5.0,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,114,middle,34,2/18 S
+Ethiopia,ETH,Yes,10.0,3,,Own ILAC MRA signatory (EAS),3.0,"CGPM Associate, 12 CMCs in KCDB",3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,97,top,40,36/48 L
+Gabon,GAB,Yes,3.5,1,,None,0.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,171,bottom,not published,
+Gambia,GMB,,1.5,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,AFRIMETS,0.5,164,bottom,22,8/18 S
+Ghana,GHA,Yes,6.5,2,,None,0.0,"CGPM Associate, 2 CMCs in KCDB",3.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,99,top,27,35/48 M
+Guinea,GIN,,1.5,1,,None,0.0,None,0.0,Not an ISO member,0.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,175,bottom,not published,
+Guinea-Bissau,GNB,,2.5,1,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,Not an ISO member,0.0,None,0.0,ARSO,0.5,154,bottom,21,9/18 S
+Kenya,KEN,,10.0,3,,Own ILAC MRA signatory (KENAS),3.0,BIPM Member State,3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,53,top,49,24/48 L
+Lesotho,LSO,Yes,3.5,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO correspondent member,1.0,None,0.0,AFRIMETS,0.5,126,middle,32,3/18 S
+Liberia,LBR,,2.0,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,ARSO+AFRIMETS,1.0,176,bottom,not published,
+Libya,LBY,,3.0,1,,None,0.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,160,bottom,not published,
+Madagascar,MDG,,4.5,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,123,middle,27,38/48 M
+Malawi,MWI,,5.5,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,107,middle,29,33/48 M
+Mali,MLI,,4.5,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,None,0.0,115,middle,27,39/48 M
+Mauritania,MRT,Yes,1.5,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,AFRIMETS,0.5,156,bottom,not published,
+Mauritius,MUS,Yes,9.5,3,,Own ILAC MRA signatory (MAURITAS),3.0,"CGPM Associate, 2 CMCs in KCDB",3.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,92,top,27,37/48 M
+Morocco,MAR,,7.0,2,upper,None,0.0,BIPM Member State,3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,76,top,24,44/48 L
+Mozambique,MOZ,,3.0,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,Not an ISO member,0.0,OIML Corresponding Member,0.5,AFRIMETS,0.5,119,middle,36,15/48 M
+Namibia,NAM,,8.5,2,upper,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,"CGPM Associate, 7 CMCs in KCDB",3.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,95,top,32,27/48 M
+Niger,NER,,4.0,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO correspondent member,1.0,None,0.0,ARSO+AFRIMETS,1.0,133,middle,24,45/48 M
+Nigeria,NGA,,8.5,3,,Own ILAC MRA signatory (NiNAS),3.0,"CGPM Associate, no CMCs yet",2.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,84,top,15,48/48 L
+Rwanda,RWA,,4.5,2,,AFRAC associate member,1.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,131,middle,27,36/48 M
+Sahrawi Arab Democratic Republic,ESH,,0.0,1,,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked,not published,
+Sao Tome and Principe,STP,,1.0,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,None,0.0,not ranked,not ranked,not published,
+Senegal,SEN,,5.0,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,100,top,27,40/48 M
+Seychelles,SYC,,4.5,2,,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,128,middle,37,1/18 S
+Sierra Leone,SLE,,2.5,1,,None,0.0,None,0.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,169,bottom,22,7/18 S
+Somalia,SOM,,2.5,1,,None,0.0,None,0.0,ISO member body,2.0,None,0.0,ARSO,0.5,150,bottom,not published,
+South Africa,ZAF,,10.0,3,,Own ILAC MRA signatory (SANAS),3.0,BIPM Member State,3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,19,top,66,3/48 L
+South Sudan,SSD,,2.0,1,,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,ARSO+AFRIMETS,1.0,165,bottom,not published,
+Sudan,SDN,,3.5,2,,None,0.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,138,middle,not published,
+Tanzania,TZA,,9.0,2,upper,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,"CGPM Associate, 18 CMCs in KCDB",3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,82,top,43,9/48 M
+Togo,TGO,,5.0,2,,"Covered by SOAC/WAAS (ILAC MRA signatory, regional)",2.0,None,0.0,ISO member body,2.0,None,0.0,ARSO+AFRIMETS,1.0,113,middle,27,5/18 S
+Tunisia,TUN,Yes,10.0,3,,Own ILAC MRA signatory (TUNAC),3.0,BIPM Member State,3.0,ISO member body,2.0,OIML Member State,1.0,ARSO+AFRIMETS,1.0,61,top,51,1/48 M
+Uganda,UGA,Yes,4.5,2,,AFRAC associate member,1.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO+AFRIMETS,1.0,108,middle,29,32/48 M
+Zambia,ZMB,Yes,8.5,2,upper,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,"CGPM Associate, 15 CMCs in KCDB",3.0,ISO member body,2.0,OIML Member State,1.0,ARSO,0.5,94,top,36,14/48 M
+Zimbabwe,ZWE,Yes,8.0,2,upper,"Covered by SADCAS (ILAC MRA signatory, regional)",2.0,"CGPM Associate, 23 CMCs in KCDB",3.0,ISO member body,2.0,OIML Corresponding Member,0.5,ARSO,0.5,87,top,29,31/48 M
