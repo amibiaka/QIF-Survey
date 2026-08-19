@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Take the survey · Financing Quality Infrastructure in Africa</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<main id="main">
+  <div class="spanel" id="mount" aria-live="polite"></div>
+</main>
+
+<!-- Netlify Forms registration (hidden duplicate so this page also declares the form) -->
+<form name="qi-survey" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field">
+  <input type="text" name="language">
+  <input type="text" name="country">
+  <input type="text" name="country_iso3">
+  <input type="text" name="tier">
+  <input type="text" name="family">
+  <input type="text" name="org">
+  <input type="text" name="email">
+  <input type="text" name="submitted_at">
+  <textarea name="answers_json"></textarea>
+</form>
+
+<script src="js/i18n.js"></script>
+<script src="js/common.js"></script>
+<script src="js/data/countries.js"></script>
+<script src="js/data/bank_part1.js"></script>
+<script src="js/data/bank_part2.js"></script>
+<script src="js/data/bank_part3.js"></script>
+<script src="js/engine.js"></script>
+<script>
+qiMount("survey");
+QIE.init(document.getElementById("mount"));
+</script>
+</body>
+</html>

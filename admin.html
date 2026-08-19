@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin demo · Financing Quality Infrastructure in Africa</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<main id="main">
+  <div class="adminbanner" id="banner"></div>
+  <section class="pad"><div class="wrap">
+    <h2 class="sec">Coordinator dashboard <span class="badge demo" id="bd"></span></h2>
+    <p class="sub" id="sub"></p>
+    <div class="kpis" id="kpis"></div>
+
+    <div class="chartbox">
+      <h3 id="t-funnel"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d1"></span></div>
+      <div id="funnel"></div>
+    </div>
+
+    <div class="chartbox">
+      <h3 id="t-resp"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d2"></span></div>
+      <div class="tablewrap"><table class="data" style="min-width:640px"><thead><tr id="rhead"></tr></thead><tbody id="rows"></tbody></table></div>
+      <p style="margin-top:12px">
+        <button class="btn small nav sec" onclick="alert(T(DEMOTXT.exportNote))" id="x1"></button>
+        <button class="btn small nav sec" onclick="alert(T(DEMOTXT.exportNote))" id="x2"></button>
+        <button class="btn small nav sec" onclick="alert(T(DEMOTXT.exportNote))" id="x3"></button>
+      </p>
+    </div>
+
+    <div class="chartbox">
+      <h3 id="t-queue"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d3"></span></div>
+      <div id="queue" class="matrix"></div>
+    </div>
+  </div></section>
+</main>
+<script src="js/i18n.js"></script>
+<script src="js/common.js"></script>
+<script src="js/data/countries.js"></script>
+<script>
+qiMount("admin");
+var DEMOTXT = {
+ sub:{ en:"What partner admins and country coordinators will see: completion tracking, respondent rosters, the verification review queue, and scoped exports. In the full platform this area sits behind login with MFA and role-based access for AUDA-NEPAD, UNIDO and AUC.",
+       fr:"Ce que verront les administrateurs partenaires et les coordonnateurs nationaux : suivi de complétion, listes de répondants, file de vérification et exports par périmètre. Sur la plateforme complète, cet espace est protégé par authentification avec MFA et droits par rôle pour l'AUDA-NEPAD, l'ONUDI et la CUA.",
+       ar:"ما سيراه مديرو المنظمات الشريكة والمنسقون الوطنيون: تتبع الإنجاز، وقوائم المجيبين، وقائمة مراجعة التحقق، والتصدير حسب الصلاحيات. في المنصة الكاملة تكون هذه المساحة خلف تسجيل دخول مع تحقق متعدد العوامل وصلاحيات حسب الدور لأودا-نيباد واليونيدو والمفوضية." },
+ funnel:{ en:"Completion funnel (sample)", fr:"Entonnoir de complétion (exemple)", ar:"قمع الإنجاز (عينة)" },
+ resp:{ en:"Respondent roster (sample)", fr:"Liste des répondants (exemple)", ar:"قائمة المجيبين (عينة)" },
+ queue:{ en:"Verification review queue (sample)", fr:"File de vérification (exemple)", ar:"قائمة مراجعة التحقق (عينة)" },
+ exportNote:{ en:"Demo only. In the full platform this downloads a scoped CSV or XLSX export with an audit-log entry.",
+              fr:"Démo uniquement. Sur la plateforme complète, ce bouton télécharge un export CSV ou XLSX avec journalisation.",
+              ar:"عرض تجريبي فقط. في المنصة الكاملة يُنزِّل هذا الزر ملف CSV أو XLSX ضمن الصلاحيات مع قيد في سجل التدقيق." },
+ x1:{ en:"Export by country", fr:"Export par pays", ar:"تصدير حسب البلد" },
+ x2:{ en:"Export by tier", fr:"Export par palier", ar:"تصدير حسب الفئة" },
+ x3:{ en:"Export by module", fr:"Export par module", ar:"تصدير حسب الوحدة" },
+ cols:[ { en:"ID", fr:"ID", ar:"المعرف" }, { en:"Country", fr:"Pays", ar:"البلد" }, { en:"Family", fr:"Famille", ar:"الفئة" }, { en:"Status", fr:"Statut", ar:"الحالة" }, { en:"Minutes", fr:"Minutes", ar:"الدقائق" } ],
+ status:{ done:{ en:"Completed", fr:"Terminé", ar:"مكتمل" }, prog:{ en:"In progress", fr:"En cours", ar:"قيد الإنجاز" }, inv:{ en:"Invited", fr:"Invité", ar:"مدعو" } }
+};
+document.getElementById("banner").textContent = T(QI_I18N.admin.banner);
+document.getElementById("sub").textContent = T(DEMOTXT.sub);
+document.getElementById("bd").textContent = T(QI_I18N.insights.demo);
+["d1","d2","d3"].forEach(function(id){ document.getElementById(id).textContent = T(QI_I18N.insights.demo); });
+document.getElementById("t-funnel").textContent = T(DEMOTXT.funnel);
+document.getElementById("t-resp").textContent = T(DEMOTXT.resp);
+document.getElementById("t-queue").textContent = T(DEMOTXT.queue);
+document.getElementById("x1").textContent = T(DEMOTXT.x1);
+document.getElementById("x2").textContent = T(DEMOTXT.x2);
+document.getElementById("x3").textContent = T(DEMOTXT.x3);
+
+var kp = [ ["240", { en:"Invitations sent", fr:"Invitations envoyées", ar:"دعوات مُرسلة" }],
+  ["118", { en:"Started", fr:"Commencés", ar:"بدأوا" }],
+  ["86", { en:"Completed", fr:"Terminés", ar:"أكملوا" }],
+  ["21.4", { en:"Median minutes", fr:"Minutes médianes", ar:"الوسيط بالدقائق" }],
+  ["9", { en:"Evidence files", fr:"Pièces justificatives", ar:"وثائق داعمة" }] ];
+document.getElementById("kpis").innerHTML = kp.map(function(k){
+  return '<div class="kpi"><b>' + k[0] + '</b><span>' + esc(T(k[1])) + '</span></div>';
+}).join("");
+
+var stages = [ [T({en:"Invited",fr:"Invités",ar:"مدعوون"}), 240], [T({en:"Opened",fr:"Ouverts",ar:"فتحوا"}), 154],
+  [T({en:"Started",fr:"Commencés",ar:"بدأوا"}), 118], [T({en:"Completed",fr:"Terminés",ar:"أكملوا"}), 86] ];
+document.getElementById("funnel").innerHTML = '<svg viewBox="0 0 640 150" style="width:100%;height:auto">' +
+  stages.map(function(s, i){
+    var w = 470 * s[1] / 240, y = 8 + i * 35;
+    return '<text x="140" y="' + (y + 14) + '" text-anchor="end" font-size="11.5" fill="#222">' + esc(s[0]) + '</text>' +
+      '<rect x="150" y="' + y + '" width="' + w + '" height="20" rx="3" fill="#2a78d6" opacity="' + (1 - i * 0.14) + '"></rect>' +
+      '<text x="' + (155 + w) + '" y="' + (y + 14) + '" font-size="11.5" font-weight="700" fill="#222">' + s[1] + '</text>';
+  }).join("") + '</svg>';
+
+var fams = ["F-FIN","F-GOV","F-QIP","F-QIP","F-REG","F-PSU","F-BDF","F-DEV","F-QIP","F-GOV","F-PSU","F-FIN"];
+var w1c = QI_COUNTRIES.filter(function(c){ return c.w1; });
+var sts = ["done","done","prog","done","inv","prog","done","done","prog","inv","done","done"];
+var mins = ["22","19","·","24","·","·","20","26","·","·","18","23"];
+document.getElementById("rhead").innerHTML = DEMOTXT.cols.map(function(c){ return "<th>" + esc(T(c)) + "</th>"; }).join("");
+document.getElementById("rows").innerHTML = fams.map(function(f, i){
+  var c = w1c[i % w1c.length];
+  return "<tr><td>R-" + String(101 + i) + "</td><td>" + esc(c[qiLang]) + "</td><td>" + esc(T(QI_I18N.families[f])) + "</td>" +
+    "<td>" + esc(T(DEMOTXT.status[sts[i]])) + "</td><td>" + mins[i] + "</td></tr>";
+}).join("");
+
+var queue = [
+ { en:"R-104 · composition sums checked, straight-lining suspected on A10", fr:"R-104 · sommes vérifiées, réponse uniforme suspectée sur A10", ar:"R-104 · تم فحص المجاميع، يُشتبه بنمط إجابات موحد في A10" },
+ { en:"R-107 · completion in 6 minutes, flagged for coordinator confirmation", fr:"R-107 · complété en 6 minutes, signalé pour confirmation du coordonnateur", ar:"R-107 · أُكمل في 6 دقائق، محال لتأكيد المنسق" },
+ { en:"R-111 · A1 answer contradicts the verified NQP register entry", fr:"R-111 · la réponse A1 contredit l'entrée vérifiée du registre PNQ", ar:"R-111 · إجابة A1 تخالف قيد السجل المُتحقَّق منه للسياسة الوطنية للجودة" } ];
+document.getElementById("queue").innerHTML = queue.map(function(q){
+  return '<div class="mrow" style="font-size:13.5px">' + esc(T(q)) + '</div>';
+}).join("");
+</script>
+</body>
+</html>

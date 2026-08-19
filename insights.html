@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countries and insights · Financing Quality Infrastructure in Africa</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<main id="main">
+  <section class="pad"><div class="wrap">
+    <h2 class="sec" id="t-title"></h2>
+    <p class="sub" id="t-lead"></p>
+    <div class="kpis" id="kpis"></div>
+
+    <div class="chartbox">
+      <h3 id="t-dist"></h3>
+      <div class="demo-wm"><span class="badge real" id="b1"></span></div>
+      <div id="donut"></div>
+    </div>
+
+    <div class="chartbox">
+      <h3 id="t-w1"></h3>
+      <div class="demo-wm"><span class="badge real" id="b2"></span></div>
+      <div id="w1"></div>
+    </div>
+
+    <div class="chartbox">
+      <h3 id="t-board"></h3>
+      <div class="demo-wm"><span class="badge real" id="b3"></span></div>
+      <div class="cfilter"><input type="search" id="bsearch" autocomplete="off">
+        <a class="btn small nav sec" href="data/QI_Tier_Table_55_AU_States.csv" download id="dl"></a></div>
+      <div class="tablewrap" style="max-height:480px;overflow-y:auto">
+        <table class="data"><thead><tr id="bhead"></tr></thead><tbody id="board"></tbody></table>
+      </div>
+      <p class="src" id="t-asof"></p>
+    </div>
+
+    <div class="notice" id="demo-note" style="margin-top:26px"></div>
+
+    <div class="chartbox">
+      <h3 id="t-fund"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d1"></span></div>
+      <div id="c-fund"></div>
+      <p class="src" id="empty1"></p>
+    </div>
+    <div class="chartbox">
+      <h3 id="t-sev"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d2"></span></div>
+      <div id="c-sev"></div>
+    </div>
+    <div class="chartbox">
+      <h3 id="t-gap"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d3"></span></div>
+      <div id="c-gap"></div>
+    </div>
+  </div></section>
+</main>
+<script src="js/i18n.js"></script>
+<script src="js/common.js"></script>
+<script src="js/data/countries.js"></script>
+<script>
+qiMount("insights");
+var N = QI_I18N.insights;
+document.getElementById("t-title").textContent = T(N.title);
+document.getElementById("t-lead").textContent = T(N.lead);
+document.getElementById("t-dist").textContent = T(N.tierDist);
+document.getElementById("t-w1").textContent = T(N.w1);
+document.getElementById("t-board").textContent = T(N.board);
+document.getElementById("t-asof").textContent = T(N.asOf);
+document.getElementById("t-fund").textContent = T(N.demoFunding);
+document.getElementById("t-sev").textContent = T(N.demoConstraint);
+document.getElementById("t-gap").textContent = T(N.demoGap);
+document.getElementById("demo-note").textContent = T(N.demoNote);
+document.getElementById("empty1").textContent = T(N.emptyNote);
+document.getElementById("dl").textContent = T(N.dl);
+document.getElementById("bsearch").placeholder = T(QI_I18N.countries.search);
+["b1","b2","b3"].forEach(function(id){ document.getElementById(id).textContent = T(N.real); });
+["d1","d2","d3"].forEach(function(id){ document.getElementById(id).textContent = T(N.demo); });
+document.getElementById("bhead").innerHTML = ["country","tier","score","acc","met","iso","gqii","wave"].map(function(k){
+  return "<th>" + esc(T(N.cols[k])) + "</th>";
+}).join("");
+</script>
+<script src="js/insights.js"></script>
+</body>
+</html>
