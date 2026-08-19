@@ -95,10 +95,10 @@ T1: [
      ] },
    { key:"cost", type:"single", t:{ en:"Cost band (USD equivalent)", fr:"Fourchette de coût (équivalent USD)", ar:"نطاق التكلفة (بما يعادله بالدولار)" },
      opts:[
-      { v:"c1", t:{ en:"Under 500,000", fr:"Moins de 500 000", ar:"أقل من 500,000" } },
-      { v:"c2", t:{ en:"500,000 to 2 million", fr:"500 000 à 2 millions", ar:"من 500,000 إلى مليونين" } },
-      { v:"c3", t:{ en:"2 to 5 million", fr:"2 à 5 millions", ar:"من 2 إلى 5 ملايين" } },
-      { v:"c4", t:{ en:"Above 5 million", fr:"Plus de 5 millions", ar:"أكثر من 5 ملايين" } }
+      { v:"c1", usd:[0,500000], t:{ en:"Under 500,000", fr:"Moins de 500 000", ar:"أقل من 500,000" } },
+      { v:"c2", usd:[500000,2000000], t:{ en:"500,000 to 2 million", fr:"500 000 à 2 millions", ar:"من 500,000 إلى مليونين" } },
+      { v:"c3", usd:[2000000,5000000], t:{ en:"2 to 5 million", fr:"2 à 5 millions", ar:"من 2 إلى 5 ملايين" } },
+      { v:"c4", usd:[5000000,null], t:{ en:"Above 5 million", fr:"Plus de 5 millions", ar:"أكثر من 5 ملايين" } }
      ] }
   ] },
 
@@ -377,3 +377,4 @@ closing: [
       ar:"يُرجى مشاركة أي معلومات أو توصيات أو احتياجات تمويلية إضافية لم تُذكر أعلاه. بعد الإرسال يمكنكم إرفاق وثائق داعمة (قوانين الموازنة، القوائم المالية المدققة، الاستراتيجيات)؛ فهي تعزز ملف بلدكم لكنها غير إلزامية أبداً." } }
 ]
 };
+
