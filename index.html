@@ -9,32 +9,72 @@
 <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<main id="main">
-  <div class="hero"><div class="wrap">
-    <div class="kicker" id="h-kick"></div>
-    <h1 id="h-title"></h1>
-    <p class="lead" id="h-lead"></p>
-    <p style="margin-top:22px">
-      <a class="btn primary" id="h-cta" href="#"></a>
-      <a class="btn ghost" id="h-cta2" href="#"></a>
-    </p>
-  </div></div>
+<div class="gate">
+  <div class="gatetop">
+    <span class="mark">QI</span>
+    <div class="langs" role="group" aria-label="Language" id="langs" style="margin:0"></div>
+  </div>
+  <main class="gatemain" id="main">
+    <div class="gatecard">
+      <h1 id="g-title"></h1>
+      <div class="rule" aria-hidden="true"></div>
+      <p class="partners" id="g-partners"></p>
 
-  <section class="pad"><div class="wrap">
-    <h2 class="sec" id="how-title"></h2>
-    <div class="grid4" id="how-grid"></div>
-  </div></section>
+      <div class="gatebox">
+        <div class="gatetabs" role="tablist">
+          <button type="button" id="tab-login" role="tab" aria-selected="true"></button>
+          <button type="button" id="tab-signup" role="tab" aria-selected="false"></button>
+        </div>
 
-  <section class="pad" style="background:var(--light)"><div class="wrap">
-    <h2 class="sec" id="c-title"></h2>
-    <p class="sub" id="c-sub"></p>
-    <div class="cfilter">
-      <input type="search" id="c-search" autocomplete="off">
+        <form id="f-login" autocomplete="off">
+          <label for="l-id" id="lb-id"></label>
+          <input id="l-id" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="GHA-NSB-01">
+          <label for="l-code" id="lb-code"></label>
+          <input id="l-code" type="text" inputmode="numeric" maxlength="6" placeholder="2468">
+          <button class="gatebtn" type="submit" id="b-login"></button>
+          <div class="gatemsg" id="m-login"></div>
+          <p class="gatehint" id="h-id"></p>
+          <div class="gatecred" id="democred"></div>
+        </form>
+
+        <form id="f-signup" autocomplete="off" style="display:none">
+          <p class="gatehint" id="s-intro" style="margin-top:0"></p>
+          <label for="s-name" id="lb-name"></label>
+          <input id="s-name" type="text">
+          <label for="s-country" id="lb-country"></label>
+          <select id="s-country"></select>
+          <label for="s-cat" id="lb-cat"></label>
+          <select id="s-cat"></select>
+          <div class="gate2col">
+            <div>
+              <label for="s-title" id="lb-title"></label>
+              <input id="s-title" type="text">
+            </div>
+            <div>
+              <label for="s-level" id="lb-level"></label>
+              <select id="s-level"></select>
+            </div>
+          </div>
+          <div class="gate2col">
+            <div>
+              <label for="s-email" id="lb-email"></label>
+              <input id="s-email" type="email">
+            </div>
+            <div>
+              <label for="s-phone" id="lb-phone"></label>
+              <input id="s-phone" type="tel">
+            </div>
+          </div>
+          <button class="gatebtn" type="submit" id="b-signup"></button>
+          <div class="gatemsg" id="m-signup"></div>
+          <div class="issued" id="issued" style="display:none"></div>
+        </form>
+      </div>
+      <p class="gatehint" id="g-proto"></p>
     </div>
-    <div class="legend" id="c-legend"></div>
-    <div class="cgrid" id="c-grid" style="margin-top:12px"></div>
-  </div></section>
-</main>
+  </main>
+  <div class="gatefoot" id="g-foot"></div>
+</div>
 
 <!-- Netlify Forms registration form (hidden): declares the fields stored by Netlify -->
 <form name="qi-survey" netlify netlify-honeypot="bot-field" hidden>
@@ -44,6 +84,7 @@
   <input type="text" name="country_iso3">
   <input type="text" name="tier">
   <input type="text" name="family">
+  <input type="text" name="respondent_id">
   <input type="text" name="org">
   <input type="text" name="email">
   <input type="text" name="submitted_at">
@@ -53,42 +94,145 @@
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
+<script src="bank_part1.js"></script>
+<script src="access.js"></script>
 <script>
-qiMount("home");
-var I = QI_I18N;
-document.getElementById("h-kick").textContent = T(I.hero.kicker);
-document.getElementById("h-title").textContent = T(I.hero.title);
-document.getElementById("h-lead").textContent = T(I.hero.lead);
-var cta = document.getElementById("h-cta"); cta.textContent = T(I.hero.cta); cta.href = "survey.html?lang=" + qiLang;
-var cta2 = document.getElementById("h-cta2"); cta2.textContent = T(I.hero.cta2); cta2.href = "insights.html?lang=" + qiLang;
-document.getElementById("how-title").textContent = T(I.how.title);
-document.getElementById("how-grid").innerHTML = I.how.steps.map(function(s, i){
-  return '<div class="card"><div class="stepnum">' + (i + 1) + '</div><h3>' + esc(T(s.t)) + '</h3><p>' + esc(T(s.d)) + '</p></div>';
-}).join("");
-document.getElementById("c-title").textContent = T(I.countries.title);
-document.getElementById("c-sub").textContent = T(I.countries.sub);
-document.getElementById("c-search").placeholder = T(I.countries.search);
-document.getElementById("c-legend").innerHTML =
-  '<span><i style="background:var(--t3)"></i>' + esc(T(I.tiers[3].name)) + '</span>' +
-  '<span><i style="background:var(--t2)"></i>' + esc(T(I.tiers[2].name)) + '</span>' +
-  '<span><i style="background:var(--t1)"></i>' + esc(T(I.tiers[1].name)) + '</span>';
+// Already signed in: go straight to the home page.
+if (QIA.session()) location.replace("home.html?lang=" + qiLang);
 
-function renderCountries(filter){
-  var q = (filter || "").toLowerCase();
-  var list = QI_COUNTRIES.slice().sort(function(a, b){ return T(a).localeCompare ? 0 : 0; });
-  list.sort(function(a, b){ return a[qiLang].localeCompare(b[qiLang], qiLang); });
-  document.getElementById("c-grid").innerHTML = list.filter(function(c){
-    return !q || c.en.toLowerCase().indexOf(q) >= 0 || c.fr.toLowerCase().indexOf(q) >= 0 || c.ar.indexOf(filter) >= 0;
-  }).map(function(c){
-    var status = c.w1 ? T(QI_I18N.countries.active) : T(QI_I18N.countries.later);
-    return '<div class="cc' + (c.w1 ? "" : " off") + '">' +
-      (c.w1 ? '<span class="w1tag">W1</span>' : "") +
-      '<b><span class="tt t' + c.tier + '"></span>' + esc(c[qiLang]) + '</b>' +
-      '<span class="st">' + esc(T(QI_I18N.countries.tier)) + ' ' + c.tier + ' · ' + esc(status) + '</span></div>';
-  }).join("");
+var I = QI_I18N, A = I.auth;
+var GATE = {
+  tabLogin:{ en:"Log in", fr:"Se connecter", ar:"تسجيل الدخول" },
+  tabSignup:{ en:"Sign up", fr:"S'inscrire", ar:"إنشاء حساب" },
+  intro:{ en:"Request access. If your details are validated automatically you receive your ID and code immediately; otherwise the survey super admin reviews your request.",
+          fr:"Demandez un accès. Si vos informations sont validées automatiquement, vous recevez immédiatement votre identifiant et votre code ; sinon, le super administrateur examine votre demande.",
+          ar:"اطلبوا الوصول. إذا تم التحقق من بياناتكم تلقائياً تستلمون المعرّف والرمز فوراً؛ وإلا يراجع المشرف العام للاستبيان طلبكم." },
+  name:{ en:"Full name", fr:"Nom complet", ar:"الاسم الكامل" },
+  country:{ en:"Country", fr:"Pays", ar:"البلد" },
+  cat:{ en:"Organization type / sector", fr:"Type d'organisation / secteur", ar:"نوع المنظمة / القطاع" },
+  jobtitle:{ en:"Job title", fr:"Intitulé du poste", ar:"المسمى الوظيفي" },
+  level:{ en:"Hierarchical level", fr:"Niveau hiérarchique", ar:"المستوى الوظيفي" },
+  email:{ en:"Email", fr:"Courriel", ar:"البريد الإلكتروني" },
+  phone:{ en:"or phone", fr:"ou téléphone", ar:"أو الهاتف" },
+  send:{ en:"Request access", fr:"Demander l'accès", ar:"طلب الوصول" },
+  missing:{ en:"Please complete every field and give an email or a phone number.",
+            fr:"Veuillez remplir tous les champs et indiquer un courriel ou un numéro de téléphone.",
+            ar:"يُرجى تعبئة جميع الحقول وتقديم بريد إلكتروني أو رقم هاتف." },
+  duplicate:{ en:"A request or access already exists for this email.",
+              fr:"Une demande ou un accès existe déjà pour ce courriel.",
+              ar:"يوجد طلب أو وصول مسبق لهذا البريد الإلكتروني." },
+  autoOk:{ en:"Access granted automatically. Your ID and code (also sent to you, simulated in this prototype):",
+           fr:"Accès accordé automatiquement. Votre identifiant et votre code (également envoyés, simulé dans ce prototype) :",
+           ar:"تم منح الوصول تلقائياً. معرّفكم ورمزكم (أُرسلا إليكم أيضاً، محاكاة في هذا النموذج):" },
+  goLogin:{ en:"Log in now", fr:"Se connecter maintenant", ar:"تسجيل الدخول الآن" },
+  pendingQuota:{ en:"The two seats for this profile in your country are taken. Your request has been sent to the super admin for review.",
+                 fr:"Les deux places pour ce profil dans votre pays sont prises. Votre demande a été transmise au super administrateur.",
+                 ar:"المقعدان المخصصان لهذا الملف في بلدكم مشغولان. أُحيل طلبكم إلى المشرف العام للمراجعة." },
+  pendingWave:{ en:"Your country opens in a later wave. Your request has been waitlisted with the super admin.",
+                fr:"Votre pays ouvrira lors d'une vague ultérieure. Votre demande est en liste d'attente auprès du super administrateur.",
+                ar:"يُفتح بلدكم في موجة لاحقة. وُضع طلبكم في قائمة انتظار لدى المشرف العام." },
+  demoCred:{ en:"Demo access for this prototype:", fr:"Accès démo pour ce prototype :", ar:"دخول تجريبي لهذا النموذج:" },
+  proto:{ en:"Prototype. Sign-in and notifications are simulated in this browser; no real emails are sent.",
+          fr:"Prototype. La connexion et les notifications sont simulées dans ce navigateur ; aucun courriel réel n'est envoyé.",
+          ar:"نموذج تجريبي. تسجيل الدخول والإشعارات محاكاة داخل هذا المتصفح، ولا تُرسل رسائل حقيقية." },
+  choose:{ en:"Select…", fr:"Sélectionnez…", ar:"اختاروا…" }
+};
+
+document.getElementById("g-title").textContent = T(I.hero.title);
+document.getElementById("g-partners").textContent = T(I.partners);
+document.getElementById("g-proto").textContent = T(GATE.proto);
+document.getElementById("g-foot").textContent = T(I.footer.privacy);
+document.getElementById("langs").innerHTML = ["en","fr","ar"].map(function(l){
+  return '<button type="button" style="border-color:var(--line);color:var(--navy)" aria-pressed="' + (l === qiLang) + '" onclick="setLang(\'' + l + '\')">' + I.langNames[l] + '</button>';
+}).join("");
+document.querySelectorAll('#langs button').forEach(function(b){
+  if (b.getAttribute("aria-pressed") === "true") { b.style.background = "var(--navy)"; b.style.color = "#fff"; b.style.borderColor = "var(--navy)"; }
+});
+
+var tabL = document.getElementById("tab-login"), tabS = document.getElementById("tab-signup");
+tabL.textContent = T(GATE.tabLogin); tabS.textContent = T(GATE.tabSignup);
+function showTab(which){
+  var login = which === "login";
+  tabL.setAttribute("aria-selected", login); tabS.setAttribute("aria-selected", !login);
+  document.getElementById("f-login").style.display = login ? "block" : "none";
+  document.getElementById("f-signup").style.display = login ? "none" : "block";
 }
-renderCountries("");
-document.getElementById("c-search").addEventListener("input", function(){ renderCountries(this.value); });
+tabL.onclick = function(){ showTab("login"); };
+tabS.onclick = function(){ showTab("signup"); };
+
+// ---- log in ----
+document.getElementById("lb-id").textContent = T(A.respondentId);
+document.getElementById("lb-code").textContent = T(A.accessCode);
+document.getElementById("b-login").textContent = T(A.login);
+document.getElementById("h-id").textContent = T(A.idHint);
+document.getElementById("democred").innerHTML = esc(T(GATE.demoCred)) + " <code>GHA-NSB-01</code> · <code>2468</code>";
+document.getElementById("f-login").addEventListener("submit", function(e){
+  e.preventDefault();
+  var m = document.getElementById("m-login"); m.className = "gatemsg";
+  var r = QIA.login(document.getElementById("l-id").value, document.getElementById("l-code").value);
+  if (r.ok) { location.href = "home.html?lang=" + qiLang; return; }
+  m.className = "gatemsg err";
+  m.textContent = T(r.why === "code" ? A.wrongCode : (r.why === "revoked" ? A.revoked : A.wrongId));
+});
+
+// ---- sign up ----
+document.getElementById("s-intro").textContent = T(GATE.intro);
+document.getElementById("lb-name").textContent = T(GATE.name);
+document.getElementById("lb-country").textContent = T(GATE.country);
+document.getElementById("lb-cat").textContent = T(GATE.cat);
+document.getElementById("lb-title").textContent = T(GATE.jobtitle);
+document.getElementById("lb-level").textContent = T(GATE.level);
+document.getElementById("lb-email").textContent = T(GATE.email);
+document.getElementById("lb-phone").textContent = T(GATE.phone);
+document.getElementById("b-signup").textContent = T(GATE.send);
+
+var csel = document.getElementById("s-country");
+csel.innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' +
+  QI_COUNTRIES.slice().sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); })
+  .map(function(c){ return '<option value="' + c.iso3 + '">' + esc(c[qiLang]) + (c.w1 ? "" : " · " + esc(T(I.countries.later))) + '</option>'; }).join("");
+var P2 = QI_BANK_P1.profile.find(function(q){ return q.id === "P2"; });
+var P3 = QI_BANK_P1.profile.find(function(q){ return q.id === "P3"; });
+document.getElementById("s-cat").innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' +
+  P2.opts.map(function(o){ return '<option value="' + o.v + '">' + esc(T(o.t)) + '</option>'; }).join("");
+document.getElementById("s-level").innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' +
+  P3.opts.map(function(o){ return '<option value="' + o.v + '">' + esc(T(o.t)) + '</option>'; }).join("");
+
+document.getElementById("f-signup").addEventListener("submit", function(e){
+  e.preventDefault();
+  var m = document.getElementById("m-signup"); m.className = "gatemsg";
+  var box = document.getElementById("issued"); box.style.display = "none";
+  var p = {
+    name: document.getElementById("s-name").value.trim(),
+    iso3: csel.value,
+    cat: document.getElementById("s-cat").value,
+    title: document.getElementById("s-title").value.trim(),
+    level: document.getElementById("s-level").value,
+    email: document.getElementById("s-email").value.trim(),
+    phone: document.getElementById("s-phone").value.trim()
+  };
+  var r = QIA.signup(p);
+  if (!r.ok) {
+    m.className = "gatemsg err";
+    m.textContent = T(r.why === "duplicate" ? GATE.duplicate : GATE.missing);
+    return;
+  }
+  if (r.mode === "auto") {
+    box.style.display = "block";
+    box.innerHTML = "<b>" + esc(T(GATE.autoOk)) + "</b>" +
+      '<div class="big">' + esc(r.rec.id) + " · " + esc(r.rec.code) + "</div>" +
+      '<button type="button" class="gatebtn" style="margin-top:8px" onclick="prefill(\'' + r.rec.id + "','" + r.rec.code + '\')">' + esc(T(GATE.goLogin)) + "</button>";
+  } else {
+    m.className = "gatemsg ok";
+    m.textContent = T(r.reason === "quota" ? GATE.pendingQuota : GATE.pendingWave);
+  }
+});
+window.prefill = function(id, code){
+  showTab("login");
+  document.getElementById("l-id").value = id;
+  document.getElementById("l-code").value = code;
+};
+document.title = T(I.siteTitle);
 </script>
 </body>
 </html>
+
