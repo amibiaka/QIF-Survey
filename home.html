@@ -28,11 +28,9 @@
   <section class="pad" style="background:var(--light)"><div class="wrap">
     <h2 class="sec" id="c-title"></h2>
     <p class="sub" id="c-sub"></p>
-    <div class="cfilter">
-      <input type="search" id="c-search" autocomplete="off">
-    </div>
     <div class="legend" id="c-legend"></div>
-    <div class="cgrid" id="c-grid" style="margin-top:12px"></div>
+    <div class="afmap" id="afmap"></div>
+    <div class="mapdetail" id="mapdetail"></div>
   </div></section>
 </main>
 
@@ -70,28 +68,52 @@ document.getElementById("how-grid").innerHTML = I.how.steps.map(function(s, i){
 }).join("");
 document.getElementById("c-title").textContent = T(I.countries.title);
 document.getElementById("c-sub").textContent = T(I.countries.sub);
-document.getElementById("c-search").placeholder = T(I.countries.search);
 document.getElementById("c-legend").innerHTML =
   '<span><i style="background:var(--t3)"></i>' + esc(T(I.tiers[3].name)) + '</span>' +
   '<span><i style="background:var(--t2)"></i>' + esc(T(I.tiers[2].name)) + '</span>' +
-  '<span><i style="background:var(--t1)"></i>' + esc(T(I.tiers[1].name)) + '</span>';
+  '<span><i style="background:var(--t1)"></i>' + esc(T(I.tiers[1].name)) + '</span>' +
+  '<span><i style="background:#fff;border:2px solid var(--navy);border-radius:50%"></i>' + esc(T(I.countries.active)) + '</span>';
 
-function renderCountries(filter){
-  var q = (filter || "").toLowerCase();
-  var list = QI_COUNTRIES.slice().sort(function(a, b){ return T(a).localeCompare ? 0 : 0; });
-  list.sort(function(a, b){ return a[qiLang].localeCompare(b[qiLang], qiLang); });
-  document.getElementById("c-grid").innerHTML = list.filter(function(c){
-    return !q || c.en.toLowerCase().indexOf(q) >= 0 || c.fr.toLowerCase().indexOf(q) >= 0 || c.ar.indexOf(filter) >= 0;
-  }).map(function(c){
-    var status = c.w1 ? T(QI_I18N.countries.active) : T(QI_I18N.countries.later);
-    return '<div class="cc' + (c.w1 ? "" : " off") + '">' +
-      (c.w1 ? '<span class="w1tag">W1</span>' : "") +
-      '<b><span class="tt t' + c.tier + '"></span>' + esc(c[qiLang]) + '</b>' +
-      '<span class="st">' + esc(T(QI_I18N.countries.tier)) + ' ' + c.tier + ' · ' + esc(status) + '</span></div>';
-  }).join("");
-}
-renderCountries("");
-document.getElementById("c-search").addEventListener("input", function(){ renderCountries(this.value); });
+// Dynamic map of Africa: every member state at its approximate position,
+// colored by tier, wave-1 ringed. Tap or hover a country for details.
+(function(){
+  var TIERC = { 1:"#eb6834", 2:"#2a78d6", 3:"#008300" };
+  var MAPTXT = {
+    hint:{ en:"Tap a country for details.", fr:"Touchez un pays pour les détails.", ar:"اضغطوا على بلد لعرض التفاصيل." },
+    score:{ en:"Recognition score", fr:"Score de reconnaissance", ar:"درجة الاعتراف" }
+  };
+  var lats = QI_COUNTRIES.map(function(c){ return c.lat; }), lons = QI_COUNTRIES.map(function(c){ return c.lon; });
+  var minLa = Math.min.apply(null, lats) - 3, maxLa = Math.max.apply(null, lats) + 3;
+  var minLo = Math.min.apply(null, lons) - 3, maxLo = Math.max.apply(null, lons) + 3;
+  var W = 720, H = Math.round(W * (maxLa - minLa) / (maxLo - minLo));
+  function px(lon){ return (lon - minLo) / (maxLo - minLo) * W; }
+  function py(lat){ return (maxLa - lat) / (maxLa - minLa) * H; }
+  var dots = "", rings = "";
+  QI_COUNTRIES.forEach(function(c){
+    var x = px(c.lon).toFixed(1), y = py(c.lat).toFixed(1);
+    var r = c.w1 ? 11 : 8.5;
+    if (c.w1) rings += '<circle class="w1ring" cx="' + x + '" cy="' + y + '" r="' + (r + 3.5) + '"></circle>';
+    dots += '<circle class="cn" data-iso="' + c.iso3 + '" cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + TIERC[c.tier] + '" opacity="' + (c.w1 ? 1 : 0.62) + '"><title>' + esc(c[qiLang]) + '</title></circle>';
+  });
+  document.getElementById("afmap").innerHTML =
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(T(I.countries.title)) + '">' + rings + dots + '</svg>';
+  var detail = document.getElementById("mapdetail");
+  detail.innerHTML = '<span class="dim">' + esc(T(MAPTXT.hint)) + '</span>';
+  function show(iso){
+    var c = QI_COUNTRIES.find(function(x){ return x.iso3 === iso; }); if (!c) return;
+    document.querySelectorAll(".afmap circle.cn").forEach(function(el){ el.classList.toggle("sel", el.getAttribute("data-iso") === iso); });
+    detail.innerHTML = "<b>" + esc(c[qiLang]) + "</b>" +
+      '<span class="tierpill t' + c.tier + '">' + esc(T(I.tiers[c.tier].name)) + "</span>" +
+      '<span>' + esc(T(MAPTXT.score)) + " S: <b>" + c.score.toFixed(1) + "</b></span>" +
+      '<span class="dim">' + esc(c.w1 ? T(I.countries.active) : T(I.countries.later)) + "</span>";
+  }
+  document.querySelectorAll(".afmap circle.cn").forEach(function(el){
+    el.addEventListener("click", function(){ show(el.getAttribute("data-iso")); });
+    el.addEventListener("mouseenter", function(){ show(el.getAttribute("data-iso")); });
+  });
+  show("GHA");
+})();
 </script>
 </body>
 </html>
+
