@@ -37,6 +37,27 @@
       <p class="src" id="t-asof"></p>
     </div>
 
+    <div class="chartbox">
+      <h3 id="t-routes"></h3>
+      <div class="demo-wm"><span class="badge real" id="b4"></span></div>
+      <div id="c-routes"></div>
+    </div>
+    <div class="chartbox">
+      <h3 id="t-met"></h3>
+      <div class="demo-wm"><span class="badge real" id="b5"></span></div>
+      <div id="c-met"></div>
+    </div>
+    <div class="chartbox">
+      <h3 id="t-hist"></h3>
+      <div class="demo-wm"><span class="badge real" id="b6"></span></div>
+      <div id="c-hist"></div>
+    </div>
+    <div class="chartbox">
+      <h3 id="t-gqii"></h3>
+      <div class="demo-wm"><span class="badge real" id="b7"></span></div>
+      <div class="tablewrap"><table class="data" style="min-width:520px"><thead><tr id="ghead"></tr></thead><tbody id="gtop"></tbody></table></div>
+    </div>
+
     <div class="notice" id="demo-note" style="margin-top:26px"></div>
 
     <div class="chartbox">
@@ -55,6 +76,18 @@
       <div class="demo-wm"><span class="badge demo" id="d3"></span></div>
       <div id="c-gap"></div>
     </div>
+    <div class="chartbox">
+      <h3 id="t-lang"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d4"></span></div>
+      <div id="c-lang"></div>
+    </div>
+    <div class="chartbox">
+      <h3 id="t-mins"></h3>
+      <div class="demo-wm"><span class="badge demo" id="d5"></span></div>
+      <div id="c-mins"></div>
+    </div>
+
+    <div class="rb" id="rb"></div>
   </div></section>
 </main>
 <script src="i18n.js"></script>
@@ -76,8 +109,8 @@ document.getElementById("demo-note").textContent = T(N.demoNote);
 document.getElementById("empty1").textContent = T(N.emptyNote);
 document.getElementById("dl").textContent = T(N.dl);
 document.getElementById("bsearch").placeholder = T(QI_I18N.countries.search);
-["b1","b2","b3"].forEach(function(id){ document.getElementById(id).textContent = T(N.real); });
-["d1","d2","d3"].forEach(function(id){ document.getElementById(id).textContent = T(N.demo); });
+["b1","b2","b3","b4","b5","b6","b7"].forEach(function(id){ document.getElementById(id).textContent = T(N.real); });
+["d1","d2","d3","d4","d5"].forEach(function(id){ document.getElementById(id).textContent = T(N.demo); });
 document.getElementById("bhead").innerHTML = ["country","tier","score","acc","met","iso","gqii","wave"].map(function(k){
   return "<th>" + esc(T(N.cols[k])) + "</th>";
 }).join("");
@@ -85,3 +118,4 @@ document.getElementById("bhead").innerHTML = ["country","tier","score","acc","me
 <script src="insights.js"></script>
 </body>
 </html>
+
