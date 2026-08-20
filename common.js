@@ -22,7 +22,7 @@
 
   window.qiHeader = function(active){
     var nav = [
-      ["index.html","home"],["survey.html","survey"],["insights.html","insights"],["about.html","about"],["admin.html","admin"]
+      ["home.html","home"],["survey.html","survey"],["insights.html","insights"],["about.html","about"],["admin.html","admin"]
     ].map(function(n){
       var cur = (active === n[1]) ? ' aria-current="page"' : "";
       return '<a href="' + n[0] + '?lang=' + window.qiLang + '"' + cur + '>' + T(I.nav[n[1]]) + '</a>';
@@ -30,11 +30,16 @@
     var langs = LANGS.map(function(l){
       return '<button type="button" aria-pressed="' + (l === window.qiLang) + '" onclick="setLang(\'' + l + '\')">' + I.langNames[l] + '</button>';
     }).join("");
+    var sess = (window.QIA && QIA.session && QIA.session()) || null;
+    var who = sess ?
+      '<div class="who"><span class="wid" title="' + T(I.auth.loggedInAs) + '">' + sess.id + '</span>' +
+      '<button type="button" onclick="QIA.logout();location.href=\'index.html?lang=' + window.qiLang + '\'">' + T(I.auth.logout) + '</button></div>' :
+      '<div class="who"><a href="index.html?lang=' + window.qiLang + '" style="color:#DCE8F0;font-size:12.5px;text-decoration:none;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:4px 9px">' + T(I.auth.login) + '</a></div>';
     return '<a class="skip" href="#main">Skip to content</a>' +
       '<header class="site"><div class="wrap"><div class="topbar">' +
-      '<a class="brand" href="index.html?lang=' + window.qiLang + '"><span class="mark">QI</span>' +
+      '<a class="brand" href="home.html?lang=' + window.qiLang + '"><span class="mark">QI</span>' +
       '<span class="name">' + T(I.siteTitle) + ' <span class="badge-proto">' + T(I.prototype) + '</span></span></a>' +
-      '<nav class="main" aria-label="Main">' + nav + '</nav>' +
+      '<nav class="main" aria-label="Main">' + nav + '</nav>' + who +
       '<div class="langs" role="group" aria-label="Language">' + langs + '</div>' +
       '</div></div><div class="partnerline">' + T(I.partners) + '</div></header>';
   };
@@ -55,3 +60,4 @@
 
   window.esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
 })();
+
