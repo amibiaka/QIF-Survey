@@ -88,6 +88,16 @@ document.getElementById("c-legend").innerHTML =
   var W = 720, H = Math.round(W * (maxLa - minLa) / (maxLo - minLo));
   function px(lon){ return (lon - minLo) / (maxLo - minLo) * W; }
   function py(lat){ return (maxLa - lat) / (maxLa - minLa) * H; }
+  var grid = "";
+  for (var lo = Math.ceil(minLo / 10) * 10; lo <= maxLo; lo += 10) {
+    var gx = px(lo).toFixed(1), main = (lo === 0);
+    grid += '<line x1="' + gx + '" y1="0" x2="' + gx + '" y2="' + H + '" stroke="' + (main ? "#C3D4E0" : "#DFE9F0") + '" stroke-width="' + (main ? 1.4 : 1) + '"></line>';
+  }
+  for (var la = Math.ceil(minLa / 10) * 10; la <= maxLa; la += 10) {
+    var gy = py(la).toFixed(1), eq = (la === 0);
+    grid += '<line x1="0" y1="' + gy + '" x2="' + W + '" y2="' + gy + '" stroke="' + (eq ? "#C3D4E0" : "#DFE9F0") + '" stroke-width="' + (eq ? 1.4 : 1) + '"></line>';
+    if (eq) grid += '<text x="6" y="' + (py(la) - 5) + '" font-size="9" fill="#8AA2B3">0°</text>';
+  }
   var dots = "", rings = "";
   QI_COUNTRIES.forEach(function(c){
     var x = px(c.lon).toFixed(1), y = py(c.lat).toFixed(1);
@@ -96,7 +106,7 @@ document.getElementById("c-legend").innerHTML =
     dots += '<circle class="cn" data-iso="' + c.iso3 + '" cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + TIERC[c.tier] + '" opacity="' + (c.w1 ? 1 : 0.62) + '"><title>' + esc(c[qiLang]) + '</title></circle>';
   });
   document.getElementById("afmap").innerHTML =
-    '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(T(I.countries.title)) + '">' + rings + dots + '</svg>';
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(T(I.countries.title)) + '">' + grid + rings + dots + '</svg>';
   var detail = document.getElementById("mapdetail");
   detail.innerHTML = '<span class="dim">' + esc(T(MAPTXT.hint)) + '</span>';
   function show(iso){
