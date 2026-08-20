@@ -12,6 +12,61 @@
 <main id="main">
   <div class="adminbanner" id="banner"></div>
   <section class="pad"><div class="wrap">
+
+    <div class="console">
+      <h3 id="ac-title"></h3>
+      <p class="sub" id="ac-sub" style="font-size:13.5px"></p>
+      <div class="rolebar" id="rolebar"></div>
+      <p class="note" id="ac-rolenote" style="color:var(--grey);font-size:12.5px;margin:0"></p>
+
+      <div class="cbox" id="box-pending">
+        <h4 id="p-title"></h4>
+        <p class="note" id="p-note"></p>
+        <div id="pending"></div>
+      </div>
+
+      <div class="cbox" id="box-create">
+        <h4 id="cr-title"><span id="cr-t"></span><span class="locknote" id="cr-lock" style="display:none"></span></h4>
+        <p class="note" id="cr-note"></p>
+        <div class="cgrid2">
+          <div><label for="cr-name" id="l-crname"></label><input id="cr-name" type="text"></div>
+          <div><label for="cr-country" id="l-crcountry"></label><select id="cr-country"></select></div>
+          <div><label for="cr-cat" id="l-crcat"></label><select id="cr-cat"></select></div>
+          <div><label for="cr-level" id="l-crlevel"></label><select id="cr-level"></select></div>
+          <div><label for="cr-email" id="l-cremail"></label><input id="cr-email" type="email"></div>
+          <div><label for="cr-phone" id="l-crphone"></label><input id="cr-phone" type="tel"></div>
+        </div>
+        <p style="margin:12px 0 0"><button class="cbtn" id="cr-btn"></button></p>
+        <div class="gatemsg" id="cr-msg"></div>
+        <div class="mailprev" id="cr-mail"></div>
+      </div>
+
+      <div class="cbox">
+        <h4 id="q-title"></h4>
+        <p class="note" id="q-note"></p>
+        <label for="q-country" id="l-qcountry" style="max-width:280px"></label>
+        <select id="q-country" style="max-width:280px"></select>
+        <div class="tablewrap" style="margin-top:10px"><table class="qmx" id="qmx"></table></div>
+      </div>
+
+      <div class="cbox">
+        <h4 id="r-title"></h4>
+        <div class="tablewrap"><table class="data" style="min-width:760px"><thead><tr id="reg-head"></tr></thead><tbody id="reg-body"></tbody></table></div>
+        <div class="mailprev" id="rs-mail"></div>
+      </div>
+
+      <div class="cbox">
+        <h4 id="a-title"></h4>
+        <p class="note" id="a-note"></p>
+        <div class="roster" id="roster"></div>
+      </div>
+
+      <div class="cbox">
+        <h4 id="log-title"></h4>
+        <ul class="alog" id="alog"></ul>
+      </div>
+    </div>
+
     <h2 class="sec">Coordinator dashboard <span class="badge demo" id="bd"></span></h2>
     <p class="sub" id="sub"></p>
     <div class="kpis" id="kpis"></div>
@@ -43,8 +98,234 @@
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
+<script src="bank_part1.js"></script>
+<script src="access.js"></script>
 <script>
 qiMount("admin");
+var C = {
+ title:{ en:"Access control console", fr:"Console de contrôle des accès", ar:"وحدة التحكم في الوصول" },
+ sub:{ en:"Who can take the survey is decided here. The super admin creates respondent IDs from the profile and level lists; partner admins from UNIDO, AUDA-NEPAD and AUC (maximum 5 per organization, identical privileges) grant access, approve requests and send system emails. Simulated in this prototype; in production this console sits behind partner SSO with MFA.",
+      fr:"C'est ici que se décide qui répond à l'enquête. Le super administrateur crée les identifiants à partir des listes de profils et de niveaux ; les administrateurs partenaires de l'ONUDI, l'AUDA-NEPAD et la CUA (5 maximum par organisation, privilèges identiques) accordent les accès, approuvent les demandes et envoient les courriels du système. Simulé dans ce prototype ; en production, cette console est protégée par SSO partenaire avec MFA.",
+      ar:"هنا يتقرر من يشارك في الاستبيان. ينشئ المشرف العام معرّفات المجيبين وفق قوائم الملفات والمستويات؛ ويمنح مديرو المنظمات الشريكة من اليونيدو وأودا-نيباد والمفوضية (خمسة كحد أقصى لكل منظمة، بصلاحيات متطابقة) الوصول ويعتمدون الطلبات ويرسلون رسائل النظام. محاكاة في هذا النموذج؛ وفي النسخة النهائية تقع هذه الوحدة خلف دخول موحّد مع تحقق متعدد العوامل." },
+ viewAs:{ en:"Acting as", fr:"Agir en tant que", ar:"العمل بصفة" },
+ superRole:{ en:"Super admin", fr:"Super administrateur", ar:"المشرف العام" },
+ roleNote:{ en:"The three partner organizations have the same privileges and the same levels. Only the super admin creates respondent IDs, manages the admin rosters and revokes access.",
+            fr:"Les trois organisations partenaires ont les mêmes privilèges et les mêmes niveaux. Seul le super administrateur crée les identifiants, gère les listes d'administrateurs et révoque les accès.",
+            ar:"للمنظمات الشريكة الثلاث الصلاحيات نفسها والمستويات نفسها. المشرف العام وحده ينشئ المعرّفات ويدير قوائم المديرين ويلغي الوصول." },
+ superOnly:{ en:"super admin only", fr:"réservé au super administrateur", ar:"للمشرف العام فقط" },
+ pTitle:{ en:"Sign-up requests awaiting a decision", fr:"Demandes d'inscription en attente", ar:"طلبات التسجيل بانتظار قرار" },
+ pNote:{ en:"Requests arrive here when automatic validation cannot grant access: profile quota already full, later-wave country, or manual review requested.",
+         fr:"Les demandes arrivent ici quand la validation automatique ne peut pas accorder l'accès : quota du profil atteint, pays d'une vague ultérieure ou examen manuel demandé.",
+         ar:"تصل الطلبات إلى هنا عندما يتعذر منح الوصول تلقائياً: اكتمال حصة الملف، أو بلد من موجة لاحقة، أأو طلب مراجعة يدوية." },
+ pEmpty:{ en:"No pending requests.", fr:"Aucune demande en attente.", ar:"لا توجد طلبات معلّقة." },
+ approve:{ en:"Approve and send access", fr:"Approuver et envoyer l'accès", ar:"اعتماد وإرسال بيانات الدخول" },
+ rejectB:{ en:"Reject", fr:"Rejeter", ar:"رفض" },
+ whyQuota:{ en:"quota full", fr:"quota atteint", ar:"الحصة مكتملة" },
+ whyWave:{ en:"later wave", fr:"vague ultérieure", ar:"موجة لاحقة" },
+ whyManual:{ en:"manual review", fr:"examen manuel", ar:"مراجعة يدوية" },
+ quotaBlock:{ en:"Cannot approve: the quota for this profile is still full. Free a seat first (revoke).",
+              fr:"Approbation impossible : le quota de ce profil est toujours atteint. Libérez d'abord une place (révoquer).",
+              ar:"يتعذر الاعتماد: حصة هذا الملف ما تزال مكتملة. حرّروا مقعداً أولاً (إلغاء وصول)." },
+ crTitle:{ en:"Create respondent access", fr:"Créer un accès répondant", ar:"إنشاء وصول لمجيب" },
+ crNote:{ en:"Issues a simple ID and a 4-digit code from the respondent's country, sector and hierarchical level, then sends the invitation by email or SMS (simulated). Quotas are enforced: maximum 2 per sector and level per country, and a single head respondent for the unique national QI institutions.",
+          fr:"Génère un identifiant simple et un code à 4 chiffres à partir du pays, du secteur et du niveau hiérarchique, puis envoie l'invitation par courriel ou SMS (simulé). Les quotas s'appliquent : 2 maximum par secteur et niveau par pays, et un seul dirigeant pour les institutions nationales uniques de l'IQ.",
+          ar:"يُنشئ معرّفاً بسيطاً ورمزاً من أربعة أرقام وفق بلد المجيب وقطاعه ومستواه الوظيفي، ثم يرسل الدعوة بالبريد أو رسالة نصية (محاكاة). تُطبَّق الحصص: اثنان كحد أقصى لكل قطاع ومستوى في كل بلد، ومسؤول أول واحد فقط للمؤسسات الوطنية الفريدة للجودة." },
+ name:{ en:"Full name", fr:"Nom complet", ar:"الاسم الكامل" },
+ country:{ en:"Country", fr:"Pays", ar:"البلد" },
+ cat:{ en:"Sector / organization type", fr:"Secteur / type d'organisation", ar:"القطاع / نوع المنظمة" },
+ level:{ en:"Hierarchical level", fr:"Niveau hiérarchique", ar:"المستوى الوظيفي" },
+ email:{ en:"Email", fr:"Courriel", ar:"البريد الإلكتروني" },
+ phone:{ en:"or phone", fr:"ou téléphone", ar:"أو الهاتف" },
+ crBtn:{ en:"Create ID and send invitation", fr:"Créer l'identifiant et envoyer l'invitation", ar:"إنشاء المعرّف وإرسال الدعوة" },
+ crOk:{ en:"Access created. Invitation sent (simulated):", fr:"Accès créé. Invitation envoyée (simulé) :", ar:"تم إنشاء الوصول. أُرسلت الدعوة (محاكاة):" },
+ crQuota:{ en:"Quota reached for this country, sector and level. Two respondents already hold this profile (one for heads of unique QI institutions).",
+           fr:"Quota atteint pour ce pays, secteur et niveau. Deux répondants occupent déjà ce profil (un seul pour les dirigeants des institutions uniques de l'IQ).",
+           ar:"اكتملت الحصة لهذا البلد والقطاع والمستوى. يشغل هذا الملف مجيبان بالفعل (وواحد فقط لرؤساء مؤسسات الجودة الفريدة)." },
+ crFields:{ en:"Complete every field and give an email or phone number.", fr:"Remplissez tous les champs et indiquez un courriel ou un téléphone.", ar:"أكملوا جميع الحقول وقدّموا بريداً إلكترونياً أو هاتفاً." },
+ qTitle:{ en:"Respondent quotas by sector and level", fr:"Quotas de répondants par secteur et niveau", ar:"حصص المجيبين حسب القطاع والمستوى" },
+ qNote:{ en:"Used seats / cap. Cap 2 by default; 1 for the head of the national standards body, metrology institute or accreditation body. A ministry can have two directors general for the same sector.",
+         fr:"Places utilisées / plafond. Plafond 2 par défaut ; 1 pour le dirigeant de l'organisme national de normalisation, de métrologie ou d'accréditation. Un ministère peut avoir deux directeurs généraux pour le même secteur.",
+         ar:"المقاعد المستخدمة / السقف. السقف 2 افتراضياً؛ و1 لرئيس هيئة المواصفات أو معهد المترولوجيا أو هيئة الاعتماد الوطنية. ويمكن أن يكون لوزارة ما مديران عامان للقطاع نفسه." },
+ rTitle:{ en:"Respondent register", fr:"Registre des répondants", ar:"سجل المجيبين" },
+ regCols:[ {en:"ID",fr:"ID",ar:"المعرّف"}, {en:"Name",fr:"Nom",ar:"الاسم"}, {en:"Country",fr:"Pays",ar:"البلد"}, {en:"Sector",fr:"Secteur",ar:"القطاع"}, {en:"Level",fr:"Niveau",ar:"المستوى"}, {en:"Contact",fr:"Contact",ar:"جهة الاتصال"}, {en:"Status",fr:"Statut",ar:"الحالة"}, {en:"Actions",fr:"Actions",ar:"إجراءات"} ],
+ stActive:{ en:"active", fr:"actif", ar:"نشط" }, stInvited:{ en:"invited", fr:"invité", ar:"مدعو" }, stRevoked:{ en:"revoked", fr:"révoqué", ar:"ملغى" },
+ resend:{ en:"Resend invitation", fr:"Renvoyer l'invitation", ar:"إعادة إرسال الدعوة" },
+ revoke:{ en:"Revoke", fr:"Révoquer", ar:"إلغاء الوصول" },
+ aTitle:{ en:"Partner administrators (max 5 per organization)", fr:"Administrateurs partenaires (5 max par organisation)", ar:"مديرو المنظمات الشريكة (خمسة كحد أقصى لكل منظمة)" },
+ aNote:{ en:"UNIDO, AUDA-NEPAD and AUC administrators all hold the same privileges and the same levels.",
+         fr:"Les administrateurs de l'ONUDI, de l'AUDA-NEPAD et de la CUA ont tous les mêmes privilèges et les mêmes niveaux.",
+         ar:"يتمتع مديرو اليونيدو وأودا-نيباد والمفوضية جميعاً بالصلاحيات نفسها والمستويات نفسها." },
+ addAdmin:{ en:"Add", fr:"Ajouter", ar:"إضافة" },
+ remove:{ en:"remove", fr:"retirer", ar:"إزالة" },
+ capMsg:{ en:"Maximum reached: 5 administrators for this organization.", fr:"Maximum atteint : 5 administrateurs pour cette organisation.", ar:"بلغتم الحد الأقصى: خمسة مديرين لهذه المنظمة." },
+ adminFields:{ en:"Give a name and a valid email.", fr:"Indiquez un nom et un courriel valide.", ar:"أدخلوا اسماً وبريداً إلكترونياً صالحاً." },
+ seats:{ en:"seats used", fr:"places utilisées", ar:"مقاعد مستخدمة" },
+ logTitle:{ en:"Activity log", fr:"Journal d'activité", ar:"سجل النشاط" },
+ lockedMsg:{ en:"This action is reserved for the super admin. Switch role above to demonstrate it.",
+             fr:"Cette action est réservée au super administrateur. Changez de rôle ci-dessus pour la démontrer.",
+             ar:"هذا الإجراء مخصص للمشرف العام. بدّلوا الدور أعلاه لعرضه." }
+};
+var ORGS = { unido:"UNIDO", auda:"AUDA-NEPAD", auc:"AUC" };
+var ROLE_KEY = "qi_admin_role";
+function role(){ try { return localStorage.getItem(ROLE_KEY) || "super"; } catch(e){ return "super"; } }
+function setRole(r){ try { localStorage.setItem(ROLE_KEY, r); } catch(e){} paint(); }
+function isSuper(){ return role() === "super"; }
+var P2 = QI_BANK_P1.profile.find(function(q){ return q.id === "P2"; });
+var P3 = QI_BANK_P1.profile.find(function(q){ return q.id === "P3"; });
+function catLabel(v){ var o = P2.opts.find(function(x){ return x.v === v; }); return o ? T(o.t) : v; }
+function levelLabel(v){ var o = P3.opts.find(function(x){ return x.v === v; }); return o ? T(o.t) : v; }
+function cName(iso3){ var c = QI_COUNTRIES.find(function(x){ return x.iso3 === iso3; }); return c ? c[qiLang] : iso3; }
+function roleName(){ return isSuper() ? T(C.superRole) : ORGS[role()] + " admin"; }
+
+document.getElementById("ac-title").textContent = T(C.title);
+document.getElementById("ac-sub").textContent = T(C.sub);
+document.getElementById("ac-rolenote").textContent = T(C.roleNote);
+document.getElementById("p-title").textContent = T(C.pTitle);
+document.getElementById("p-note").textContent = T(C.pNote);
+document.getElementById("cr-t").textContent = T(C.crTitle);
+document.getElementById("cr-lock").textContent = T(C.superOnly);
+document.getElementById("cr-note").textContent = T(C.crNote);
+document.getElementById("l-crname").textContent = T(C.name);
+document.getElementById("l-crcountry").textContent = T(C.country);
+document.getElementById("l-crcat").textContent = T(C.cat);
+document.getElementById("l-crlevel").textContent = T(C.level);
+document.getElementById("l-cremail").textContent = T(C.email);
+document.getElementById("l-crphone").textContent = T(C.phone);
+document.getElementById("cr-btn").textContent = T(C.crBtn);
+document.getElementById("q-title").textContent = T(C.qTitle);
+document.getElementById("q-note").textContent = T(C.qNote);
+document.getElementById("l-qcountry").textContent = T(C.country);
+document.getElementById("r-title").textContent = T(C.rTitle);
+document.getElementById("a-title").textContent = T(C.aTitle);
+document.getElementById("a-note").textContent = T(C.aNote);
+document.getElementById("log-title").textContent = T(C.logTitle);
+
+var csort = QI_COUNTRIES.slice().sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); });
+document.getElementById("cr-country").innerHTML = csort.map(function(c){
+  return '<option value="' + c.iso3 + '"' + (c.iso3 === "GHA" ? " selected" : "") + '>' + esc(c[qiLang]) + (c.w1 ? "" : " ·") + '</option>';
+}).join("");
+document.getElementById("cr-cat").innerHTML = P2.opts.map(function(o){ return '<option value="' + o.v + '">' + esc(T(o.t)) + '</option>'; }).join("");
+document.getElementById("cr-level").innerHTML = P3.opts.map(function(o){ return '<option value="' + o.v + '">' + esc(T(o.t)) + '</option>'; }).join("");
+var qsel = document.getElementById("q-country");
+qsel.innerHTML = csort.filter(function(c){ return c.w1; }).map(function(c){
+  return '<option value="' + c.iso3 + '"' + (c.iso3 === "GHA" ? " selected" : "") + '>' + esc(c[qiLang]) + '</option>';
+}).join("");
+qsel.onchange = paint;
+
+function paint(){
+  var st = QIA.state();
+  // role bar
+  var roles = [["super", T(C.superRole)], ["unido","UNIDO"], ["auda","AUDA-NEPAD"], ["auc","AUC"]];
+  document.getElementById("rolebar").innerHTML = '<span style="align-self:center;font-size:12.5px;color:var(--grey)">' + esc(T(C.viewAs)) + '</span>' +
+    roles.map(function(r){
+      return '<button type="button" class="' + (r[0] === "super" ? "super" : "") + '" aria-pressed="' + (role() === r[0]) + '" onclick="setRole(\'' + r[0] + '\')">' + esc(r[1]) + '</button>';
+    }).join("");
+
+  // pending queue
+  var pend = st.pending;
+  document.getElementById("pending").innerHTML = pend.length === 0 ?
+    '<p class="note" style="margin:6px 0 0">' + esc(T(C.pEmpty)) + '</p>' :
+    pend.map(function(p){
+      var whyT = p.reason === "quota" ? C.whyQuota : (p.reason === "wave" ? C.whyWave : C.whyManual);
+      return '<div class="pitem"><span class="why ' + p.reason + '">' + esc(T(whyT)) + '</span>' +
+        '<span class="grow"><b>' + esc(p.name) + '</b><br><span style="color:var(--grey)">' +
+        esc(cName(p.iso3)) + " · " + esc(catLabel(p.cat)) + " · " + esc(levelLabel(p.level)) +
+        (p.title ? " · " + esc(p.title) : "") + " · " + esc(p.email || p.phone) + "</span></span>" +
+        '<button class="cbtn" onclick="doApprove(\'' + p.ref + '\')">' + esc(T(C.approve)) + "</button>" +
+        '<button class="cbtn warn" ' + (isSuper() ? "" : "disabled title=\"" + esc(T(C.superOnly)) + "\"") + ' onclick="doReject(\'' + p.ref + '\')">' + esc(T(C.rejectB)) + "</button></div>";
+    }).join("");
+
+  // create form lock
+  var locked = !isSuper();
+  document.getElementById("cr-lock").style.display = locked ? "inline-block" : "none";
+  ["cr-name","cr-country","cr-cat","cr-level","cr-email","cr-phone","cr-btn"].forEach(function(id){
+    document.getElementById(id).disabled = locked;
+  });
+
+  // quota matrix
+  var iso3 = qsel.value || "GHA";
+  var head = "<tr><th>" + esc(T(C.cat)) + "</th>" + P3.opts.map(function(l){ return "<th>" + esc(T(l.t)).split(" (")[0].split("(")[0] + "</th>"; }).join("") + "</tr>";
+  var body = P2.opts.map(function(cat){
+    return "<tr><td>" + esc(T(cat.t)).split(" (")[0] + "</td>" + P3.opts.map(function(l){
+      var cap = QIA.quotaCap(cat.v, l.v), u = QIA.quotaUsed(iso3, cat.v, l.v);
+      return '<td class="' + (u >= cap ? "full" : (u > 0 ? "free" : "")) + '">' + u + "/" + cap + "</td>";
+    }).join("") + "</tr>";
+  }).join("");
+  document.getElementById("qmx").innerHTML = head + body;
+
+  // register
+  document.getElementById("reg-head").innerHTML = C.regCols.map(function(c){ return "<th>" + esc(T(c)) + "</th>"; }).join("");
+  document.getElementById("reg-body").innerHTML = st.respondents.map(function(r){
+    var stT = r.status === "active" ? C.stActive : (r.status === "revoked" ? C.stRevoked : C.stInvited);
+    return "<tr><td><b>" + esc(r.id) + "</b></td><td>" + esc(r.name) + "</td><td>" + esc(cName(r.iso3)) + "</td>" +
+      "<td>" + esc(catLabel(r.cat)) + "</td><td>" + esc(levelLabel(r.level)) + "</td><td>" + esc(r.email || r.phone || "") + "</td>" +
+      '<td><span class="statuschip ' + r.status + '">' + esc(T(stT)) + "</span></td>" +
+      '<td style="white-space:nowrap"><button class="cbtn sec" onclick="doResend(\'' + r.id + '\')">' + esc(T(C.resend)) + "</button> " +
+      '<button class="cbtn warn" ' + (isSuper() && r.status !== "revoked" ? "" : "disabled") + ' onclick="doRevoke(\'' + r.id + '\')">' + esc(T(C.revoke)) + "</button></td></tr>";
+  }).join("");
+
+  // rosters
+  document.getElementById("roster").innerHTML = Object.keys(ORGS).map(function(org){
+    var list = QIA.state().admins[org];
+    return '<div class="org"><b>' + ORGS[org] + '</b> <span class="cap">' + list.length + "/5 " + esc(T(C.seats)) + "</span>" +
+      "<ul>" + list.map(function(a, i){
+        return "<li><span>" + esc(a.name) + '<br><span style="color:var(--grey);font-size:11.5px">' + esc(a.email) + "</span></span>" +
+          (isSuper() ? '<button class="rm" onclick="doRmAdmin(\'' + org + "'," + i + ')">' + esc(T(C.remove)) + "</button>" : "") + "</li>";
+      }).join("") + "</ul>" +
+      (isSuper() ? '<div style="display:flex;gap:6px;flex-wrap:wrap"><input type="text" id="an-' + org + '" placeholder="' + esc(T(C.name)) + '" style="flex:1;min-width:90px">' +
+        '<input type="email" id="ae-' + org + '" placeholder="' + esc(T(C.email)) + '" style="flex:1;min-width:90px">' +
+        '<button class="cbtn" onclick="doAddAdmin(\'' + org + '\')">' + esc(T(C.addAdmin)) + "</button></div>" +
+        '<div class="gatemsg" id="am-' + org + '"></div>' : "") +
+      "</div>";
+  }).join("");
+
+  // log
+  document.getElementById("alog").innerHTML = QIA.state().log.slice(0, 12).map(function(l){
+    return "<li><time>" + esc(l.t) + "</time>" + esc(l.a) + "</li>";
+  }).join("");
+}
+
+window.doApprove = function(ref){
+  var r = QIA.approve(ref, roleName());
+  if (!r.ok && r.why === "quota") { alert(T(C.quotaBlock)); return; }
+  if (r.ok) showMail("cr-mail", r.rec);
+  paint();
+};
+window.doReject = function(ref){ if (!isSuper()) { alert(T(C.lockedMsg)); return; } QIA.reject(ref, roleName()); paint(); };
+window.doRevoke = function(id){ if (!isSuper()) { alert(T(C.lockedMsg)); return; } QIA.revoke(id, roleName()); paint(); };
+window.doResend = function(id){
+  var r = QIA.resend(id, roleName());
+  if (r.ok) showMail("rs-mail", r.rec);
+  paint();
+};
+window.doAddAdmin = function(org){
+  var res = QIA.addAdmin(org, document.getElementById("an-" + org).value.trim(), document.getElementById("ae-" + org).value.trim());
+  if (!res.ok) { alert(T(res.why === "cap" ? C.capMsg : C.adminFields)); return; }
+  paint();
+};
+window.doRmAdmin = function(org, i){ QIA.removeAdmin(org, i); paint(); };
+function showMail(id, rec){
+  var el = document.getElementById(id);
+  el.style.display = "block";
+  el.textContent = T(C.crOk) + "\n\n" + QIA.invitation(rec, qiLang);
+}
+document.getElementById("cr-btn").onclick = function(){
+  var m = document.getElementById("cr-msg"); m.className = "gatemsg";
+  var res = QIA.create({
+    name: document.getElementById("cr-name").value.trim(),
+    iso3: document.getElementById("cr-country").value,
+    cat: document.getElementById("cr-cat").value,
+    level: document.getElementById("cr-level").value,
+    email: document.getElementById("cr-email").value.trim(),
+    phone: document.getElementById("cr-phone").value.trim()
+  });
+  if (!res.ok) { m.className = "gatemsg err"; m.textContent = T(res.why === "quota" ? C.crQuota : C.crFields); return; }
+  showMail("cr-mail", res.rec);
+  document.getElementById("cr-name").value = ""; document.getElementById("cr-email").value = ""; document.getElementById("cr-phone").value = "";
+  paint();
+};
+paint();
+
 var DEMOTXT = {
  sub:{ en:"What partner admins and country coordinators will see: completion tracking, respondent rosters, the verification review queue, and scoped exports. In the full platform this area sits behind login with MFA and role-based access for AUDA-NEPAD, UNIDO and AUC.",
        fr:"Ce que verront les administrateurs partenaires et les coordonnateurs nationaux : suivi de complétion, listes de répondants, file de vérification et exports par périmètre. Sur la plateforme complète, cet espace est protégé par authentification avec MFA et droits par rôle pour l'AUDA-NEPAD, l'ONUDI et la CUA.",
@@ -112,3 +393,4 @@ document.getElementById("queue").innerHTML = queue.map(function(q){
 </script>
 </body>
 </html>
+
