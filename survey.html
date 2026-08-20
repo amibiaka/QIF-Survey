@@ -21,6 +21,7 @@
   <input type="text" name="country_iso3">
   <input type="text" name="tier">
   <input type="text" name="family">
+  <input type="text" name="respondent_id">
   <input type="text" name="org">
   <input type="text" name="email">
   <input type="text" name="submitted_at">
@@ -30,13 +31,16 @@
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
+<script src="access.js"></script>
 <script src="bank_part1.js"></script>
 <script src="bank_part2.js"></script>
 <script src="bank_part3.js"></script>
 <script src="engine.js"></script>
 <script>
+if (!QIA.session()) { location.replace("index.html?lang=" + qiLang); }
 qiMount("survey");
 QIE.init(document.getElementById("mount"));
 </script>
 </body>
 </html>
+
