@@ -31,6 +31,7 @@
       return '<button type="button" aria-pressed="' + (l === window.qiLang) + '" onclick="setLang(\'' + l + '\')">' + I.langNames[l] + '</button>';
     }).join("");
     var sess = (window.QIA && QIA.session && QIA.session()) || null;
+    if (sess) nav += '<a href="#" onclick="QIA.logout();location.href=\'index.html?lang=' + window.qiLang + '\';return false" style="border:1px solid rgba(255,255,255,.35);border-radius:6px">' + T(I.auth.logout) + '</a>';
     var who = sess ?
       '<div class="who"><span class="wid" title="' + T(I.auth.loggedInAs) + '">' + sess.id + '</span>' +
       '<button type="button" onclick="QIA.logout();location.href=\'index.html?lang=' + window.qiLang + '\'">' + T(I.auth.logout) + '</button></div>' :
