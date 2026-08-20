@@ -15,13 +15,22 @@ function load(){ try{ var s = localStorage.getItem(DRAFT_KEY); return s ? JSON.p
 function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
 
 function country(){ return QI_COUNTRIES.find(function(c){ return c.iso3 === state.country; }) || null; }
+function sess(){ return (window.QIA && QIA.session) ? QIA.session() : null; }
+function applyProfile(s){
+  state.country = s.iso3;
+  state.answers.P2 = { v: s.cat };
+  var p2q = BANK.profile.find(function(q){ return q.id === "P2"; });
+  var o = p2q && p2q.opts.find(function(x){ return x.v === s.cat; });
+  if (o) state.family = o.fam;
+}
 
 // ---- screens definition (groups of max 4) ----
 function screens(){
   var c = country(); if (!c) return [];
   var tierQs = BANK["T" + c.tier];
   var famQs = BANK.fams[state.family || "F-GOV"];
-  var pr = BANK.profile.filter(function(q){ return q.id !== "P1"; }); // P1 = country step
+  var sn = sess();
+  var pr = BANK.profile.filter(function(q){ return q.id !== "P1" && !(sn && q.id === "P2"); }); // P1 = country step; P2 comes from the access profile
   var core = BANK.core;
   function byGroup(g){ return core.filter(function(q){ return q.group === g; }); }
   return [
@@ -40,7 +49,7 @@ function screens(){
   ];
 }
 function totalQuestions(){
-  return screens().reduce(function(n, s){ return n + s.qs.length; }, 0) + 1; // +1 country
+  return screens().reduce(function(n, sc){ return n + sc.qs.length; }, 0) + (sess() ? 0 : 1); // +1 country step when not signed in
 }
 
 // ---- rendering ----
@@ -120,7 +129,9 @@ function pathChips(){
   var bits = ['<span>' + esc(c[qiLang]) + '</span>', '<span>' + esc(T(I.tiers[c.tier].name)) + '</span>'];
   var p2 = state.answers["P2"];
   if (state.family && p2 && !p2.miss && p2.v) bits.push('<span>' + esc(T(I.families[state.family])) + '</span>');
-  bits.push('<span>43 · ' + esc(T(S.minutes)) + '</span>');
+  var sn = sess();
+  if (sn) bits.unshift('<span>' + esc(sn.id) + '</span>');
+  bits.push('<span>' + totalQuestions() + ' · ' + esc(T(S.minutes)) + '</span>');
   return '<div class="pathchips">' + bits.join("") + '</div>';
 }
 
@@ -151,7 +162,9 @@ function stepConsent(){
     '<h2 class="sec">' + esc(T(S.consentTitle)) + '</h2>' +
     '<p style="font-size:14.5px">' + esc(T(S.consent)) + '</p>' +
     '<p class="hint">' + esc(T(S.noRightWrong)) + '</p>' +
-    '<div class="navrow"><button class="btn nav sec" onclick="QIE.toCountry()">' + esc(T(S.back)) + '</button>' +
+    '<div class="navrow">' +
+    (sess() ? '<a class="btn nav sec" href="home.html?lang=' + qiLang + '">' + esc(T(S.back)) + '</a>'
+            : '<button class="btn nav sec" onclick="QIE.toCountry()">' + esc(T(S.back)) + '</button>') +
     '<button class="btn nav" onclick="QIE.agree()">' + esc(T(S.agree)) + '</button></div></div>');
 }
 
@@ -523,6 +536,7 @@ function payload(){
     language: qiLang,
     country: c ? c.en : null, country_iso3: state.country,
     tier: c ? c.tier : null, family: state.family,
+    respondent_id: (sess() && sess().id) || "",
     contact: state.contact,
     answers: state.answers
   };
@@ -533,7 +547,7 @@ function doSubmit(){
   var body = new URLSearchParams({
     "form-name": "qi-survey",
     "language": p.language, "country": p.country || "", "country_iso3": p.country_iso3 || "",
-    "tier": String(p.tier || ""), "family": p.family || "",
+    "tier": String(p.tier || ""), "family": p.family || "", "respondent_id": p.respondent_id || "",
     "org": state.contact.org || "", "email": state.contact.email || "",
     "submitted_at": p.submitted_at, "answers_json": JSON.stringify(p.answers)
   }).toString();
@@ -556,6 +570,13 @@ window.QIE = {
   init: function(mount){
     root = mount;
     var draft = load();
+    var s = sess();
+    if (s) {
+      if (draft && draft.country === s.iso3 && !draft.submitted) { state = draft; }
+      else { state = { step:"consent", country:s.iso3, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false }; }
+      applyProfile(s);
+      render(); return;
+    }
     if (draft && draft.country) { state = draft; if (state.submitted) { state = { step:"country", screen:0, answers:{}, contact:{org:"",email:""} }; } }
     render();
   },
@@ -565,7 +586,13 @@ window.QIE = {
     save(); render();
   },
   resume: function(){ var d = load(); if (d) { state = d; render(); } },
-  reset: function(){ clearDraft(); state = { step:"country", screen:0, answers:{}, contact:{org:"",email:""} }; render(); },
+  reset: function(){
+    clearDraft();
+    var s = sess();
+    state = { step: s ? "consent" : "country", country: s ? s.iso3 : null, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false };
+    if (s) applyProfile(s);
+    render();
+  },
   prev: function(){
     if (state.screen === 0) { state.step = "consent"; } else { state.screen--; }
     save(); render();
