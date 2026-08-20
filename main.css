@@ -39,7 +39,7 @@ nav.main a[aria-current="page"],nav.main a:hover{background:rgba(255,255,255,.12
 .hero p.lead{color:#D7E4EE;max-width:46em;font-size:17px}
 .btn{display:inline-block;border:0;border-radius:8px;padding:12px 22px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
 .btn.primary{background:var(--accent);color:#fff}
-.btn.primary:hover{background:#d9b23a}
+.btn.primary:hover{background:var(--accent-d)}
 .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);margin-inline-start:10px}
 .btn.ghost:hover{border-color:#fff}
 .btn.small{padding:8px 14px;font-size:14px}
@@ -113,7 +113,7 @@ p.sub{color:var(--grey);margin-top:0;max-width:52em}
 .legendbox{background:#fff;border:1px dashed #B9C8D2;border-radius:8px;padding:9px 12px;margin-top:9px;font-size:12.5px;color:var(--grey);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
 .legendbox b{color:var(--navy);font-size:12.5px;width:100%}
 .legendbox i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:11.5px;margin-inline-end:5px;vertical-align:middle}
-@keyframes qipulse{0%{box-shadow:0 0 0 0 rgba(201,162,39,.75)}100%{box-shadow:0 0 0 16px rgba(201,162,39,0)}}
+@keyframes qipulse{0%{box-shadow:0 0 0 0 rgba(0,131,0,.55)}100%{box-shadow:0 0 0 16px rgba(0,131,0,0)}}
 .btn.pulse{animation:qipulse 1s ease-out 2}
 .qb{scroll-margin-top:84px}
 .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
@@ -256,4 +256,43 @@ footer.site b{color:#fff}
 .statuschip.active{background:#E9F5EC;color:var(--accent-d)}
 .statuschip.invited{background:var(--band);color:var(--navy)}
 .statuschip.revoked{background:#FBEDEC;color:var(--red)}
+
+/* role chooser on the gateway */
+.rolepick{display:grid;gap:8px;margin-top:6px}
+.rolecard{border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;cursor:pointer;background:#fff}
+.rolecard b{display:block;color:var(--navy);font-size:14.5px;margin-bottom:2px}
+.rolecard span{font-size:12.5px;color:var(--grey);line-height:1.45}
+.rolecard:hover{border-color:var(--teal)}
+.rolecard.sel{border-color:var(--accent);background:#E9F5EC;box-shadow:inset 3px 0 0 var(--accent)}
+[dir="rtl"] .rolecard.sel{box-shadow:inset -3px 0 0 var(--accent)}
+
+/* africa map (home) */
+.afmap{background:linear-gradient(180deg,#F4F8FB,#EAF1F6);border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:14px}
+.afmap svg{width:100%;height:auto;display:block}
+.afmap circle.cn{cursor:pointer;stroke:#fff;stroke-width:1.4;transition:opacity .15s}
+.afmap circle.cn:hover{stroke:var(--navy);stroke-width:2}
+.afmap circle.sel{stroke:var(--navy);stroke-width:2.5}
+.afmap .w1ring{fill:none;stroke:var(--navy);stroke-width:1.3;opacity:.55;pointer-events:none}
+.mapdetail{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 14px;margin-top:10px;font-size:13.5px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;min-height:48px}
+.mapdetail b{color:var(--navy);font-size:15px}
+.mapdetail .dim{color:var(--grey)}
+
+/* report builder (insights) */
+.rb{border:2px solid var(--accent);border-radius:12px;padding:16px;margin-top:22px;background:#fff}
+.rb h3{margin:0 0 4px;color:var(--navy)}
+.rbgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:10px}
+.rb fieldset{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin:0}
+.rb legend{font-size:12.5px;font-weight:700;color:var(--navy);padding:0 5px}
+.rb label.ck{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:6px 0;cursor:pointer}
+.rb label.ck input{margin-top:2px;accent-color:var(--accent)}
+.rb select{width:100%;padding:8px 9px;border:1px solid var(--line);border-radius:7px;font-size:13.5px;font-family:inherit;background:#fff}
+.rb select[multiple]{min-height:132px}
+.rbbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.rbbtn{border:0;border-radius:8px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;color:#fff}
+.rbbtn.csv{background:var(--teal)}
+.rbbtn.xls{background:var(--accent)}
+.rbbtn.doc{background:var(--navy)}
+.rbbtn.ppt{background:#B3541E}
+.rbbtn:hover{opacity:.92}
+.rbmeta{font-size:12px;color:var(--grey);margin-top:8px}
 
