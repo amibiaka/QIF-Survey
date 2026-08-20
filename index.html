@@ -27,14 +27,11 @@
         </div>
 
         <form id="f-login" autocomplete="off">
-          <label for="l-id" id="lb-id"></label>
-          <input id="l-id" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="GHA-NSB-01">
-          <label for="l-code" id="lb-code"></label>
-          <input id="l-code" type="text" inputmode="numeric" maxlength="6" placeholder="2468">
+          <p class="gatehint" id="l-intro" style="margin-top:0"></p>
+          <div class="rolepick" id="rolepick"></div>
           <button class="gatebtn" type="submit" id="b-login"></button>
           <div class="gatemsg" id="m-login"></div>
           <p class="gatehint" id="h-id"></p>
-          <div class="gatecred" id="democred"></div>
         </form>
 
         <form id="f-signup" autocomplete="off" style="display:none">
@@ -160,19 +157,57 @@ function showTab(which){
 tabL.onclick = function(){ showTab("login"); };
 tabS.onclick = function(){ showTab("signup"); };
 
-// ---- log in ----
-document.getElementById("lb-id").textContent = T(A.respondentId);
-document.getElementById("lb-code").textContent = T(A.accessCode);
-document.getElementById("b-login").textContent = T(A.login);
-document.getElementById("h-id").textContent = T(A.idHint);
-document.getElementById("democred").innerHTML = esc(T(GATE.demoCred)) + " <code>GHA-NSB-01</code> · <code>2468</code>";
+// ---- log in: one-click demo access, no credentials in this prototype ----
+var ROLES = [
+  { v:"resp", t:{ en:"Respondent", fr:"Répondant", ar:"مجيب" },
+    d:{ en:"Enter as the demo respondent (Ghana, national standards body) and take the adaptive survey.",
+        fr:"Entrez comme répondant démo (Ghana, organisme national de normalisation) et répondez à l'enquête adaptative.",
+        ar:"ادخلوا كمجيب تجريبي (غانا، هيئة المواصفات الوطنية) وشاركوا في الاستبيان التكيفي." } },
+  { v:"admin", t:{ en:"Admin (UNIDO / AUDA-NEPAD / AUC)", fr:"Admin (ONUDI / AUDA-NEPAD / CUA)", ar:"مدير (اليونيدو / أودا-نيباد / المفوضية)" },
+    d:{ en:"Enter as a partner administrator: grant access, approve requests, send system emails.",
+        fr:"Entrez comme administrateur partenaire : accorder les accès, approuver les demandes, envoyer les courriels du système.",
+        ar:"ادخلوا كمدير منظمة شريكة: منح الوصول واعتماد الطلبات وإرسال رسائل النظام." } },
+  { v:"super", t:{ en:"Super admin", fr:"Super administrateur", ar:"المشرف العام" },
+    d:{ en:"Enter as the super admin: create respondent IDs, manage quotas and the admin rosters.",
+        fr:"Entrez comme super administrateur : créer les identifiants, gérer les quotas et les listes d'administrateurs.",
+        ar:"ادخلوا كمشرف عام: إنشاء المعرّفات وإدارة الحصص وقوائم المديرين." } }
+];
+var LTXT = {
+  intro:{ en:"Prototype sign-in: no ID or password needed. Choose a profile; the system opens the page that matches it.",
+          fr:"Connexion prototype : aucun identifiant ni mot de passe requis. Choisissez un profil ; le système ouvre la page correspondante.",
+          ar:"دخول تجريبي: لا حاجة لمعرّف أو كلمة مرور. اختاروا الملف؛ يفتح النظام الصفحة المناسبة له." },
+  enter:{ en:"Sign in", fr:"Se connecter", ar:"تسجيل الدخول" },
+  note:{ en:"In production, respondents sign in with the simple ID and code from their invitation.",
+         fr:"En production, les répondants se connectent avec l'identifiant simple et le code reçus dans leur invitation.",
+         ar:"في النسخة النهائية يدخل المجيبون بالمعرّف البسيط والرمز الواردين في الدعوة." }
+};
+document.getElementById("l-intro").textContent = T(LTXT.intro);
+document.getElementById("b-login").textContent = T(LTXT.enter);
+document.getElementById("h-id").textContent = T(LTXT.note);
+var picked = "resp";
+function paintRoles(){
+  document.getElementById("rolepick").innerHTML = ROLES.map(function(r){
+    return '<div class="rolecard' + (picked === r.v ? " sel" : "") + '" data-role="' + r.v + '" role="radio" aria-checked="' + (picked === r.v) + '" tabindex="0">' +
+      '<b>' + esc(T(r.t)) + '</b><span>' + esc(T(r.d)) + '</span></div>';
+  }).join("");
+  document.querySelectorAll("#rolepick .rolecard").forEach(function(c){
+    function choose(){ picked = c.getAttribute("data-role"); paintRoles(); }
+    c.addEventListener("click", choose);
+    c.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(); } });
+  });
+}
+paintRoles();
 document.getElementById("f-login").addEventListener("submit", function(e){
   e.preventDefault();
-  var m = document.getElementById("m-login"); m.className = "gatemsg";
-  var r = QIA.login(document.getElementById("l-id").value, document.getElementById("l-code").value);
-  if (r.ok) { location.href = "home.html?lang=" + qiLang; return; }
-  m.className = "gatemsg err";
-  m.textContent = T(r.why === "code" ? A.wrongCode : (r.why === "revoked" ? A.revoked : A.wrongId));
+  if (picked === "resp") {
+    var r = QIA.login("GHA-NSB-01", "2468");
+    if (!r.ok) { QIA.resetDemo(); QIA.reload(); r = QIA.login("GHA-NSB-01", "2468"); }
+    if (r.ok) { location.href = "home.html?lang=" + qiLang; return; }
+    var m = document.getElementById("m-login"); m.className = "gatemsg err"; m.textContent = T(A.wrongId);
+    return;
+  }
+  try { localStorage.setItem("qi_admin_role", picked === "super" ? "super" : "unido"); } catch(err){}
+  location.href = "admin.html?lang=" + qiLang;
 });
 
 // ---- sign up ----
@@ -227,9 +262,9 @@ document.getElementById("f-signup").addEventListener("submit", function(e){
   }
 });
 window.prefill = function(id, code){
+  var r = QIA.login(id, code);
+  if (r && r.ok) { location.href = "home.html?lang=" + qiLang; return; }
   showTab("login");
-  document.getElementById("l-id").value = id;
-  document.getElementById("l-code").value = code;
 };
 document.title = T(I.siteTitle);
 </script>
