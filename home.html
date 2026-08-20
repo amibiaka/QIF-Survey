@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance in Africa. AUDA-NEPAD, UNIDO and the African Union Commission.">
+<title>Financing Quality Infrastructure in Africa</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="main.css">
+</head>
+<body>
+<main id="main">
+  <div class="hero"><div class="wrap">
+    <div class="kicker" id="h-kick"></div>
+    <h1 id="h-title"></h1>
+    <p class="lead" id="h-lead"></p>
+    <p style="margin-top:22px">
+      <a class="btn primary" id="h-cta" href="#"></a>
+      <a class="btn ghost" id="h-cta2" href="#"></a>
+    </p>
+  </div></div>
+
+  <section class="pad"><div class="wrap">
+    <h2 class="sec" id="how-title"></h2>
+    <div class="grid4" id="how-grid"></div>
+  </div></section>
+
+  <section class="pad" style="background:var(--light)"><div class="wrap">
+    <h2 class="sec" id="c-title"></h2>
+    <p class="sub" id="c-sub"></p>
+    <div class="cfilter">
+      <input type="search" id="c-search" autocomplete="off">
+    </div>
+    <div class="legend" id="c-legend"></div>
+    <div class="cgrid" id="c-grid" style="margin-top:12px"></div>
+  </div></section>
+</main>
+
+<!-- Netlify Forms registration form (hidden): declares the fields stored by Netlify -->
+<form name="qi-survey" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field">
+  <input type="text" name="language">
+  <input type="text" name="country">
+  <input type="text" name="country_iso3">
+  <input type="text" name="tier">
+  <input type="text" name="family">
+  <input type="text" name="org">
+  <input type="text" name="email">
+  <input type="text" name="submitted_at">
+  <textarea name="answers_json"></textarea>
+</form>
+
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="countries.js"></script>
+<script src="access.js"></script>
+<script>
+var __sess = QIA.session();
+if (!__sess) { location.replace("index.html?lang=" + qiLang); }
+qiMount("home");
+var I = QI_I18N;
+document.getElementById("h-kick").textContent = T(I.hero.kicker);
+document.getElementById("h-title").textContent = T(I.hero.title);
+document.getElementById("h-lead").textContent = T(I.hero.lead);
+var cta = document.getElementById("h-cta"); cta.textContent = T(I.hero.cta); cta.href = "survey.html?lang=" + qiLang;
+var cta2 = document.getElementById("h-cta2"); cta2.textContent = T(I.hero.cta2); cta2.href = "insights.html?lang=" + qiLang;
+document.getElementById("how-title").textContent = T(I.how.title);
+document.getElementById("how-grid").innerHTML = I.how.steps.map(function(s, i){
+  return '<div class="card"><div class="stepnum">' + (i + 1) + '</div><h3>' + esc(T(s.t)) + '</h3><p>' + esc(T(s.d)) + '</p></div>';
+}).join("");
+document.getElementById("c-title").textContent = T(I.countries.title);
+document.getElementById("c-sub").textContent = T(I.countries.sub);
+document.getElementById("c-search").placeholder = T(I.countries.search);
+document.getElementById("c-legend").innerHTML =
+  '<span><i style="background:var(--t3)"></i>' + esc(T(I.tiers[3].name)) + '</span>' +
+  '<span><i style="background:var(--t2)"></i>' + esc(T(I.tiers[2].name)) + '</span>' +
+  '<span><i style="background:var(--t1)"></i>' + esc(T(I.tiers[1].name)) + '</span>';
+
+function renderCountries(filter){
+  var q = (filter || "").toLowerCase();
+  var list = QI_COUNTRIES.slice().sort(function(a, b){ return T(a).localeCompare ? 0 : 0; });
+  list.sort(function(a, b){ return a[qiLang].localeCompare(b[qiLang], qiLang); });
+  document.getElementById("c-grid").innerHTML = list.filter(function(c){
+    return !q || c.en.toLowerCase().indexOf(q) >= 0 || c.fr.toLowerCase().indexOf(q) >= 0 || c.ar.indexOf(filter) >= 0;
+  }).map(function(c){
+    var status = c.w1 ? T(QI_I18N.countries.active) : T(QI_I18N.countries.later);
+    return '<div class="cc' + (c.w1 ? "" : " off") + '">' +
+      (c.w1 ? '<span class="w1tag">W1</span>' : "") +
+      '<b><span class="tt t' + c.tier + '"></span>' + esc(c[qiLang]) + '</b>' +
+      '<span class="st">' + esc(T(QI_I18N.countries.tier)) + ' ' + c.tier + ' · ' + esc(status) + '</span></div>';
+  }).join("");
+}
+renderCountries("");
+document.getElementById("c-search").addEventListener("input", function(){ renderCountries(this.value); });
+</script>
+</body>
+</html>
