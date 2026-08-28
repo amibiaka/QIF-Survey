@@ -2,9 +2,9 @@
 window.QI_I18N = {
  langNames: { en:"English", fr:"Français", ar:"العربية" },
  partners: {
-  en:"African Union Development Agency (AUDA-NEPAD) | United Nations Industrial Development Organization (UNIDO) | African Union Commission (AUC)",
-  fr:"Agence de développement de l'Union africaine (AUDA-NEPAD) | Organisation des Nations Unies pour le développement industriel (ONUDI) | Commission de l'Union africaine (CUA)",
-  ar:"وكالة التنمية التابعة للاتحاد الأفريقي (أودا-نيباد) | منظمة الأمم المتحدة للتنمية الصناعية (اليونيدو) | مفوضية الاتحاد الأفريقي" },
+  en:"African Union Development Agency (AUDA-NEPAD) | United Nations Industrial Development Organization (UNIDO) | African Union Commission (AUC) | in collaboration with the Organisation of African, Caribbean and Pacific States (OACPS)",
+  fr:"Agence de développement de l'Union africaine (AUDA-NEPAD) | Organisation des Nations Unies pour le développement industriel (ONUDI) | Commission de l'Union africaine (CUA) | en collaboration avec l'Organisation des États d'Afrique, des Caraïbes et du Pacifique (OEACP)",
+  ar:"وكالة التنمية التابعة للاتحاد الأفريقي (أودا-نيباد) | منظمة الأمم المتحدة للتنمية الصناعية (اليونيدو) | مفوضية الاتحاد الأفريقي | بالتعاون مع منظمة دول أفريقيا والكاريبي والمحيط الهادئ" },
  siteTitle: {
   en:"Financing Quality Infrastructure in Africa",
   fr:"Financer l'infrastructure de la qualité en Afrique",
@@ -186,4 +186,108 @@ window.QI_I18N = {
           fr:"Les logos officiels de l'ONUDI, de l'AUDA-NEPAD et de la CUA seront placés ici dès réception des éléments de marque.",
           ar:"ستوضع هنا الشعارات الرسمية لليونيدو وأودا-نيباد ومفوضية الاتحاد الأفريقي فور تسلُّم ملفات الهوية البصرية من الشركاء." } }
 };
+
+// ============================================================================
+// QIF Survey Master v3 additions: three survey spaces, objectives, OACPS,
+// admin hierarchy, live database strings. Merged into QI_I18N at load.
+// ============================================================================
+(function(){
+  var X = {
+   insights: {
+    accLabels: { ilacassoc: { en:"ILAC associate (Global ACI transition)", fr:"Associé ILAC (transition Global ACI)", ar:"عضو منتسب في ILAC (مرحلة الانتقال إلى Global ACI)" } },
+    metLabels: { regional: { en:"Via CARICOM (CGPM Associate economy)", fr:"Via la CARICOM (économie associée à la CGPM)", ar:"عبر كاريكوم (اقتصاد منتسب للمؤتمر العام للأوزان والمقاييس)" } },
+    isoLabels: { sub: { en:"Subscriber member", fr:"Membre abonné", ar:"عضو مشترك" } } },
+   product: {
+    name: { en:"QIF Survey Master", fr:"QIF Survey Master", ar:"QIF Survey Master" },
+    owner: { en:"QIF Survey Master is the property of AUDA-NEPAD.", fr:"QIF Survey Master est la propriété de l'AUDA-NEPAD.", ar:"منصة QIF Survey Master مملوكة لوكالة أودا-نيباد." },
+    programme: { en:"ACP Quality Infrastructure Programme, funded by the European Union and the OACPS",
+                 fr:"Programme ACP pour l'infrastructure de la qualité, financé par l'Union européenne et l'OEACP",
+                 ar:"برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ، بتمويل من الاتحاد الأوروبي ومنظمة الأواكبس" } },
+   regions: {
+    africa: { en:"Africa", fr:"Afrique", ar:"أفريقيا" },
+    caribbean: { en:"Caribbean", fr:"Caraïbes", ar:"الكاريبي" },
+    pacific: { en:"Pacific", fr:"Pacifique", ar:"المحيط الهادئ" },
+    africaSub: { en:"55 African Union member states. The survey is being implemented in 18 confirmed countries; the super admin can open any other member state.",
+                 fr:"Les 55 États membres de l'Union africaine. L'enquête est mise en œuvre dans 18 pays confirmés ; le super administrateur peut ouvrir tout autre État membre.",
+                 ar:"الدول الأعضاء الـ55 في الاتحاد الأفريقي. يُنفَّذ الاستبيان في 18 بلداً مؤكداً، ويمكن للمشرف العام فتح أي دولة عضو أخرى." },
+    caribbeanSub: { en:"16 OACPS member states of the Caribbean. Countries are opened for the survey by the super admin.",
+                    fr:"Les 16 États membres caribéens de l'OEACP. Les pays sont ouverts à l'enquête par le super administrateur.",
+                    ar:"الدول الكاريبية الـ16 الأعضاء في منظمة الأواكبس. يفتح المشرف العام البلدان للاستبيان." },
+    pacificSub: { en:"15 OACPS member states of the Pacific. Countries are opened for the survey by the super admin.",
+                  fr:"Les 15 États membres pacifiques de l'OEACP. Les pays sont ouverts à l'enquête par le super administrateur.",
+                  ar:"الدول الـ15 الأعضاء في منظمة الأواكبس من المحيط الهادئ. يفتح المشرف العام البلدان للاستبيان." },
+    open: { en:"open for the survey", fr:"ouverts à l'enquête", ar:"مفتوحة للاستبيان" },
+    ofN: { en:"of", fr:"sur", ar:"من" },
+    enter: { en:"Enter this space", fr:"Entrer dans cet espace", ar:"الدخول إلى هذا الفضاء" },
+    statusOpen: { en:"Survey open", fr:"Enquête ouverte", ar:"الاستبيان مفتوح" },
+    statusClosed: { en:"Opening later", fr:"Ouverture ultérieure", ar:"يُفتح لاحقاً" } },
+   objectives: {
+    title: { en:"Why this survey", fr:"Pourquoi cette enquête", ar:"لماذا هذا الاستبيان" },
+    body: { en:"Quality Infrastructure (QI) — standards, metrology, accreditation, conformity assessment and market surveillance — underpins trade competitiveness, industrial development and consumer protection, yet QI institutions remain chronically underfunded. Under the ACP Quality Infrastructure Programme, funded by the European Union and the OACPS, UNIDO — together with AUDA-NEPAD and the African Union Commission for the African continental component — is quantifying QI investment needs, mapping financing opportunities and developing actionable resource mobilization strategies. This survey builds that evidence base: it measures how QI is financed today, where the gaps are, what MSMEs face when they seek to achieve and demonstrate conformity to market requirements, and which financing solutions are feasible in each country. The publication and investment case will be launched at the Global Quality Forum in Vienna, Austria, 4-6 November 2026.",
+            fr:"L'infrastructure de la qualité (IQ) — normalisation, métrologie, accréditation, évaluation de la conformité et surveillance du marché — sous-tend la compétitivité commerciale, le développement industriel et la protection des consommateurs ; or, les institutions de l'IQ demeurent chroniquement sous-financées. Dans le cadre du Programme ACP pour l'infrastructure de la qualité, financé par l'Union européenne et l'OEACP, l'ONUDI — avec l'AUDA-NEPAD et la Commission de l'Union africaine pour la composante continentale africaine — quantifie les besoins d'investissement, cartographie les opportunités de financement et élabore des stratégies concrètes de mobilisation des ressources. Cette enquête construit cette base factuelle : elle mesure comment l'IQ est financée aujourd'hui, où se situent les déficits, ce que rencontrent les MPME pour démontrer leur conformité aux exigences des marchés, et quelles solutions de financement sont réalisables dans chaque pays. La publication et le dossier d'investissement seront lancés au Global Quality Forum à Vienne (Autriche), du 4 au 6 novembre 2026.",
+            ar:"تشكّل البنية التحتية للجودة — المواصفات والمترولوجيا والاعتماد وتقييم المطابقة ومراقبة السوق — ركيزة التنافسية التجارية والتنمية الصناعية وحماية المستهلك، غير أن مؤسساتها تعاني نقصاً مزمناً في التمويل. وفي إطار برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ، الممول من الاتحاد الأوروبي ومنظمة الأواكبس، تعمل اليونيدو — مع أودا-نيباد ومفوضية الاتحاد الأفريقي في المكوّن القاري الأفريقي — على تحديد احتياجات الاستثمار كمياً ورسم خريطة فرص التمويل وإعداد استراتيجيات عملية لتعبئة الموارد. يبني هذا الاستبيان قاعدة الأدلة تلك: فهو يقيس كيفية تمويل البنية التحتية للجودة اليوم، ومواطن الفجوات، وما تواجهه المنشآت الصغرى والصغيرة والمتوسطة لإثبات مطابقتها لمتطلبات الأسواق، والحلول التمويلية الممكنة في كل بلد. وسيُطلق المنشور وملف الاستثمار في المنتدى العالمي للجودة في فيينا، النمسا، من 4 إلى 6 تشرين الثاني/نوفمبر 2026." } },
+   dbx: {
+    live: { en:"Live database", fr:"Base de données en ligne", ar:"قاعدة بيانات مباشرة" },
+    demo: { en:"Demo store (this browser)", fr:"Stockage démo (ce navigateur)", ar:"تخزين تجريبي (هذا المتصفح)" },
+    adminLogin: { en:"Administrator sign-in", fr:"Connexion administrateur", ar:"دخول المديرين" },
+    email: { en:"Email", fr:"Courriel", ar:"البريد الإلكتروني" },
+    password: { en:"Password", fr:"Mot de passe", ar:"كلمة المرور" },
+    signIn: { en:"Sign in", fr:"Se connecter", ar:"تسجيل الدخول" },
+    badLogin: { en:"Email or password not recognized.", fr:"Courriel ou mot de passe non reconnu.", ar:"البريد الإلكتروني أو كلمة المرور غير صحيحة." },
+    mustChange: { en:"First sign-in: please set a new password.", fr:"Première connexion : veuillez définir un nouveau mot de passe.", ar:"أول تسجيل دخول: يُرجى تعيين كلمة مرور جديدة." },
+    newPassword: { en:"New password (12+ characters)", fr:"Nouveau mot de passe (12 caractères ou plus)", ar:"كلمة مرور جديدة (12 حرفاً على الأقل)" },
+    changed: { en:"Password changed.", fr:"Mot de passe modifié.", ar:"تم تغيير كلمة المرور." },
+    linkInvalid: { en:"This invitation link is not valid.", fr:"Ce lien d'invitation n'est pas valide.", ar:"رابط الدعوة هذا غير صالح." },
+    linkExpired: { en:"This invitation link has expired (links are valid for 7 days). Contact your survey administrator for a new one.",
+                   fr:"Ce lien d'invitation a expiré (les liens sont valables 7 jours). Contactez votre administrateur d'enquête pour en recevoir un nouveau.",
+                   ar:"انتهت صلاحية رابط الدعوة (الروابط صالحة لسبعة أيام). تواصلوا مع مسؤول الاستبيان للحصول على رابط جديد." },
+    linkUsed: { en:"This invitation link has already been used to submit a response.",
+                fr:"Ce lien d'invitation a déjà été utilisé pour soumettre une réponse.",
+                ar:"استُخدم رابط الدعوة هذا من قبل لإرسال إجابة." },
+    ready: { en:"Welcome. Your country's survey is ready.", fr:"Bienvenue. L'enquête de votre pays est prête.", ar:"مرحباً بكم. استبيان بلدكم جاهز." } },
+   adminx: {
+    roles: {
+     super: { en:"Super admin", fr:"Super administrateur", ar:"المشرف العام" },
+     country: { en:"Country survey admin", fr:"Administrateur d'enquête pays", ar:"مسؤول استبيان قُطري" },
+     mdb: { en:"MDB / Regional Development Bank admin", fr:"Administrateur BMD / banque régionale de développement", ar:"مسؤول بنوك التنمية المتعددة الأطراف/الإقليمية" },
+     regional: { en:"Regional organisation admin", fr:"Administrateur d'organisation régionale", ar:"مسؤول منظمة إقليمية" },
+     oacps: { en:"OACPS survey admin", fr:"Administrateur d'enquête OEACP", ar:"مسؤول استبيان الأواكبس" },
+     partner: { en:"Partner (read and download)", fr:"Partenaire (lecture et téléchargement)", ar:"شريك (اطلاع وتنزيل)" } },
+    spaces: { en:"Survey spaces and countries", fr:"Espaces d'enquête et pays", ar:"فضاءات الاستبيان والبلدان" },
+    spacesNote: { en:"Enable or disable countries per space. Africa: the 18 confirmed countries are enabled; any AU member state, including the Sahrawi Arab Democratic Republic, can be enabled if decided. Caribbean and Pacific countries are enabled manually.",
+                  fr:"Activez ou désactivez les pays par espace. Afrique : les 18 pays confirmés sont activés ; tout État membre de l'UA, y compris la République arabe sahraouie démocratique, peut être activé si la décision est prise. Les pays des Caraïbes et du Pacifique sont activés manuellement.",
+                  ar:"فعّلوا البلدان أو عطّلوها في كل فضاء. أفريقيا: البلدان الـ18 المؤكدة مفعّلة، ويمكن تفعيل أي دولة عضو في الاتحاد الأفريقي، بما فيها الجمهورية العربية الصحراوية الديمقراطية، إذا تقرر ذلك. تُفعَّل بلدان الكاريبي والمحيط الهادئ يدوياً." },
+    team: { en:"Administrators and rights", fr:"Administrateurs et droits", ar:"المديرون والصلاحيات" },
+    teamNote: { en:"The super admin creates administrator profiles, defines what each one can see and download, and can revoke them. New admins receive their temporary password by email and must change it at first sign-in.",
+                fr:"Le super administrateur crée les profils, définit ce que chacun peut consulter et télécharger, et peut les révoquer. Les nouveaux administrateurs reçoivent leur mot de passe temporaire par courriel et doivent le changer à la première connexion.",
+                ar:"ينشئ المشرف العام ملفات المديرين ويحدد ما يمكن لكل منهم الاطلاع عليه وتنزيله، ويمكنه إلغاؤها. يتلقى المديرون الجدد كلمة مرور مؤقتة بالبريد الإلكتروني ويجب تغييرها عند أول تسجيل دخول." },
+    invites: { en:"Respondent invitations", fr:"Invitations des répondants", ar:"دعوات المجيبين" },
+    invitesNote: { en:"Create a respondent with their email: they receive a personal link that opens their country's survey directly, with no password. Links expire after 7 days.",
+                   fr:"Créez un répondant avec son courriel : il reçoit un lien personnel qui ouvre directement l'enquête de son pays, sans mot de passe. Les liens expirent après 7 jours.",
+                   ar:"أنشئوا مجيباً ببريده الإلكتروني: يتلقى رابطاً شخصياً يفتح استبيان بلده مباشرة دون كلمة مرور. تنتهي صلاحية الروابط بعد سبعة أيام." },
+    downloads: { en:"Data downloads (Excel)", fr:"Téléchargements de données (Excel)", ar:"تنزيل البيانات (Excel)" },
+    downloadsNote: { en:"Download response tables scoped to your rights: per country, per thematic area, per region, per respondent, or everything.",
+                     fr:"Téléchargez les tables de réponses selon vos droits : par pays, par domaine thématique, par région, par répondant, ou tout.",
+                     ar:"نزّلوا جداول الإجابات وفق صلاحياتكم: حسب البلد أو المجال المواضيعي أو المنطقة أو المجيب، أو كل البيانات." },
+    scopeAllData: { en:"All data", fr:"Toutes les données", ar:"كل البيانات" },
+    byCountry: { en:"Per country", fr:"Par pays", ar:"حسب البلد" },
+    byRegion: { en:"Per region", fr:"Par région", ar:"حسب المنطقة" },
+    byThematic: { en:"Per thematic area", fr:"Par domaine thématique", ar:"حسب المجال المواضيعي" },
+    byRespondent: { en:"Per respondent", fr:"Par répondant", ar:"حسب المجيب" },
+    tempPw: { en:"Temporary password (share it securely; it must be changed at first sign-in):",
+              fr:"Mot de passe temporaire (transmettez-le de façon sécurisée ; il doit être changé à la première connexion) :",
+              ar:"كلمة المرور المؤقتة (شاركوها بأمان؛ يجب تغييرها عند أول تسجيل دخول):" },
+    emailSent: { en:"Email sent automatically.", fr:"Courriel envoyé automatiquement.", ar:"أُرسل البريد الإلكتروني تلقائياً." },
+    copyLink: { en:"Copy invitation link", fr:"Copier le lien d'invitation", ar:"نسخ رابط الدعوة" },
+    linkCopied: { en:"Link copied.", fr:"Lien copié.", ar:"تم نسخ الرابط." },
+    respLink: { en:"Personal survey link (expires in 7 days):", fr:"Lien personnel d'enquête (expire dans 7 jours) :", ar:"رابط الاستبيان الشخصي (تنتهي صلاحيته خلال 7 أيام):" } }
+  };
+  function merge(dst, src){
+    Object.keys(src).forEach(function(k){
+      if (dst[k] && typeof dst[k] === "object" && typeof src[k] === "object" && !Array.isArray(src[k])) merge(dst[k], src[k]);
+      else dst[k] = src[k];
+    });
+  }
+  merge(window.QI_I18N, X);
+})();
 
