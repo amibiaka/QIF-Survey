@@ -160,6 +160,7 @@ function stepCountry(){
 function stepConsent(){
   h('<div class="scard">' + pathChips() +
     '<h2 class="sec">' + esc(T(S.consentTitle)) + '</h2>' +
+    '<div class="objbox" style="margin:12px 0"><h2 style="font-size:15px">' + esc(T(I.objectives.title)) + '</h2><p>' + esc(T(I.objectives.body)) + '</p></div>' +
     '<p style="font-size:14.5px">' + esc(T(S.consent)) + '</p>' +
     '<p class="hint">' + esc(T(S.noRightWrong)) + '</p>' +
     '<div class="navrow">' +
@@ -544,16 +545,26 @@ function payload(){
 function doSubmit(){
   var btn = document.getElementById("sbm"); btn.disabled = true;
   var p = payload();
-  var body = new URLSearchParams({
-    "form-name": "qi-survey",
-    "language": p.language, "country": p.country || "", "country_iso3": p.country_iso3 || "",
-    "tier": String(p.tier || ""), "family": p.family || "", "respondent_id": p.respondent_id || "",
-    "org": state.contact.org || "", "email": state.contact.email || "",
-    "submitted_at": p.submitted_at, "answers_json": JSON.stringify(p.answers)
-  }).toString();
-  fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body: body })
-    .then(function(r){ finish(r.ok); })
-    .catch(function(){ finish(false); });
+  var c = country();
+  var rt = "";
+  try { rt = sessionStorage.getItem("qi_invite_rt") || ""; } catch(e){}
+  var meta = { respondent_id: p.respondent_id, iso3: p.country_iso3, region: (c && c.region) || "africa",
+    tier: p.tier, family: p.family, language: p.language,
+    category: (state.answers.P2 && state.answers.P2.v) || "", level: (state.answers.P3 && state.answers.P3.v) || "" };
+  var dbCall = (window.QIDB ? QIDB.submitResponse(rt, meta, p.answers) : Promise.resolve({ ok:false }));
+  dbCall.then(function(r){
+    if (r && r.ok) { finish(true); return; }
+    var body = new URLSearchParams({
+      "form-name": "qi-survey",
+      "language": p.language, "country": p.country || "", "country_iso3": p.country_iso3 || "",
+      "tier": String(p.tier || ""), "family": p.family || "", "respondent_id": p.respondent_id || "",
+      "org": state.contact.org || "", "email": state.contact.email || "",
+      "submitted_at": p.submitted_at, "answers_json": JSON.stringify(p.answers)
+    }).toString();
+    fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body: body })
+      .then(function(x){ finish(x.ok); })
+      .catch(function(){ finish(false); });
+  });
 }
 function finish(sent){
   state.submitted = true; save();
