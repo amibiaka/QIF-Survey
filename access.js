@@ -5,14 +5,14 @@
   var KEY = "qi_access_v2", SKEY = "qi_session_v1";
 
   // Short codes used to build simple respondent IDs, one per P2 institutional category.
-  var CAT_CODE = { gov_pol:"MIN", fin:"FIN", parl:"PAR", nsb:"NSB", nmi:"NMI", nab:"NAB",
-    cab:"CAB", reg:"REG", bor:"BOR", psu:"PSU", bdf:"BDF", dev:"DEV", aca:"ACA", other:"OTH" };
+  var CAT_CODE = { gov_pol:"MIN", fin:"FIN", parl:"PAR", nsb:"NSB", nmi:"NMI", nlmb:"NLM", nab:"NAB",
+    cab_pub:"CAB", cab_priv:"CAP", reg:"REG", bor:"BOR", psu:"PSU", bdf:"BDF", dev:"DEV", aca:"ACA", other:"OTH" };
 
   // Quota rule (per country x category x level):
   // default cap 2; heads of the unique national QI institutions (NSB, NMI, NAB) cap 1.
   // Ministries can have two directors general for the same sector, hence cap 2 there.
   function quotaCap(cat, level){
-    var unique = { nsb:1, nmi:1, nab:1 };
+    var unique = { nsb:1, nmi:1, nab:1, nlmb:1 };
     if (unique[cat] && (level === "ao" || level === "pol")) return 1;
     return 2;
   }
@@ -29,7 +29,7 @@
         iso3:"UGA", cat:"psu", level:"dir", email:"demo.psu@example.org", status:"invited" }
     ],
     pending: [
-      { ref:"REQ-001", name:"Demo request, testing laboratory manager", iso3:"ETH", cat:"cab", level:"tm",
+      { ref:"REQ-001", name:"Demo request, testing laboratory manager", iso3:"ETH", cat:"cab_pub", level:"tm",
         email:"demo.lab@example.org", org:"National testing laboratory", title:"Laboratory manager", reason:"manual" }
     ],
     admins: {
@@ -37,7 +37,8 @@
                { name:"UNIDO admin 2 (demo)", email:"admin2@unido.example" } ],
       auda:  [ { name:"AUDA-NEPAD admin 1 (demo)", email:"admin1@auda.example" },
                { name:"AUDA-NEPAD admin 2 (demo)", email:"admin2@auda.example" } ],
-      auc:   [ { name:"AUC admin 1 (demo)", email:"admin1@auc.example" } ]
+      auc:   [ { name:"AUC admin 1 (demo)", email:"admin1@auc.example" } ],
+      oacps: [ { name:"OACPS admin 1 (demo)", email:"admin1@oacps.example" } ]
     },
     log: [
       { t:"2026-08-19 18:02", a:"Seed register created with 4 demo respondents (super admin)" },
@@ -103,7 +104,15 @@
       return { ok:true, session:sess };
     },
     logout: function(){
-      try { localStorage.removeItem(SKEY); localStorage.removeItem("qi_draft_v1"); } catch(e){}
+      try { localStorage.removeItem(SKEY); localStorage.removeItem("qi_draft_v1"); sessionStorage.removeItem("qi_invite_rt"); } catch(e){}
+    },
+
+    // Session created from a validated invitation link (no password).
+    sessionFromInvite: function(p){
+      var sess = { id:p.id, iso3:p.iso3, cat:p.cat, level:p.level, name:p.name || "", via:"invite" };
+      try { localStorage.setItem(SKEY, JSON.stringify(sess)); } catch(e){}
+      logIt("Respondent entered via invitation link (" + p.iso3 + ")");
+      return { ok:true, session:sess };
     },
 
     // Sign-up: auto-validation when the profile data checks out and a quota slot is free,
@@ -162,7 +171,7 @@
     },
 
     addAdmin: function(org, name, email){
-      var list = store.admins[org]; if (!list) return { ok:false };
+      var list = store.admins[org]; if (!list) { list = store.admins[org] = []; }
       if (list.length >= 5) return { ok:false, why:"cap" };
       if (!name || !validEmail(email)) return { ok:false, why:"fields" };
       list.push({ name:name, email:email }); save(store);
@@ -210,3 +219,4 @@
     return rec;
   }
 })();
+
