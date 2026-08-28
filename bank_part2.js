@@ -169,8 +169,7 @@ T2: [
   parts:[
    { key:"targets", type:"multi", t:{ en:"Targets (select all that apply)", fr:"Objectifs (sélectionnez tout ce qui s'applique)", ar:"الأهداف (اختاروا كل ما ينطبق)" },
      opts:[
-      { v:"ilac", t:{ en:"ILAC MRA signatory status", fr:"Statut de signataire du MRA de l'ILAC", ar:"صفة الموقِّع على ترتيب الاعتراف المتبادل للإيلاك (ILAC MRA)" } },
-      { v:"iaf", t:{ en:"IAF MLA status", fr:"Statut MLA de l'IAF", ar:"صفة العضوية في اتفاق الاعتراف متعدد الأطراف للإياف (IAF MLA)" } },
+      { v:"gaci", t:{ en:"Global ACI (formerly IAF/ILAC) status", fr:"Statut Global ACI (anciennement IAF/ILAC)", ar:"صفة الاعتراف لدى Global ACI (سابقاً IAF/ILAC)" } },
       { v:"cmc", t:{ en:"First CMCs published in the BIPM KCDB", fr:"Premières CMC publiées dans la KCDB du BIPM", ar:"نشر أولى قدرات المعايرة والقياس في قاعدة KCDB التابعة للمكتب الدولي للأوزان والمقاييس" } },
       { v:"scope", t:{ en:"Additional accreditation scopes", fr:"Extensions de portées d'accréditation", ar:"نطاقات اعتماد إضافية" } },
       { v:"peer", t:{ en:"Regional peer evaluation", fr:"Évaluation régionale par les pairs", ar:"تقييم الأقران الإقليمي" } }
@@ -227,7 +226,7 @@ T2: [
    { v:"frag", t:{ en:"Fragmented budgets across ministries", fr:"Budgets fragmentés entre ministères", ar:"تشتت الموازنات بين الوزارات" } },
    { v:"coord", t:{ en:"Weak coordination mechanism", fr:"Mécanisme de coordination faible", ar:"ضعف آلية التنسيق" } },
    { v:"staff", t:{ en:"Shortage of technical staff", fr:"Pénurie de personnel technique", ar:"نقص الكوادر الفنية" } },
-   { v:"fees", t:{ en:"Fee levels set below cost", fr:"Tarifs fixés en dessous des coûts", ar:"رسوم محددة دون مستوى التكلفة" } },
+   { v:"fees", t:{ en:"Fee levels set below real total (fixed plus variable) cost", fr:"Tarifs fixés en dessous du coût total réel (fixe plus variable)", ar:"رسوم محددة دون التكلفة الكلية الحقيقية (الثابتة والمتغيرة)" } },
    { v:"retain", t:{ en:"Revenue not retained by institutions", fr:"Recettes non conservées par les institutions", ar:"عدم احتفاظ المؤسسات بإيراداتها" } },
    { v:"pol", t:{ en:"Political attention elsewhere", fr:"Attention politique portée ailleurs", ar:"انصراف الاهتمام السياسي إلى أولويات أخرى" } }
   ] }
