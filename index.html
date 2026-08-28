@@ -3,8 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance in Africa. AUDA-NEPAD, UNIDO and the African Union Commission.">
-<title>Financing Quality Infrastructure in Africa</title>
+<title>QIF Survey Master · Financing Quality Infrastructure in Africa, the Caribbean and the Pacific</title>
+<meta name="description" content="QIF Survey Master, the AUDA-NEPAD survey platform. Survey on Financing Quality Infrastructure and MSME Access to Finance, run by AUDA-NEPAD, UNIDO and the African Union Commission in collaboration with the OACPS across Africa, the Caribbean and the Pacific.">
+<meta name="keywords" content="quality infrastructure, QI financing, MSME, AUDA-NEPAD, UNIDO, African Union, OACPS, survey, standards, metrology, accreditation">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://qif-au-survey.netlify.app/index.html">
+<link rel="alternate" hreflang="en" href="https://qif-au-survey.netlify.app/index.html?lang=en">
+<link rel="alternate" hreflang="fr" href="https://qif-au-survey.netlify.app/index.html?lang=fr">
+<link rel="alternate" hreflang="ar" href="https://qif-au-survey.netlify.app/index.html?lang=ar">
+<meta property="og:type" content="website">
+<meta property="og:title" content="QIF Survey Master">
+<meta property="og:description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance. AUDA-NEPAD | UNIDO | AUC | OACPS.">
+<meta property="og:url" content="https://qif-au-survey.netlify.app/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="main.css">
 </head>
@@ -15,10 +25,19 @@
     <div class="langs" role="group" aria-label="Language" id="langs" style="margin:0"></div>
   </div>
   <main class="gatemain" id="main">
-    <div class="gatecard">
+    <div class="gatecard wide">
+      <div class="mastername" id="g-app"></div>
       <h1 id="g-title"></h1>
       <div class="rule" aria-hidden="true"></div>
       <p class="partners" id="g-partners"></p>
+      <div class="plogos" id="plogos"></div>
+
+      <div class="spaces" id="spaces"></div>
+
+      <div class="objbox">
+        <h2 id="obj-t"></h2>
+        <p id="obj-b"></p>
+      </div>
 
       <div class="gatebox">
         <div class="gatetabs" role="tablist">
@@ -37,7 +56,7 @@
         <form id="f-signup" autocomplete="off" style="display:none">
           <p class="gatehint" id="s-intro" style="margin-top:0"></p>
           <label for="s-name" id="lb-name"></label>
-          <input id="s-name" type="text">
+          <input id="s-name" type="text" maxlength="120">
           <label for="s-country" id="lb-country"></label>
           <select id="s-country"></select>
           <label for="s-cat" id="lb-cat"></label>
@@ -45,7 +64,7 @@
           <div class="gate2col">
             <div>
               <label for="s-title" id="lb-title"></label>
-              <input id="s-title" type="text">
+              <input id="s-title" type="text" maxlength="120">
             </div>
             <div>
               <label for="s-level" id="lb-level"></label>
@@ -55,11 +74,11 @@
           <div class="gate2col">
             <div>
               <label for="s-email" id="lb-email"></label>
-              <input id="s-email" type="email">
+              <input id="s-email" type="email" maxlength="140">
             </div>
             <div>
               <label for="s-phone" id="lb-phone"></label>
-              <input id="s-phone" type="tel">
+              <input id="s-phone" type="tel" maxlength="30">
             </div>
           </div>
           <button class="gatebtn" type="submit" id="b-signup"></button>
@@ -68,30 +87,28 @@
         </form>
       </div>
       <p class="gatehint" id="g-proto"></p>
+      <p class="gatehint" id="g-owner" style="margin-top:4px;font-weight:600"></p>
     </div>
   </main>
   <div class="gatefoot" id="g-foot"></div>
 </div>
 
-<!-- Netlify Forms registration form (hidden): declares the fields stored by Netlify -->
+<!-- Netlify Forms registration (demo-mode fallback capture) -->
 <form name="qi-survey" netlify netlify-honeypot="bot-field" hidden>
   <input type="text" name="bot-field">
-  <input type="text" name="language">
-  <input type="text" name="country">
-  <input type="text" name="country_iso3">
-  <input type="text" name="tier">
-  <input type="text" name="family">
-  <input type="text" name="respondent_id">
-  <input type="text" name="org">
-  <input type="text" name="email">
-  <input type="text" name="submitted_at">
-  <textarea name="answers_json"></textarea>
+  <input type="text" name="language"><input type="text" name="country">
+  <input type="text" name="country_iso3"><input type="text" name="tier">
+  <input type="text" name="family"><input type="text" name="respondent_id">
+  <input type="text" name="org"><input type="text" name="email">
+  <input type="text" name="submitted_at"><textarea name="answers_json"></textarea>
 </form>
 
+<script src="config.js"></script>
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
 <script src="bank_part1.js"></script>
+<script src="db.js"></script>
 <script src="access.js"></script>
 <script>
 // Already signed in: go straight to the home page.
@@ -101,9 +118,9 @@ var I = QI_I18N, A = I.auth;
 var GATE = {
   tabLogin:{ en:"Log in", fr:"Se connecter", ar:"تسجيل الدخول" },
   tabSignup:{ en:"Sign up", fr:"S'inscrire", ar:"إنشاء حساب" },
-  intro:{ en:"Request access. If your details are validated automatically you receive your ID and code immediately; otherwise the survey super admin reviews your request.",
-          fr:"Demandez un accès. Si vos informations sont validées automatiquement, vous recevez immédiatement votre identifiant et votre code ; sinon, le super administrateur examine votre demande.",
-          ar:"اطلبوا الوصول. إذا تم التحقق من بياناتكم تلقائياً تستلمون المعرّف والرمز فوراً؛ وإلا يراجع المشرف العام للاستبيان طلبكم." },
+  intro:{ en:"Request access. If your details are validated automatically you receive your personal survey link immediately; otherwise the survey super admin reviews your request.",
+          fr:"Demandez un accès. Si vos informations sont validées automatiquement, vous recevez immédiatement votre lien personnel d'enquête ; sinon, le super administrateur examine votre demande.",
+          ar:"اطلبوا الوصول. إذا تم التحقق من بياناتكم تلقائياً تستلمون رابط الاستبيان الشخصي فوراً؛ وإلا يراجع المشرف العام طلبكم." },
   name:{ en:"Full name", fr:"Nom complet", ar:"الاسم الكامل" },
   country:{ en:"Country", fr:"Pays", ar:"البلد" },
   cat:{ en:"Organization type / sector", fr:"Type d'organisation / secteur", ar:"نوع المنظمة / القطاع" },
@@ -118,32 +135,62 @@ var GATE = {
   duplicate:{ en:"A request or access already exists for this email.",
               fr:"Une demande ou un accès existe déjà pour ce courriel.",
               ar:"يوجد طلب أو وصول مسبق لهذا البريد الإلكتروني." },
-  autoOk:{ en:"Access granted automatically. Your ID and code (also sent to you, simulated in this prototype):",
-           fr:"Accès accordé automatiquement. Votre identifiant et votre code (également envoyés, simulé dans ce prototype) :",
-           ar:"تم منح الوصول تلقائياً. معرّفكم ورمزكم (أُرسلا إليكم أيضاً، محاكاة في هذا النموذج):" },
-  goLogin:{ en:"Log in now", fr:"Se connecter maintenant", ar:"تسجيل الدخول الآن" },
-  pendingQuota:{ en:"The two seats for this profile in your country are taken. Your request has been sent to the super admin for review.",
-                 fr:"Les deux places pour ce profil dans votre pays sont prises. Votre demande a été transmise au super administrateur.",
-                 ar:"المقعدان المخصصان لهذا الملف في بلدكم مشغولان. أُحيل طلبكم إلى المشرف العام للمراجعة." },
-  pendingWave:{ en:"Your country opens in a later wave. Your request has been waitlisted with the super admin.",
-                fr:"Votre pays ouvrira lors d'une vague ultérieure. Votre demande est en liste d'attente auprès du super administrateur.",
-                ar:"يُفتح بلدكم في موجة لاحقة. وُضع طلبكم في قائمة انتظار لدى المشرف العام." },
-  demoCred:{ en:"Demo access for this prototype:", fr:"Accès démo pour ce prototype :", ar:"دخول تجريبي لهذا النموذج:" },
-  proto:{ en:"Prototype. Sign-in and notifications are simulated in this browser; no real emails are sent.",
-          fr:"Prototype. La connexion et les notifications sont simulées dans ce navigateur ; aucun courriel réel n'est envoyé.",
-          ar:"نموذج تجريبي. تسجيل الدخول والإشعارات محاكاة داخل هذا المتصفح، ولا تُرسل رسائل حقيقية." },
-  choose:{ en:"Select…", fr:"Sélectionnez…", ar:"اختاروا…" }
+  autoOk:{ en:"Access granted automatically. Open your personal survey link (also sent to you when email delivery is configured):",
+           fr:"Accès accordé automatiquement. Ouvrez votre lien personnel d'enquête (également envoyé lorsque l'envoi de courriels est configuré) :",
+           ar:"تم منح الوصول تلقائياً. افتحوا رابط الاستبيان الشخصي (يُرسل أيضاً عند تفعيل البريد الإلكتروني):" },
+  goSurvey:{ en:"Start my survey now", fr:"Commencer mon enquête maintenant", ar:"بدء الاستبيان الآن" },
+  pendingQuota:{ en:"The seats for this profile in your country are taken. Your request has been sent to the super admin for review.",
+                 fr:"Les places pour ce profil dans votre pays sont prises. Votre demande a été transmise au super administrateur.",
+                 ar:"المقاعد المخصصة لهذا الملف في بلدكم مشغولة. أُحيل طلبكم إلى المشرف العام للمراجعة." },
+  pendingWave:{ en:"Your country is not yet open for the survey. Your request has been waitlisted with the super admin.",
+                fr:"Votre pays n'est pas encore ouvert à l'enquête. Votre demande est en liste d'attente auprès du super administrateur.",
+                ar:"بلدكم غير مفتوح للاستبيان بعد. وُضع طلبكم في قائمة انتظار لدى المشرف العام." },
+  proto:{ en:"Respondents normally enter through the personal link sent by their survey administrator; the profiles below are one-click demonstration entries.",
+          fr:"Les répondants entrent normalement par le lien personnel envoyé par leur administrateur d'enquête ; les profils ci-dessous sont des entrées de démonstration en un clic.",
+          ar:"يدخل المجيبون عادةً عبر الرابط الشخصي المرسل من مسؤول الاستبيان؛ والملفات أدناه مداخل عرض توضيحي بنقرة واحدة." },
+  choose:{ en:"Select…", fr:"Sélectionnez…", ar:"اختاروا…" },
+  closedTag:{ en:"not yet open", fr:"pas encore ouvert", ar:"غير مفتوح بعد" }
 };
 
+document.getElementById("g-app").textContent = T(I.product.name);
 document.getElementById("g-title").textContent = T(I.hero.title);
 document.getElementById("g-partners").textContent = T(I.partners);
 document.getElementById("g-proto").textContent = T(GATE.proto);
+document.getElementById("g-owner").textContent = T(I.product.owner);
 document.getElementById("g-foot").textContent = T(I.footer.privacy);
+document.getElementById("obj-t").textContent = T(I.objectives.title);
+document.getElementById("obj-b").textContent = T(I.objectives.body);
 document.getElementById("langs").innerHTML = ["en","fr","ar"].map(function(l){
   return '<button type="button" style="border-color:var(--line);color:var(--navy)" aria-pressed="' + (l === qiLang) + '" onclick="setLang(\'' + l + '\')">' + I.langNames[l] + '</button>';
 }).join("");
 document.querySelectorAll('#langs button').forEach(function(b){
   if (b.getAttribute("aria-pressed") === "true") { b.style.background = "var(--navy)"; b.style.color = "#fff"; b.style.borderColor = "var(--navy)"; }
+});
+
+// Partner logos: real files when provided, clean wordmarks otherwise.
+var LOGOS = [["auda-nepad","AUDA-NEPAD"],["unido","UNIDO"],["auc","African Union Commission"],["oacps","OACPS"]];
+document.getElementById("plogos").innerHTML = LOGOS.map(function(l){
+  return '<span class="plogo"><img src="logos/' + l[0] + '.png" alt="' + l[1] + '" loading="lazy" ' +
+    'onerror="this.parentNode.classList.add(\'txt\');this.remove()"><i>' + l[1] + '</i></span>';
+}).join("");
+
+// Three survey spaces with live open-country counts.
+var REG = [["africa"],["caribbean"],["pacific"]];
+function paintSpaces(statusMap){
+  document.getElementById("spaces").innerHTML = REG.map(function(r){
+    var reg = r[0];
+    var all = QI_COUNTRIES.filter(function(c){ return c.region === reg; });
+    var open = all.filter(function(c){ return statusMap[c.iso3]; });
+    return '<div class="space ' + reg + '" data-reg="' + reg + '">' +
+      '<b>' + esc(T(I.regions[reg])) + '</b>' +
+      '<span class="cnt">' + open.length + ' ' + esc(T(I.regions.ofN)) + ' ' + all.length + ' ' + esc(T(I.regions.open)) + '</span>' +
+      '<span class="sub">' + esc(T(I.regions[reg + "Sub"])) + '</span></div>';
+  }).join("");
+}
+paintSpaces(QI_COUNTRIES.reduce(function(m, c){ m[c.iso3] = c.w1; return m; }, {}));
+QIDB.countryStatus().then(function(st){
+  paintSpaces(st);
+  paintCountrySelect(st);
 });
 
 var tabL = document.getElementById("tab-login"), tabS = document.getElementById("tab-signup");
@@ -157,29 +204,29 @@ function showTab(which){
 tabL.onclick = function(){ showTab("login"); };
 tabS.onclick = function(){ showTab("signup"); };
 
-// ---- log in: one-click demo access, no credentials in this prototype ----
+// ---- log in: one-click demo profiles ----
 var ROLES = [
-  { v:"resp", t:{ en:"Respondent", fr:"Répondant", ar:"مجيب" },
+  { v:"resp", t:{ en:"Respondent (demo)", fr:"Répondant (démo)", ar:"مجيب (تجريبي)" },
     d:{ en:"Enter as the demo respondent (Ghana, national standards body) and take the adaptive survey.",
         fr:"Entrez comme répondant démo (Ghana, organisme national de normalisation) et répondez à l'enquête adaptative.",
         ar:"ادخلوا كمجيب تجريبي (غانا، هيئة المواصفات الوطنية) وشاركوا في الاستبيان التكيفي." } },
-  { v:"admin", t:{ en:"Admin (UNIDO / AUDA-NEPAD / AUC)", fr:"Admin (ONUDI / AUDA-NEPAD / CUA)", ar:"مدير (اليونيدو / أودا-نيباد / المفوضية)" },
-    d:{ en:"Enter as a partner administrator: grant access, approve requests, send system emails.",
-        fr:"Entrez comme administrateur partenaire : accorder les accès, approuver les demandes, envoyer les courriels du système.",
-        ar:"ادخلوا كمدير منظمة شريكة: منح الوصول واعتماد الطلبات وإرسال رسائل النظام." } },
+  { v:"admin", t:{ en:"Admin (UNIDO / AUDA-NEPAD / AUC / OACPS)", fr:"Admin (ONUDI / AUDA-NEPAD / CUA / OEACP)", ar:"مدير (اليونيدو / أودا-نيباد / المفوضية / الأواكبس)" },
+    d:{ en:"Enter the administration console: invitations, approvals, scoped data downloads.",
+        fr:"Entrez dans la console d'administration : invitations, approbations, téléchargements de données selon les droits.",
+        ar:"ادخلوا إلى وحدة الإدارة: الدعوات والموافقات وتنزيل البيانات وفق الصلاحيات." } },
   { v:"super", t:{ en:"Super admin", fr:"Super administrateur", ar:"المشرف العام" },
-    d:{ en:"Enter as the super admin: create respondent IDs, manage quotas and the admin rosters.",
-        fr:"Entrez comme super administrateur : créer les identifiants, gérer les quotas et les listes d'administrateurs.",
-        ar:"ادخلوا كمشرف عام: إنشاء المعرّفات وإدارة الحصص وقوائم المديرين." } }
+    d:{ en:"Enter as the super admin: open countries, create administrators, define rights, manage quotas.",
+        fr:"Entrez comme super administrateur : ouvrir des pays, créer des administrateurs, définir les droits, gérer les quotas.",
+        ar:"ادخلوا كمشرف عام: فتح البلدان وإنشاء المديرين وتحديد الصلاحيات وإدارة الحصص." } }
 ];
 var LTXT = {
-  intro:{ en:"Prototype sign-in: no ID or password needed. Choose a profile; the system opens the page that matches it.",
-          fr:"Connexion prototype : aucun identifiant ni mot de passe requis. Choisissez un profil ; le système ouvre la page correspondante.",
-          ar:"دخول تجريبي: لا حاجة لمعرّف أو كلمة مرور. اختاروا الملف؛ يفتح النظام الصفحة المناسبة له." },
+  intro:{ en:"Prototype sign-in: choose a profile; the system opens the page that matches it. Administrators on the live database sign in with email and password on the admin page.",
+          fr:"Connexion prototype : choisissez un profil ; le système ouvre la page correspondante. Sur la base de données en ligne, les administrateurs se connectent par courriel et mot de passe sur la page admin.",
+          ar:"دخول تجريبي: اختاروا الملف؛ يفتح النظام الصفحة المناسبة. على قاعدة البيانات المباشرة يسجّل المديرون الدخول بالبريد وكلمة المرور في صفحة الإدارة." },
   enter:{ en:"Sign in", fr:"Se connecter", ar:"تسجيل الدخول" },
-  note:{ en:"In production, respondents sign in with the simple ID and code from their invitation.",
-         fr:"En production, les répondants se connectent avec l'identifiant simple et le code reçus dans leur invitation.",
-         ar:"في النسخة النهائية يدخل المجيبون بالمعرّف البسيط والرمز الواردين في الدعوة." }
+  note:{ en:"In production, respondents enter with the personal 7-day link from their invitation email.",
+         fr:"En production, les répondants entrent avec le lien personnel de 7 jours reçu par courriel.",
+         ar:"في النسخة النهائية يدخل المجيبون عبر الرابط الشخصي الصالح سبعة أيام الوارد في الدعوة." }
 };
 document.getElementById("l-intro").textContent = T(LTXT.intro);
 document.getElementById("b-login").textContent = T(LTXT.enter);
@@ -222,15 +269,33 @@ document.getElementById("lb-phone").textContent = T(GATE.phone);
 document.getElementById("b-signup").textContent = T(GATE.send);
 
 var csel = document.getElementById("s-country");
-csel.innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' +
-  QI_COUNTRIES.slice().sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); })
-  .map(function(c){ return '<option value="' + c.iso3 + '">' + esc(c[qiLang]) + (c.w1 ? "" : " · " + esc(T(I.countries.later))) + '</option>'; }).join("");
+function paintCountrySelect(statusMap){
+  var groups = ["africa","caribbean","pacific"].map(function(reg){
+    var opts = QI_COUNTRIES.filter(function(c){ return c.region === reg; })
+      .sort(function(a, b){ return a[qiLang].localeCompare(b[qiLang], qiLang); })
+      .map(function(c){
+        var open = statusMap ? statusMap[c.iso3] : c.w1;
+        return '<option value="' + c.iso3 + '">' + esc(c[qiLang]) + (open ? "" : " · " + esc(T(GATE.closedTag))) + '</option>';
+      }).join("");
+    return '<optgroup label="' + esc(T(I.regions[reg])) + '">' + opts + '</optgroup>';
+  }).join("");
+  csel.innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' + groups;
+}
+paintCountrySelect(null);
 var P2 = QI_BANK_P1.profile.find(function(q){ return q.id === "P2"; });
 var P3 = QI_BANK_P1.profile.find(function(q){ return q.id === "P3"; });
 document.getElementById("s-cat").innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' +
   P2.opts.map(function(o){ return '<option value="' + o.v + '">' + esc(T(o.t)) + '</option>'; }).join("");
 document.getElementById("s-level").innerHTML = '<option value="">' + esc(T(GATE.choose)) + '</option>' +
   P3.opts.map(function(o){ return '<option value="' + o.v + '">' + esc(T(o.t)) + '</option>'; }).join("");
+
+function showIssued(link){
+  var box = document.getElementById("issued");
+  box.style.display = "block";
+  box.innerHTML = "<b>" + esc(T(GATE.autoOk)) + "</b>" +
+    '<div class="big" style="font-size:13px;word-break:break-all">' + esc(link) + "</div>" +
+    '<a class="gatebtn" style="display:block;text-align:center;text-decoration:none;margin-top:8px" href="' + esc(link) + '">' + esc(T(GATE.goSurvey)) + "</a>";
+}
 
 document.getElementById("f-signup").addEventListener("submit", function(e){
   e.preventDefault();
@@ -239,34 +304,34 @@ document.getElementById("f-signup").addEventListener("submit", function(e){
   var p = {
     name: document.getElementById("s-name").value.trim(),
     iso3: csel.value,
-    cat: document.getElementById("s-cat").value,
-    title: document.getElementById("s-title").value.trim(),
+    category: document.getElementById("s-cat").value,
+    job_title: document.getElementById("s-title").value.trim(),
     level: document.getElementById("s-level").value,
     email: document.getElementById("s-email").value.trim(),
     phone: document.getElementById("s-phone").value.trim()
   };
-  var r = QIA.signup(p);
-  if (!r.ok) {
-    m.className = "gatemsg err";
-    m.textContent = T(r.why === "duplicate" ? GATE.duplicate : GATE.missing);
+  if (!p.name || !p.iso3 || !p.category || !p.level || (!p.email && !p.phone)) {
+    m.className = "gatemsg err"; m.textContent = T(GATE.missing); return;
+  }
+  if (QIDB.mode() === "live") {
+    QIDB.requestAccess(p).then(function(r){
+      if (!r || !r.ok) { m.className = "gatemsg err"; m.textContent = T(r && r.why === "duplicate" ? GATE.duplicate : GATE.missing); return; }
+      if (r.mode === "auto") { showIssued(location.origin + location.pathname.replace(/index\.html$/, "") + "survey.html?rt=" + r.token + "&lang=" + qiLang); }
+      else { m.className = "gatemsg ok"; m.textContent = T(r.reason === "quota" ? GATE.pendingQuota : GATE.pendingWave); }
+    });
     return;
   }
+  var r = QIA.signup({ name:p.name, iso3:p.iso3, cat:p.category, title:p.job_title, level:p.level, email:p.email, phone:p.phone });
+  if (!r.ok) { m.className = "gatemsg err"; m.textContent = T(r.why === "duplicate" ? GATE.duplicate : GATE.missing); return; }
   if (r.mode === "auto") {
-    box.style.display = "block";
-    box.innerHTML = "<b>" + esc(T(GATE.autoOk)) + "</b>" +
-      '<div class="big">' + esc(r.rec.id) + " · " + esc(r.rec.code) + "</div>" +
-      '<button type="button" class="gatebtn" style="margin-top:8px" onclick="prefill(\'' + r.rec.id + "','" + r.rec.code + '\')">' + esc(T(GATE.goLogin)) + "</button>";
+    QIDB.createInvite({ email:p.email || p.phone, name:p.name, iso3:p.iso3, category:p.category, level:p.level, created_by:"auto-validation" })
+      .then(function(iv){ showIssued(location.origin + location.pathname.replace(/index\.html$/, "") + "survey.html?rt=" + iv.token + "&lang=" + qiLang); });
   } else {
     m.className = "gatemsg ok";
     m.textContent = T(r.reason === "quota" ? GATE.pendingQuota : GATE.pendingWave);
   }
 });
-window.prefill = function(id, code){
-  var r = QIA.login(id, code);
-  if (r && r.ok) { location.href = "home.html?lang=" + qiLang; return; }
-  showTab("login");
-};
-document.title = T(I.siteTitle);
+document.title = T(I.product.name) + " · " + T(I.siteTitle);
 </script>
 </body>
 </html>
