@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /index.html
+Allow: /about.html
+Disallow: /admin.html
+Disallow: /survey.html
+Disallow: /home.html
+Disallow: /insights.html
+Sitemap: https://qif-au-survey.netlify.app/sitemap.xml
