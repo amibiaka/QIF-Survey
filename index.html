@@ -16,93 +16,128 @@
 <meta property="og:description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance. AUDA-NEPAD | UNIDO | AUC | OACPS.">
 <meta property="og:url" content="https://qif-au-survey.netlify.app/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="main.css">
 <style>
-/* v3.1 landing: editorial blueprint restyle (this page only; main.css untouched) */
-#main, .gate{--cream:#F6F3EC;--ink:#12263A;--hair:rgba(18,38,58,.15);--mut:#51606D;--nv:#14486B;--tl:#0E7C86;--bl:#2E6FDB;--gn:#1E7D5A}
-.gate{min-height:100vh;background:radial-gradient(1100px 560px at 88% -8%,rgba(14,124,134,.10),transparent 60%),radial-gradient(900px 520px at -8% 34%,rgba(46,111,219,.07),transparent 55%),#F6F3EC}
-.gatetop{position:sticky;top:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:12px clamp(16px,4vw,44px);background:rgba(246,243,236,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+/* ---- v3.2 landing (this page only; collision-free lp- classes) ---- */
+.gate{--cream:#F7F4EE;--ink:#10233A;--hair:rgba(16,35,58,.14);--mut:#55646F;--nv:#14486B;--tl:#0E7C86;--gn:#1E7D5A;--bl:#2E6FDB;
+  min-height:100vh;background:
+  radial-gradient(1100px 540px at 90% -10%,rgba(14,124,134,.09),transparent 62%),
+  radial-gradient(900px 520px at -10% 30%,rgba(46,111,219,.06),transparent 55%),#F7F4EE;
+  font-family:"Space Grotesk","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
+.gatetop{position:sticky;top:0;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:11px clamp(16px,4vw,46px);background:rgba(247,244,238,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.lp-brand{display:flex;align-items:center;gap:11px;min-width:0}
+.lp-brand .lp-name{font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gatemain{display:block;padding:0}
-.gatecard.wide{max-width:1100px;margin:0 auto;background:transparent;border:0;box-shadow:none;border-radius:0;padding:clamp(22px,4.5vw,54px) clamp(16px,4vw,44px) 60px}
-.mastername{font-size:12px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--tl)}
-#g-title{font-size:clamp(2.3rem,6.4vw,4.7rem);line-height:1.02;letter-spacing:-.022em;text-transform:uppercase;font-weight:800;color:var(--ink);margin:.28em 0 .3em;max-width:22ch}
-html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.18;text-transform:none}
-.partners{font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin:0 0 14px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 30px}
-.chips span{border:1px solid var(--hair);background:#fff;border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--ink)}
-.chips span b{color:var(--tl);font-weight:800;margin-inline-end:6px}
-.rule{height:1px;background:var(--hair);border:0;margin:0 0 26px}
-.seclab{font-size:11.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin:26px 0 12px;display:flex;align-items:center;gap:10px}
+.gatecard.wide{max-width:1120px;margin:0 auto;background:transparent;border:0;box-shadow:none;border-radius:0;padding:clamp(26px,5vw,64px) clamp(16px,4vw,46px) 70px}
+
+/* hero */
+.lp-hero{position:relative;padding:clamp(8px,2vw,22px) 0 clamp(26px,3.5vw,40px)}
+.lp-hero::before{content:"";position:absolute;inset:-30px -60px 0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--hair) 0 1px,transparent 1px 56px),repeating-linear-gradient(0deg,var(--hair) 0 1px,transparent 1px 56px);
+  opacity:.35;-webkit-mask-image:radial-gradient(75% 90% at 30% 20%,#000 0%,transparent 78%);mask-image:radial-gradient(75% 90% at 30% 20%,#000 0%,transparent 78%)}
+.lp-kick{position:relative;font-size:12px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--tl)}
+.lp-kick::before{content:"";display:block;width:58px;height:3px;background:var(--tl);border-radius:2px;margin:0 0 12px}
+#g-title{position:relative;font-size:clamp(2rem,5.4vw,4rem);line-height:1.04;letter-spacing:-.02em;text-transform:uppercase;font-weight:700;color:var(--ink);margin:.35em 0 .35em;max-width:24ch}
+html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
+.lp-lede{position:relative;font-size:clamp(15px,1.6vw,17.5px);line-height:1.65;color:var(--mut);max-width:62ch;margin:0 0 18px}
+.partners{position:relative;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);line-height:1.8;margin:0 0 16px;max-width:90ch}
+.lp-chips{position:relative;display:flex;flex-wrap:wrap;gap:8px}
+.lp-chips span{border:1px solid var(--hair);background:#fff;border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--ink)}
+.lp-chips span b{color:var(--tl);font-weight:700;margin-inline-end:7px}
+
+/* stats strip */
+.lp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-block:1px solid var(--hair);margin:8px 0 10px}
+.lp-stat{padding:18px 6px 16px;text-align:center}
+.lp-stat+.lp-stat{border-inline-start:1px solid var(--hair)}
+.lp-stat b{display:block;font-size:clamp(1.6rem,3vw,2.15rem);font-weight:700;color:var(--ink);line-height:1}
+.lp-stat span{display:block;margin-top:7px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+@media (max-width:640px){.lp-stats{grid-template-columns:1fr 1fr}.lp-stat:nth-child(3){border-inline-start:0}.lp-stat:nth-child(n+3){border-top:1px solid var(--hair)}}
+
+/* section labels */
+.seclab{display:flex;align-items:center;gap:12px;margin:44px 0 16px;font-size:11.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.seclab i{font-style:normal;color:var(--tl)}
 .seclab::after{content:"";flex:1;height:1px;background:var(--hair)}
-.plogos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 8px}
-.plogo{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--hair);border-radius:14px;min-height:78px;padding:14px 18px;transition:transform .25s ease,box-shadow .25s ease}
-.plogo:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(18,38,58,.08)}
-.plogo img{max-height:46px;max-width:100%;width:auto;height:auto;display:block}
-.plogo i{display:none;font-style:normal;font-weight:700;color:var(--nv);font-size:13.5px;text-align:center;letter-spacing:.04em}
-.plogo.txt i{display:block}
-.spaces{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px;margin:0}
-.space{position:relative;overflow:hidden;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:18px 18px 16px;transition:transform .25s ease,box-shadow .25s ease}
-.space::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--nv)}
-.space.africa::before{background:var(--gn)}.space.caribbean::before{background:var(--tl)}.space.pacific::before{background:var(--bl)}
-.space:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(18,38,58,.09)}
-.space b{display:block;font-size:1.06rem;color:var(--ink)}
-.space .cnt{display:inline-block;margin:9px 0 8px;font-size:12px;font-weight:700;border:1px solid var(--hair);border-radius:999px;padding:3px 10px;color:var(--ink);background:var(--cream)}
-.space.africa .cnt{color:var(--gn)}.space.caribbean .cnt{color:var(--tl)}.space.pacific .cnt{color:var(--bl)}
-.space .sub{display:block;color:var(--mut);font-size:13px;line-height:1.5}
-.objbox{border:0;border-block:1px solid var(--hair);border-radius:0;background:transparent;padding:26px 0;margin:34px 0 30px}
-.objbox h2{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--tl);margin:0 0 10px}
-.objbox p{color:#243746;line-height:1.72;font-size:15px;max-width:78ch;margin:0}
-.gatebox{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:clamp(16px,3vw,30px);box-shadow:0 20px 55px rgba(18,38,58,.07)}
+
+/* logos */
+.lp-logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.lp-logo{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--hair);border-radius:15px;min-height:92px;padding:16px 20px;transition:transform .22s ease,box-shadow .22s ease}
+.lp-logo:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,35,58,.08)}
+.lp-logo img{max-height:52px;max-width:100%;width:auto;height:auto;display:block}
+.lp-logo i{display:none;font-style:normal;font-weight:700;color:var(--nv);font-size:13.5px;text-align:center;letter-spacing:.05em}
+.lp-logo.txt i{display:block}
+
+/* spaces (base card from main.css; refinements) */
+.spaces{margin:0}
+.space{border-radius:15px;border-color:var(--hair);padding:16px 17px 15px;transition:transform .22s ease,box-shadow .22s ease}
+.space:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(16,35,58,.09)}
+.space .sub{color:var(--mut);font-size:13px;line-height:1.55}
+
+/* objectives */
+.objbox{border:0;background:transparent;padding:0;margin:0}
+.objbox p{color:#26394A;line-height:1.78;font-size:15.5px;max-width:82ch;margin:0}
+
+/* access */
+.gatebox{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:clamp(16px,3vw,30px);box-shadow:0 22px 60px rgba(16,35,58,.07)}
 .gatetabs{display:flex;gap:6px;border:1px solid var(--hair);background:var(--cream);border-radius:12px;padding:4px;width:max-content;max-width:100%;margin:0 0 16px}
-.gatetabs button{border:0;background:transparent;border-radius:9px;padding:8px 18px;font-weight:700;color:var(--mut);cursor:pointer}
+.gatetabs button{border:0;background:transparent;border-radius:9px;padding:8px 18px;font-weight:700;color:var(--mut);cursor:pointer;font-family:inherit}
 .gatetabs button[aria-selected="true"]{background:var(--ink);color:#fff}
 .rolepick{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:12px 0 16px}
 .rolecard{border:1px solid var(--hair);border-radius:14px;background:#fff;padding:14px;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
-.rolecard:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(18,38,58,.07)}
+.rolecard:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(16,35,58,.07)}
 .rolecard.sel{border-color:var(--tl);box-shadow:0 0 0 2px rgba(14,124,134,.22)}
 .rolecard b{display:block;color:var(--ink);margin-bottom:5px}
 .rolecard span{color:var(--mut);font-size:12.8px;line-height:1.45}
-.gatebtn{background:var(--ink);border:0;border-radius:12px;color:#fff;font-weight:800;padding:13px 26px;cursor:pointer;transition:background .2s,transform .15s}
+.gatebtn{background:var(--ink);border:0;border-radius:12px;color:#fff;font-weight:700;padding:13px 26px;cursor:pointer;font-family:inherit;transition:background .2s,transform .15s}
 .gatebtn:hover{background:var(--nv);transform:translateY(-1px)}
 .gatehint{color:var(--mut)}
 .gatefoot{border-top:1px solid var(--hair);color:var(--mut)}
+
+/* reveal */
 .rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
 .rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}.space,.plogo,.rolecard,.gatebtn{transition:none}}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}.space,.lp-logo,.rolecard,.gatebtn{transition:none}}
 </style>
 </head>
 <body>
 <div class="gate">
   <div class="gatetop">
-    <span class="mark">QI</span>
+    <div class="lp-brand"><span class="mark">QI</span><span class="lp-name" id="lp-name"></span></div>
     <div class="langs" role="group" aria-label="Language" id="langs" style="margin:0"></div>
   </div>
   <main class="gatemain" id="main">
     <div class="gatecard wide">
-      <section class="hero rv in">
-        <div class="mastername" id="g-app"></div>
+      <section class="lp-hero rv in">
+        <div class="lp-kick" id="g-app"></div>
         <h1 id="g-title"></h1>
+        <p class="lp-lede" id="g-lede"></p>
         <p class="partners" id="g-partners"></p>
-        <div class="chips" id="chips"></div>
-      </section>
-      <div class="rule" aria-hidden="true"></div>
-
-      <section class="rv">
-        <div class="seclab" id="g-impl"></div>
-        <div class="plogos" id="plogos"></div>
+        <div class="lp-chips" id="chips"></div>
       </section>
 
+      <section class="lp-stats rv" id="lp-stats" aria-label="Key figures"></section>
+
       <section class="rv">
-        <div class="seclab" id="g-spl"></div>
+        <div class="seclab"><i>01</i><span id="g-impl"></span></div>
+        <div class="lp-logos" id="plogos"></div>
+      </section>
+
+      <section class="rv">
+        <div class="seclab"><i>02</i><span id="g-spl"></span></div>
         <div class="spaces" id="spaces"></div>
       </section>
 
-      <div class="objbox rv">
-        <h2 id="obj-t"></h2>
+      <section class="objbox rv">
+        <div class="seclab"><i>03</i><span id="obj-t"></span></div>
         <p id="obj-b"></p>
-      </div>
+      </section>
 
-      <div class="gatebox rv">
+      <section class="rv">
+        <div class="seclab"><i>04</i><span id="g-acc"></span></div>
+        <div class="gatebox">
         <div class="gatetabs" role="tablist">
           <button type="button" id="tab-login" role="tab" aria-selected="true"></button>
           <button type="button" id="tab-signup" role="tab" aria-selected="false"></button>
@@ -148,7 +183,8 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.18;text-transform:none}
           <div class="gatemsg" id="m-signup"></div>
           <div class="issued" id="issued" style="display:none"></div>
         </form>
-      </div>
+        </div>
+      </section>
       <p class="gatehint" id="g-proto"></p>
       <p class="gatehint" id="g-owner" style="margin-top:4px;font-weight:600"></p>
     </div>
@@ -170,7 +206,6 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.18;text-transform:none}
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
-<script src="logos.js"></script>
 <script src="bank_part1.js"></script>
 <script src="db.js"></script>
 <script src="access.js"></script>
@@ -216,8 +251,19 @@ var GATE = {
   closedTag:{ en:"not yet open", fr:"pas encore ouvert", ar:"غير مفتوح بعد" }
 };
 
+var HERO = {
+  title:{ en:"Financing Quality Infrastructure and MSME Access to Finance",
+          fr:"Financer l'infrastructure de la qualité et l'accès des MPME au financement",
+          ar:"تمويل البنية التحتية للجودة ووصول المنشآت الصغرى والصغيرة والمتوسطة إلى التمويل" },
+  lede:{ en:"One adaptive, trilingual survey across Africa, the Caribbean and the Pacific, building the evidence base and the investment case for standards, metrology, accreditation and conformity assessment.",
+         fr:"Une enquête adaptative et trilingue à travers l'Afrique, les Caraïbes et le Pacifique, qui construit la base factuelle et le dossier d'investissement pour la normalisation, la métrologie, l'accréditation et l'évaluation de la conformité.",
+         ar:"استبيان تكيفي ثلاثي اللغات عبر أفريقيا والكاريبي والمحيط الهادئ، يبني قاعدة الأدلة وملف الاستثمار للمواصفات والمترولوجيا والاعتماد وتقييم المطابقة." }
+};
+
+document.getElementById("lp-name").textContent = T(I.product.name);
 document.getElementById("g-app").textContent = T(I.product.name);
-document.getElementById("g-title").textContent = T(I.hero.title);
+document.getElementById("g-title").textContent = T(HERO.title);
+document.getElementById("g-lede").textContent = T(HERO.lede);
 document.getElementById("g-partners").textContent = T(I.partners);
 document.getElementById("g-proto").textContent = T(GATE.proto);
 document.getElementById("g-owner").textContent = T(I.product.owner);
@@ -231,10 +277,15 @@ document.querySelectorAll('#langs button').forEach(function(b){
   if (b.getAttribute("aria-pressed") === "true") { b.style.background = "var(--navy)"; b.style.color = "#fff"; b.style.borderColor = "var(--navy)"; }
 });
 
-// Partner logos: embedded official marks (logos.js), wordmark fallback.
+// Section labels, chips, stats.
 var LBL = {
   impl:{ en:"Implemented by", fr:"Mis en œuvre par", ar:"الجهات المنفِّذة" },
   spl:{ en:"Three survey spaces", fr:"Trois espaces d'enquête", ar:"ثلاثة فضاءات للاستبيان" },
+  acc:{ en:"Access the platform", fr:"Accéder à la plateforme", ar:"الوصول إلى المنصة" },
+  stSpaces:{ en:"Survey spaces", fr:"Espaces d'enquête", ar:"فضاءات الاستبيان" },
+  stCountries:{ en:"Countries listed", fr:"Pays répertoriés", ar:"بلدان مدرجة" },
+  stOpen:{ en:"Countries open", fr:"Pays ouverts", ar:"بلدان مفتوحة" },
+  stLang:{ en:"Languages", fr:"Langues", ar:"لغات" },
   chips:[
     { b:"ACP", t:{ en:"ACP Quality Infrastructure Programme", fr:"Programme ACP pour l'infrastructure de la qualité", ar:"برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ" } },
     { b:"EU · OACPS", t:{ en:"Funded by the European Union and the OACPS", fr:"Financé par l'Union européenne et l'OEACP", ar:"بتمويل من الاتحاد الأوروبي ومنظمة الأواكبس" } },
@@ -243,24 +294,28 @@ var LBL = {
 };
 document.getElementById("g-impl").textContent = T(LBL.impl);
 document.getElementById("g-spl").textContent = T(LBL.spl);
+document.getElementById("g-acc").textContent = T(LBL.acc);
 document.getElementById("chips").innerHTML = LBL.chips.map(function(c){
   return "<span><b>" + esc(c.b) + "</b>" + esc(T(c.t)) + "</span>";
 }).join("");
-var LOGOS = [["auda","AUDA-NEPAD"],["unido","UNIDO"],["auc","African Union Commission"],["oacps","OACPS"]];
+function paintStats(openCount){
+  var tiles = [
+    ["3", LBL.stSpaces],
+    [String(QI_COUNTRIES.length), LBL.stCountries],
+    [String(openCount), LBL.stOpen],
+    ["3", LBL.stLang]
+  ];
+  document.getElementById("lp-stats").innerHTML = tiles.map(function(t){
+    return '<div class="lp-stat"><b>' + t[0] + "</b><span>" + esc(T(t[1])) + "</span></div>";
+  }).join("");
+}
+
+// Partner logos: official marks served from this site, wordmark fallback.
+var LOGOS = [["auda-nepad.png","AUDA-NEPAD"],["unido.svg","UNIDO"],["auc.webp","African Union Commission"],["oacps.webp","OACPS"]];
 document.getElementById("plogos").innerHTML = LOGOS.map(function(l){
-  var src = (window.QI_LOGOS || {})[l[0]];
-  return '<span class="plogo' + (src ? "" : " txt") + '">' +
-    (src ? '<img src="' + src + '" alt="' + l[1] + '" loading="lazy">' : "") + "<i>" + l[1] + "</i></span>";
+  return '<span class="lp-logo"><img src="' + l[0] + '" alt="' + l[1] + '" loading="lazy" ' +
+    'onerror="this.parentNode.classList.add(\'txt\');this.remove()"><i>' + l[1] + '</i></span>';
 }).join("");
-// Reveal on scroll.
-(function(){
-  var els = document.querySelectorAll(".rv");
-  if (!("IntersectionObserver" in window)) { els.forEach(function(n){ n.classList.add("in"); }); return; }
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  els.forEach(function(n){ io.observe(n); });
-})();
 
 // Three survey spaces with live open-country counts.
 var REG = [["africa"],["caribbean"],["pacific"]];
@@ -275,9 +330,15 @@ function paintSpaces(statusMap){
       '<span class="sub">' + esc(T(I.regions[reg + "Sub"])) + '</span></div>';
   }).join("");
 }
-paintSpaces(QI_COUNTRIES.reduce(function(m, c){ m[c.iso3] = c.w1; return m; }, {}));
+function openTotal(statusMap){
+  return QI_COUNTRIES.filter(function(c){ return statusMap[c.iso3]; }).length;
+}
+var w1map = QI_COUNTRIES.reduce(function(m, c){ m[c.iso3] = c.w1; return m; }, {});
+paintSpaces(w1map);
+paintStats(openTotal(w1map));
 QIDB.countryStatus().then(function(st){
   paintSpaces(st);
+  paintStats(openTotal(st));
   paintCountrySelect(st);
 });
 
@@ -419,6 +480,16 @@ document.getElementById("f-signup").addEventListener("submit", function(e){
     m.textContent = T(r.reason === "quota" ? GATE.pendingQuota : GATE.pendingWave);
   }
 });
+
+// Reveal on scroll.
+(function(){
+  var els = document.querySelectorAll(".rv");
+  if (!("IntersectionObserver" in window)) { els.forEach(function(n){ n.classList.add("in"); }); return; }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(function(n){ io.observe(n); });
+})();
 document.title = T(I.product.name) + " · " + T(I.siteTitle);
 </script>
 </body>
