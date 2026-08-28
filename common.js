@@ -39,7 +39,7 @@
     return '<a class="skip" href="#main">Skip to content</a>' +
       '<header class="site"><div class="wrap"><div class="topbar">' +
       '<a class="brand" href="home.html?lang=' + window.qiLang + '"><span class="mark">QI</span>' +
-      '<span class="name">' + T(I.siteTitle) + ' <span class="badge-proto">' + T(I.prototype) + '</span></span></a>' +
+      '<span class="name">' + T(I.product.name) + ' <span class="badge-proto">' + T(I.prototype) + '</span></span></a>' +
       '<nav class="main" aria-label="Main">' + nav + '</nav>' + who +
       '<div class="langs" role="group" aria-label="Language">' + langs + '</div>' +
       '</div></div><div class="partnerline">' + T(I.partners) + '</div></header>';
@@ -50,7 +50,7 @@
       '<div><b>' + T(I.siteTitle) + '</b><br>' + T(I.partners) + '</div>' +
       '<div>' + T(I.footer.privacy) + '</div>' +
       '<div>' + T(I.footer.logos) + '</div>' +
-      '</div><p style="margin-top:16px">Survey Package v2.0 · Prototype build · 19 August 2026</p></div></footer>';
+      '</div><p style="margin-top:16px">' + T(I.product.name) + ' · ' + T(I.product.owner) + ' · v3.0 · 28 August 2026</p></div></footer>';
   };
 
   window.qiMount = function(active){
