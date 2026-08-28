@@ -7,7 +7,8 @@ var I = QI_I18N, N = I.insights;
 var TIER = { 1:"#eb6834", 2:"#2a78d6", 3:"#008300" };
 var STACK = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4"];
 var SEQ = ["#cfe3f7","#a6c8f0","#71a7e4","#4e90dd","#2a78d6"]; // one hue, light -> dark
-var C = QI_COUNTRIES;
+var CLIST = QI_COUNTRIES.filter(function(c){ return c.region === "africa"; });      // full AU listing
+var C = CLIST.filter(function(c){ return c.iso3 !== "ESH"; });                     // aggregation basis
 
 function el(id){ return document.getElementById(id); }
 function badge(kind){ return '<span class="badge ' + (kind === "real" ? "real" : "demo") + '">' + esc(T(kind === "real" ? N.real : N.demo)) + '</span>'; }
@@ -28,16 +29,16 @@ var t3 = C.filter(function(c){ return c.tier === 3; }).length;
 var t2 = C.filter(function(c){ return c.tier === 2; }).length;
 var t1 = C.filter(function(c){ return c.tier === 1; }).length;
 el("kpis").innerHTML =
-  '<div class="kpi"><b>55</b><span>' + esc(T(I.countries.title)) + '</span></div>' +
+  '<div class="kpi"><b>' + CLIST.length + '</b><span>' + esc(T(I.countries.title)) + '</span></div>' +
   '<div class="kpi"><b style="color:#008300">' + t3 + '</b><span>' + esc(T(I.tiers[3].name)) + '</span></div>' +
   '<div class="kpi"><b style="color:#2a78d6">' + t2 + '</b><span>' + esc(T(I.tiers[2].name)) + '</span></div>' +
   '<div class="kpi"><b style="color:#eb6834">' + t1 + '</b><span>' + esc(T(I.tiers[1].name)) + '</span></div>' +
-  '<div class="kpi"><b>16</b><span>' + esc(T(I.countries.active)) + '</span></div>';
+  '<div class="kpi"><b>' + CLIST.filter(function(c){ return c.w1; }).length + '</b><span>' + esc(T(I.regions.statusOpen)) + '</span></div>';
 
 // ---------- donut (real) ----------
 function donut(){
   var data = [ { k:T(I.tiers[3].name), v:t3, c:TIER[3] }, { k:T(I.tiers[2].name), v:t2, c:TIER[2] }, { k:T(I.tiers[1].name), v:t1, c:TIER[1] } ];
-  var total = 55, r = 70, cx = 90, cy = 90, sw = 30, gap = 0.035; // ~2px gap as angle
+  var total = C.length, r = 70, cx = 90, cy = 90, sw = 30, gap = 0.035; // ~2px gap as angle
   var a0 = -Math.PI / 2, paths = "";
   data.forEach(function(d){
     var a1 = a0 + (d.v / total) * Math.PI * 2;
@@ -72,7 +73,7 @@ donut();
 // ---------- status board (real) ----------
 function board(filter){
   var q = (filter || "").toLowerCase();
-  var rows = C.slice().sort(function(a, b){
+  var rows = CLIST.slice().sort(function(a, b){
     return (b.tier - a.tier) || (b.score - a.score) || a.en.localeCompare(b.en);
   }).filter(function(c){
     return !q || c.en.toLowerCase().indexOf(q) >= 0 || c.fr.toLowerCase().indexOf(q) >= 0 || c.ar.indexOf(filter) >= 0;
@@ -159,14 +160,16 @@ document.addEventListener("mousemove", function(e){
 // No external libraries; everything stays low-bandwidth and offline-capable.
 // ============================================================================
 (function(){
-var I = QI_I18N, N = I.insights, C = QI_COUNTRIES;
+var I = QI_I18N, N = I.insights;
+var C = QI_COUNTRIES.filter(function(c){ return c.region === "africa" && c.iso3 !== "ESH"; });
+var ALL = QI_COUNTRIES;
 var TIER = { 1:"#eb6834", 2:"#2a78d6", 3:"#008300" };
 var SEQ = ["#cfe3f7","#a6c8f0","#71a7e4","#4e90dd","#2a78d6"];
 function el(id){ return document.getElementById(id); }
 function tt(o){ return T(o); }
 var L = {
-  routes:{ en:"Accreditation routes across the 55 member states", fr:"Voies d'accréditation des 55 États membres", ar:"مسارات الاعتماد في الدول الأعضاء الـ55" },
-  met:{ en:"Metrology recognition (BIPM) across the 55 member states", fr:"Reconnaissance métrologique (BIPM) des 55 États membres", ar:"الاعتراف المترولوجي (BIPM) في الدول الأعضاء الـ55" },
+  routes:{ en:"Accreditation routes across the African member states", fr:"Voies d'accréditation des États membres africains", ar:"مسارات الاعتماد في الدول الأفريقية الأعضاء" },
+  met:{ en:"Metrology recognition (BIPM) across the African member states", fr:"Reconnaissance métrologique (BIPM) des États membres africains", ar:"الاعتراف المترولوجي (BIPM) في الدول الأفريقية الأعضاء" },
   hist:{ en:"Distribution of recognition scores S (0-10)", fr:"Distribution des scores de reconnaissance S (0-10)", ar:"توزيع درجات الاعتراف S (0-10)" },
   gqii:{ en:"Top 10 African economies in GQII 2025", fr:"Top 10 africain au GQII 2025", ar:"أفضل 10 اقتصادات أفريقية في مؤشر GQII 2025" },
   gcols:[ {en:"Rank in Africa",fr:"Rang en Afrique",ar:"الترتيب في أفريقيا"}, {en:"Country",fr:"Pays",ar:"البلد"}, {en:"GQII 2025 (global rank)",fr:"GQII 2025 (rang mondial)",ar:"GQII 2025 (الترتيب العالمي)"}, {en:"Tier",fr:"Palier",ar:"الفئة"} ],
@@ -177,8 +180,11 @@ var L = {
            fr:"Choisissez toute combinaison de pays et de sections de données, puis téléchargez le rapport au format voulu. Les données vérifiées et les agrégats d'exemple DEMO restent toujours étiquetés.",
            ar:"اختاروا أي مزيج من البلدان وأقسام البيانات ثم نزّلوا التقرير بالصيغة المطلوبة. تبقى البيانات المُتحقَّق منها وعينات DEMO موسومة دائماً." },
   scope:{ en:"Countries", fr:"Pays", ar:"البلدان" },
-  scopeAll:{ en:"All 55 member states", fr:"Les 55 États membres", ar:"جميع الدول الـ55" },
-  scopeW1:{ en:"Wave-1 countries (16)", fr:"Pays de la vague 1 (16)", ar:"بلدان الموجة الأولى (16)" },
+  scopeAll:{ en:"All ACP countries (Africa, Caribbean, Pacific)", fr:"Tous les pays ACP (Afrique, Caraïbes, Pacifique)", ar:"جميع بلدان مجموعة أفريقيا والكاريبي والمحيط الهادئ" },
+  scopeAfrica:{ en:"Africa (55 AU member states)", fr:"Afrique (55 États membres de l'UA)", ar:"أفريقيا (55 دولة عضواً في الاتحاد الأفريقي)" },
+  scopeCarib:{ en:"Caribbean (16 OACPS members)", fr:"Caraïbes (16 membres de l'OEACP)", ar:"الكاريبي (16 عضواً في الأواكبس)" },
+  scopePacific:{ en:"Pacific (15 OACPS members)", fr:"Pacifique (15 membres de l'OEACP)", ar:"المحيط الهادئ (15 عضواً في الأواكبس)" },
+  scopeW1:{ en:"Countries open for the survey", fr:"Pays ouverts à l'enquête", ar:"البلدان المفتوحة للاستبيان" },
   scopeT:{ en:"Tier", fr:"Palier", ar:"الفئة" },
   scopeCustom:{ en:"Custom selection (pick below)", fr:"Sélection personnalisée (choisir ci-dessous)", ar:"اختيار مخصص (حدّدوا أدناه)" },
   customHint:{ en:"Hold Ctrl / Cmd to pick several countries.", fr:"Maintenez Ctrl / Cmd pour choisir plusieurs pays.", ar:"اضغطوا Ctrl / Cmd باستمرار لاختيار عدة بلدان." },
@@ -287,13 +293,16 @@ var DMINS = [["F-FIN",22],["F-GOV",21],["F-QIP",24],["F-REG",20],["F-PSU",18],["
 
 // ============================ REPORT BUILDER ================================
 var RB = el("rb");
-function catList(){ return C.slice().sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); }); }
+function catList(){ return ALL.slice().sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); }); }
 RB.innerHTML =
   '<h3>' + esc(tt(L.rbTitle)) + '</h3><p class="sub" style="font-size:13px">' + esc(tt(L.rbLead)) + '</p>' +
   '<div class="rbgrid">' +
   '<fieldset><legend>' + esc(tt(L.scope)) + '</legend>' +
     '<select id="rb-scope">' +
+      '<option value="africa">' + esc(tt(L.scopeAfrica)) + '</option>' +
       '<option value="all">' + esc(tt(L.scopeAll)) + '</option>' +
+      '<option value="carib">' + esc(tt(L.scopeCarib)) + '</option>' +
+      '<option value="pacific">' + esc(tt(L.scopePacific)) + '</option>' +
       '<option value="w1">' + esc(tt(L.scopeW1)) + '</option>' +
       '<option value="t3">' + esc(tt(L.scopeT)) + ' 3</option>' +
       '<option value="t2">' + esc(tt(L.scopeT)) + ' 2</option>' +
@@ -327,11 +336,14 @@ el("rb-scope").addEventListener("change", function(){
 
 function pickCountries(){
   var s = el("rb-scope").value;
-  if (s === "all") return C.slice();
-  if (s === "w1") return C.filter(function(c){ return c.w1; });
+  if (s === "all") return ALL.slice();
+  if (s === "africa") return ALL.filter(function(c){ return c.region === "africa"; });
+  if (s === "carib") return ALL.filter(function(c){ return c.region === "caribbean"; });
+  if (s === "pacific") return ALL.filter(function(c){ return c.region === "pacific"; });
+  if (s === "w1") return ALL.filter(function(c){ return c.w1; });
   if (s[0] === "t") return C.filter(function(c){ return c.tier === +s[1]; });
   var sel = [].slice.call(el("rb-countries").selectedOptions).map(function(o){ return o.value; });
-  return C.filter(function(c){ return sel.indexOf(c.iso3) >= 0; });
+  return ALL.filter(function(c){ return sel.indexOf(c.iso3) >= 0; });
 }
 
 // Assemble the report as an array of sections: { title, demo, head[], rows[][] }
@@ -340,10 +352,10 @@ function buildReport(){
   var secs = [];
   if (el("rb-s-reg").checked) {
     secs.push({ id:"register", title:tt(L.s_reg), demo:false,
-      head:[tt(N.cols.country),"ISO3",tt(N.cols.tier),tt(N.cols.score),tt(N.cols.acc),tt(N.cols.met),tt(N.cols.iso),tt(N.cols.gqii),tt(N.cols.wave)],
+      head:[tt(N.cols.country),"ISO3",tt({en:"Region",fr:"Région",ar:"المنطقة"}),tt(N.cols.tier),tt(N.cols.score),tt(N.cols.acc),tt(N.cols.met),tt(N.cols.iso),tt(N.cols.gqii),tt(N.cols.wave)],
       rows: cs.slice().sort(function(a,b){ return (b.tier - a.tier) || (b.score - a.score) || a.en.localeCompare(b.en); }).map(function(c){
-        return [c[qiLang], c.iso3, String(c.tier) + (c.upper ? "+" : ""), c.score.toFixed(1),
-          tt(N.accLabels[c.acc]), tt(N.metLabels[c.met]), tt(N.isoLabels[c.iso]), c.gqii ? "#" + c.gqii : "", c.w1 ? "W1" : ""];
+        return [c[qiLang], c.iso3, tt(I.regions[c.region] || {en:c.region}), String(c.tier) + (c.upper ? "+" : ""), c.score.toFixed(1),
+          tt(N.accLabels[c.acc] || {en:c.acc}), tt(N.metLabels[c.met] || {en:c.met}), tt(N.isoLabels[c.iso] || {en:c.iso}), c.gqii ? "#" + c.gqii : "", c.w1 ? tt(I.regions.statusOpen) : ""];
       }) });
   }
   if (el("rb-s-tier").checked) {
