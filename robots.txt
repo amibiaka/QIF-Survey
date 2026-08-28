@@ -5,4 +5,4 @@ Disallow: /admin.html
 Disallow: /survey.html
 Disallow: /home.html
 Disallow: /insights.html
-Sitemap: https://qif-au-survey.netlify.app/sitemap.xml
+Sitemap: https://auda-nepad-survey.org/sitemap.xml

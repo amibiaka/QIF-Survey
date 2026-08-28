@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://qif-au-survey.netlify.app/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://qif-au-survey.netlify.app/index.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://qif-au-survey.netlify.app/index.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://qif-au-survey.netlify.app/index.html?lang=ar"/>
+    <loc>https://auda-nepad-survey.org/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://auda-nepad-survey.org/index.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://auda-nepad-survey.org/index.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://auda-nepad-survey.org/index.html?lang=ar"/>
     <changefreq>weekly</changefreq><priority>1.0</priority>
   </url>
-  <url><loc>https://qif-au-survey.netlify.app/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://auda-nepad-survey.org/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
