@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Take the survey · Financing Quality Infrastructure in Africa</title>
+<title>Take the survey · QIF Survey Master</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="main.css">
 </head>
@@ -28,18 +28,52 @@
   <textarea name="answers_json"></textarea>
 </form>
 
+<script src="config.js"></script>
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
+<script src="db.js"></script>
 <script src="access.js"></script>
 <script src="bank_part1.js"></script>
 <script src="bank_part2.js"></script>
 <script src="bank_part3.js"></script>
 <script src="engine.js"></script>
 <script>
-if (!QIA.session()) { location.replace("index.html?lang=" + qiLang); }
-qiMount("survey");
-QIE.init(document.getElementById("mount"));
+// Personal invitation links: survey.html?rt=TOKEN opens the respondent's
+// country survey directly, no password. Links expire after 7 days.
+(function(){
+  var I = QI_I18N;
+  var rt = new URLSearchParams(location.search).get("rt");
+  function start(){
+    if (!QIA.session()) { location.replace("index.html?lang=" + qiLang); return; }
+    qiMount("survey");
+    QIE.init(document.getElementById("mount"));
+  }
+  function fail(key){
+    qiMount("survey");
+    document.getElementById("mount").innerHTML =
+      '<div class="scard tc"><h2 class="sec">' + esc(T(I.dbx[key])) + '</h2>' +
+      '<p style="margin-top:16px"><a class="btn nav sec" href="index.html?lang=' + qiLang + '">' + esc(T(I.nav.home)) + '</a></p></div>';
+  }
+  if (rt) {
+    QIDB.validateInvite(rt).then(function(r){
+      if (!r || !r.ok) {
+        fail(r && r.why === "expired" ? "linkExpired" : (r && r.why === "used" ? "linkUsed" : "linkInvalid"));
+        return;
+      }
+      var inv = r.invite;
+      try { sessionStorage.setItem("qi_invite_rt", rt); } catch(e){}
+      // Create the survey session directly from the invitation profile.
+      var rid = (inv.iso3 || "XXX") + "-" + String((inv.category || "gen")).toUpperCase().slice(0, 3) + "-RT";
+      QIA.sessionFromInvite({ id: rid, iso3: inv.iso3, cat: inv.category, level: inv.level, name: inv.name || inv.email });
+      var url = new URL(location.href); url.searchParams.delete("rt");
+      history.replaceState(null, "", url.toString());
+      start();
+    });
+    return;
+  }
+  start();
+})();
 </script>
 </body>
 </html>
