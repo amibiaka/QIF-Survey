@@ -1,0 +1,33 @@
+country,iso3,region,score,tier,accreditation,acc_pts,metrology,met_pts,standards,std_pts,legal_metrology,oiml_pts,regional,reg_pts,gqii2025_rank,gqii_tercile_region
+Jamaica,JAM,Caribbean,9.0,3,"Own MRA signatory (JANAAC), Global ACI transition",3.0,"CGPM Associate, 22 CMCs in KCDB",3.0,ISO member body,2.0,None,0.0,CROSQ+CARIMET,1.0,104,top
+Cuba,CUB,Caribbean,9.5,3,"Own MRA signatory (ONARC), Global ACI transition",3.0,"CGPM Associate (reinstated 2024), 113 CMCs in KCDB",3.0,ISO member body,2.0,OIML Member State,1.0,COOMET,0.5,106,top
+Dominican Republic,DOM,Caribbean,9.0,3,"Own MRA signatory (ODAC), Global ACI transition",3.0,BIPM Member State,3.0,ISO member body,2.0,OIML Corresponding Member,0.5,CARIMET,0.5,111,top
+Trinidad and Tobago,TTO,Caribbean,6.5,2,ILAC associate member (TTBS),1.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO member body,2.0,OIML Corresponding Member,0.5,CROSQ+CARIMET,1.0,116,top
+Guyana,GUY,Caribbean,4.5,2,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,CROSQ+CARIMET,1.0,136,top
+Barbados,BRB,Caribbean,5.5,2,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO member body,2.0,OIML Corresponding Member,0.5,CROSQ+CARIMET,1.0,140,middle
+Saint Lucia,LCA,Caribbean,5.5,2,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO member body,2.0,OIML Corresponding Member,0.5,CROSQ+CARIMET,1.0,142,middle
+Suriname,SUR,Caribbean,3.5,2,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO correspondent member,1.0,None,0.0,CROSQ,0.5,144,middle
+Grenada,GRD,Caribbean,3.5,2,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO subscriber member,0.5,None,0.0,CROSQ+CARIMET,1.0,146,middle
+Bahamas,BHS,Caribbean,3.0,2,None,0.0,None,0.0,ISO member body,2.0,None,0.0,CROSQ+CARIMET,1.0,149,middle
+Haiti,HTI,Caribbean,3.0,1,None,0.0,None,0.0,ISO member body,2.0,None,0.0,CROSQ+CARIMET,1.0,153,bottom
+Saint Kitts and Nevis,KNA,Caribbean,5.0,1,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO member body,2.0,None,0.0,CROSQ+CARIMET,1.0,155,bottom
+Dominica,DMA,Caribbean,4.0,1,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO correspondent member,1.0,None,0.0,CROSQ+CARIMET,1.0,161,bottom
+Saint Vincent and the Grenadines,VCT,Caribbean,4.0,1,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO correspondent member,1.0,None,0.0,CROSQ+CARIMET,1.0,162,bottom
+Belize,BLZ,Caribbean,3.0,1,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO subscriber member,0.5,None,0.0,CROSQ,0.5,166,bottom
+Antigua and Barbuda,ATG,Caribbean,3.5,1,None,0.0,"Covered by CARICOM (CGPM Associate economy, regional)",2.0,ISO subscriber member,0.5,None,0.0,CROSQ+CARIMET,1.0,170,bottom
+Fiji,FJI,Pacific,3.5,2,None,0.0,None,0.0,ISO member body,2.0,OIML Corresponding Member,0.5,PASC+APMP,1.0,152,top
+Papua New Guinea,PNG,Pacific,3.5,2,ILAC associate member (PNGLAS),1.0,None,0.0,ISO correspondent member,1.0,OIML Corresponding Member,0.5,PASC+APMP,1.0,157,top
+Vanuatu,VUT,Pacific,1.5,2,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,PASC,0.5,181,middle
+Timor-Leste,TLS,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,182,middle (S=0 floor)
+Solomon Islands,SLB,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,183,bottom
+Samoa,WSM,Pacific,1.0,1,None,0.0,None,0.0,ISO correspondent member,1.0,None,0.0,None,0.0,184,bottom
+Tonga,TON,Pacific,0.5,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,PASC,0.5,185,bottom
+Kiribati,KIR,Pacific,1.0,1,None,0.0,None,0.0,Not an ISO member,0.0,OIML Corresponding Member,0.5,PASC,0.5,not ranked,not ranked
+Cook Islands,COK,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+Marshall Islands,MHL,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+Micronesia,FSM,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+Nauru,NRU,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+Niue,NIU,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+Palau,PLW,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+Tuvalu,TUV,Pacific,0.0,1,None,0.0,None,0.0,Not an ISO member,0.0,None,0.0,None,0.0,not ranked,not ranked
+
