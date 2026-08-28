@@ -17,6 +17,59 @@
 <meta property="og:url" content="https://qif-au-survey.netlify.app/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="main.css">
+<style>
+/* v3.1 landing: editorial blueprint restyle (this page only; main.css untouched) */
+#main, .gate{--cream:#F6F3EC;--ink:#12263A;--hair:rgba(18,38,58,.15);--mut:#51606D;--nv:#14486B;--tl:#0E7C86;--bl:#2E6FDB;--gn:#1E7D5A}
+.gate{min-height:100vh;background:radial-gradient(1100px 560px at 88% -8%,rgba(14,124,134,.10),transparent 60%),radial-gradient(900px 520px at -8% 34%,rgba(46,111,219,.07),transparent 55%),#F6F3EC}
+.gatetop{position:sticky;top:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:12px clamp(16px,4vw,44px);background:rgba(246,243,236,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+.gatemain{display:block;padding:0}
+.gatecard.wide{max-width:1100px;margin:0 auto;background:transparent;border:0;box-shadow:none;border-radius:0;padding:clamp(22px,4.5vw,54px) clamp(16px,4vw,44px) 60px}
+.mastername{font-size:12px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--tl)}
+#g-title{font-size:clamp(2.3rem,6.4vw,4.7rem);line-height:1.02;letter-spacing:-.022em;text-transform:uppercase;font-weight:800;color:var(--ink);margin:.28em 0 .3em;max-width:22ch}
+html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.18;text-transform:none}
+.partners{font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin:0 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 30px}
+.chips span{border:1px solid var(--hair);background:#fff;border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--ink)}
+.chips span b{color:var(--tl);font-weight:800;margin-inline-end:6px}
+.rule{height:1px;background:var(--hair);border:0;margin:0 0 26px}
+.seclab{font-size:11.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin:26px 0 12px;display:flex;align-items:center;gap:10px}
+.seclab::after{content:"";flex:1;height:1px;background:var(--hair)}
+.plogos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 8px}
+.plogo{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--hair);border-radius:14px;min-height:78px;padding:14px 18px;transition:transform .25s ease,box-shadow .25s ease}
+.plogo:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(18,38,58,.08)}
+.plogo img{max-height:46px;max-width:100%;width:auto;height:auto;display:block}
+.plogo i{display:none;font-style:normal;font-weight:700;color:var(--nv);font-size:13.5px;text-align:center;letter-spacing:.04em}
+.plogo.txt i{display:block}
+.spaces{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px;margin:0}
+.space{position:relative;overflow:hidden;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:18px 18px 16px;transition:transform .25s ease,box-shadow .25s ease}
+.space::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--nv)}
+.space.africa::before{background:var(--gn)}.space.caribbean::before{background:var(--tl)}.space.pacific::before{background:var(--bl)}
+.space:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(18,38,58,.09)}
+.space b{display:block;font-size:1.06rem;color:var(--ink)}
+.space .cnt{display:inline-block;margin:9px 0 8px;font-size:12px;font-weight:700;border:1px solid var(--hair);border-radius:999px;padding:3px 10px;color:var(--ink);background:var(--cream)}
+.space.africa .cnt{color:var(--gn)}.space.caribbean .cnt{color:var(--tl)}.space.pacific .cnt{color:var(--bl)}
+.space .sub{display:block;color:var(--mut);font-size:13px;line-height:1.5}
+.objbox{border:0;border-block:1px solid var(--hair);border-radius:0;background:transparent;padding:26px 0;margin:34px 0 30px}
+.objbox h2{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--tl);margin:0 0 10px}
+.objbox p{color:#243746;line-height:1.72;font-size:15px;max-width:78ch;margin:0}
+.gatebox{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:clamp(16px,3vw,30px);box-shadow:0 20px 55px rgba(18,38,58,.07)}
+.gatetabs{display:flex;gap:6px;border:1px solid var(--hair);background:var(--cream);border-radius:12px;padding:4px;width:max-content;max-width:100%;margin:0 0 16px}
+.gatetabs button{border:0;background:transparent;border-radius:9px;padding:8px 18px;font-weight:700;color:var(--mut);cursor:pointer}
+.gatetabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.rolepick{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:12px 0 16px}
+.rolecard{border:1px solid var(--hair);border-radius:14px;background:#fff;padding:14px;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
+.rolecard:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(18,38,58,.07)}
+.rolecard.sel{border-color:var(--tl);box-shadow:0 0 0 2px rgba(14,124,134,.22)}
+.rolecard b{display:block;color:var(--ink);margin-bottom:5px}
+.rolecard span{color:var(--mut);font-size:12.8px;line-height:1.45}
+.gatebtn{background:var(--ink);border:0;border-radius:12px;color:#fff;font-weight:800;padding:13px 26px;cursor:pointer;transition:background .2s,transform .15s}
+.gatebtn:hover{background:var(--nv);transform:translateY(-1px)}
+.gatehint{color:var(--mut)}
+.gatefoot{border-top:1px solid var(--hair);color:var(--mut)}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}.space,.plogo,.rolecard,.gatebtn{transition:none}}
+</style>
 </head>
 <body>
 <div class="gate">
@@ -26,20 +79,30 @@
   </div>
   <main class="gatemain" id="main">
     <div class="gatecard wide">
-      <div class="mastername" id="g-app"></div>
-      <h1 id="g-title"></h1>
+      <section class="hero rv in">
+        <div class="mastername" id="g-app"></div>
+        <h1 id="g-title"></h1>
+        <p class="partners" id="g-partners"></p>
+        <div class="chips" id="chips"></div>
+      </section>
       <div class="rule" aria-hidden="true"></div>
-      <p class="partners" id="g-partners"></p>
-      <div class="plogos" id="plogos"></div>
 
-      <div class="spaces" id="spaces"></div>
+      <section class="rv">
+        <div class="seclab" id="g-impl"></div>
+        <div class="plogos" id="plogos"></div>
+      </section>
 
-      <div class="objbox">
+      <section class="rv">
+        <div class="seclab" id="g-spl"></div>
+        <div class="spaces" id="spaces"></div>
+      </section>
+
+      <div class="objbox rv">
         <h2 id="obj-t"></h2>
         <p id="obj-b"></p>
       </div>
 
-      <div class="gatebox">
+      <div class="gatebox rv">
         <div class="gatetabs" role="tablist">
           <button type="button" id="tab-login" role="tab" aria-selected="true"></button>
           <button type="button" id="tab-signup" role="tab" aria-selected="false"></button>
@@ -107,6 +170,7 @@
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
+<script src="logos.js"></script>
 <script src="bank_part1.js"></script>
 <script src="db.js"></script>
 <script src="access.js"></script>
@@ -167,12 +231,36 @@ document.querySelectorAll('#langs button').forEach(function(b){
   if (b.getAttribute("aria-pressed") === "true") { b.style.background = "var(--navy)"; b.style.color = "#fff"; b.style.borderColor = "var(--navy)"; }
 });
 
-// Partner logos: real files when provided, clean wordmarks otherwise.
-var LOGOS = [["auda-nepad","AUDA-NEPAD"],["unido","UNIDO"],["auc","African Union Commission"],["oacps","OACPS"]];
-document.getElementById("plogos").innerHTML = LOGOS.map(function(l){
-  return '<span class="plogo"><img src="logos/' + l[0] + '.png" alt="' + l[1] + '" loading="lazy" ' +
-    'onerror="this.parentNode.classList.add(\'txt\');this.remove()"><i>' + l[1] + '</i></span>';
+// Partner logos: embedded official marks (logos.js), wordmark fallback.
+var LBL = {
+  impl:{ en:"Implemented by", fr:"Mis en œuvre par", ar:"الجهات المنفِّذة" },
+  spl:{ en:"Three survey spaces", fr:"Trois espaces d'enquête", ar:"ثلاثة فضاءات للاستبيان" },
+  chips:[
+    { b:"ACP", t:{ en:"ACP Quality Infrastructure Programme", fr:"Programme ACP pour l'infrastructure de la qualité", ar:"برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ" } },
+    { b:"EU · OACPS", t:{ en:"Funded by the European Union and the OACPS", fr:"Financé par l'Union européenne et l'OEACP", ar:"بتمويل من الاتحاد الأوروبي ومنظمة الأواكبس" } },
+    { b:"EN · FR · AR", t:{ en:"Trilingual and adaptive by country", fr:"Trilingue et adaptative par pays", ar:"ثلاثي اللغات ومتكيّف حسب البلد" } }
+  ]
+};
+document.getElementById("g-impl").textContent = T(LBL.impl);
+document.getElementById("g-spl").textContent = T(LBL.spl);
+document.getElementById("chips").innerHTML = LBL.chips.map(function(c){
+  return "<span><b>" + esc(c.b) + "</b>" + esc(T(c.t)) + "</span>";
 }).join("");
+var LOGOS = [["auda","AUDA-NEPAD"],["unido","UNIDO"],["auc","African Union Commission"],["oacps","OACPS"]];
+document.getElementById("plogos").innerHTML = LOGOS.map(function(l){
+  var src = (window.QI_LOGOS || {})[l[0]];
+  return '<span class="plogo' + (src ? "" : " txt") + '">' +
+    (src ? '<img src="' + src + '" alt="' + l[1] + '" loading="lazy">' : "") + "<i>" + l[1] + "</i></span>";
+}).join("");
+// Reveal on scroll.
+(function(){
+  var els = document.querySelectorAll(".rv");
+  if (!("IntersectionObserver" in window)) { els.forEach(function(n){ n.classList.add("in"); }); return; }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(function(n){ io.observe(n); });
+})();
 
 // Three survey spaces with live open-country counts.
 var REG = [["africa"],["caribbean"],["pacific"]];
@@ -335,4 +423,3 @@ document.title = T(I.product.name) + " · " + T(I.siteTitle);
 </script>
 </body>
 </html>
-
