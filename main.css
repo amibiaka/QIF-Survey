@@ -296,3 +296,53 @@ footer.site b{color:#fff}
 .rbbtn:hover{opacity:.92}
 .rbmeta{font-size:12px;color:var(--grey);margin-top:8px}
 
+/* ---- QIF Survey Master v3: three spaces, logos, objectives ---- */
+.gatecard.wide{max-width:860px}
+.mastername{font-size:12px;font-weight:800;letter-spacing:.22em;color:var(--accent-d);text-transform:uppercase;margin-top:6px}
+.plogos{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:2px 0 18px}
+.plogo{display:inline-flex;align-items:center;justify-content:center;min-width:120px;height:52px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:6px 14px}
+.plogo img{max-height:38px;max-width:150px;width:auto}
+.plogo i{display:none;font-style:normal;font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.04em;text-align:center}
+.plogo.txt i{display:block}
+.spaces{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:6px 0 18px;text-align:start}
+.space{border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;background:#fff;position:relative;overflow:hidden}
+.space::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px}
+.space.africa::before{background:var(--accent)}
+.space.caribbean::before{background:var(--teal)}
+.space.pacific::before{background:#2a78d6}
+.space b{display:block;color:var(--navy);font-size:16.5px}
+.space .cnt{display:inline-block;margin:6px 0;font-size:12px;font-weight:800;border-radius:99px;padding:3px 10px;background:#E9F5EC;color:var(--accent-d)}
+.space.caribbean .cnt{background:#E6F2F5;color:#155E6E}
+.space.pacific .cnt{background:#E8F0FB;color:#1D4F8C}
+.space .sub{display:block;font-size:12.5px;color:var(--grey);line-height:1.5}
+.objbox{border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:10px;background:var(--light);padding:14px 16px;margin:0 0 18px;text-align:start}
+.objbox h2{margin:0 0 6px;color:var(--navy);font-size:16px}
+.objbox p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.65}
+
+/* region tabs (home + insights + admin) */
+.regtabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+.regtabs button{border:1.5px solid var(--line);background:#fff;color:var(--navy);border-radius:99px;padding:8px 16px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.regtabs button[aria-pressed="true"]{color:#fff}
+.regtabs button.africa[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
+.regtabs button.caribbean[aria-pressed="true"]{background:var(--teal);border-color:var(--teal)}
+.regtabs button.pacific[aria-pressed="true"]{background:#2a78d6;border-color:#2a78d6}
+.regboxes{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:16px}
+.regbox{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:16px;cursor:pointer;text-align:start;font-family:inherit}
+.regbox:hover{border-color:var(--navy)}
+.regbox b{display:block;color:var(--navy);font-size:17px}
+.regbox .cnt{font-size:12.5px;color:var(--grey)}
+
+/* admin v3 */
+.modechip{display:inline-block;font-size:11px;font-weight:800;border-radius:5px;padding:3px 9px;letter-spacing:.05em}
+.modechip.live{background:#E9F5EC;color:var(--accent-d);border:1px solid #BFDFC3}
+.modechip.demo{background:var(--band);color:var(--navy);border:1px solid var(--line)}
+.rights{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.rights label.ck{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;margin:2px 0;cursor:pointer}
+.dlgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:10px}
+.pwmodal{border:2px solid var(--accent);border-radius:10px;background:#E9F5EC;padding:14px;margin-top:12px}
+.pwmodal code{background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;font-size:15px;font-weight:700}
+.ctoggle{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px 11px;font-size:13px}
+.ctoggle button{border:1px solid var(--line);border-radius:99px;background:var(--light);color:var(--grey);font-size:11.5px;font-weight:800;padding:4px 11px;cursor:pointer;font-family:inherit}
+.ctoggle button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.cgridt{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-top:10px}
+
