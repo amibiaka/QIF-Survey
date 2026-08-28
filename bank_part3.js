@@ -48,6 +48,7 @@ window.QI_BANK_P3 = {
   opts:[
    { v:"nsb", t:{ en:"National standards body", fr:"Organisme national de normalisation", ar:"الهيئة الوطنية للمواصفات" } },
    { v:"nmi", t:{ en:"National metrology institute", fr:"Institut national de métrologie", ar:"المعهد الوطني للمترولوجيا" } },
+   { v:"nlmb", t:{ en:"National legal metrology body", fr:"Organisme national de métrologie légale", ar:"الهيئة الوطنية للمترولوجيا القانونية" } },
    { v:"nab", t:{ en:"National accreditation body", fr:"Organisme national d'accréditation", ar:"هيئة الاعتماد الوطنية" } },
    { v:"cabs", t:{ en:"Public conformity assessment bodies", fr:"Organismes publics d'évaluation de la conformité", ar:"جهات تقييم المطابقة العامة" } },
    { v:"msv", t:{ en:"Market surveillance authority", fr:"Autorité de surveillance du marché", ar:"هيئة مراقبة السوق" } },
@@ -105,8 +106,8 @@ window.QI_BANK_P3 = {
       ar:"إذا كانت هناك سياسة وطنية للجودة أو استراتيجية للبنية التحتية للجودة، فهل لها خطة تنفيذ مُكلفَنة ومدرجة في الموازنة؟" },
   opts:[
    { v:"cb", t:{ en:"Yes, costed and budgeted", fr:"Oui, chiffré et budgétisé", ar:"نعم، مُكلفَنة ومدرجة في الموازنة" } },
-   { v:"c", t:{ en:"Costed but not budgeted", fr:"Chiffré mais non budgétisé", ar:"مُكلفَنة لكن غير مدرجة في الموازنة" } },
-   { v:"none", t:{ en:"Neither costed nor budgeted", fr:"Ni chiffré ni budgétisé", ar:"لا مُكلفَنة ولا مدرجة" } },
+   { v:"c", t:{ en:"Yes, costed but not budgeted", fr:"Oui, chiffré mais non budgétisé", ar:"نعم، مُكلفَنة لكن غير مدرجة في الموازنة" } },
+   { v:"none", t:{ en:"Yes, but neither costed nor budgeted", fr:"Oui, mais ni chiffré ni budgétisé", ar:"نعم، لكنها غير مُكلفَنة وغير مدرجة في الموازنة" } },
    { v:"nopol", t:{ en:"No policy exists", fr:"Aucune politique n'existe", ar:"لا توجد سياسة" } }
   ] },
 { id:"F-GOV-3", tag:"FACT", type:"combo",
@@ -153,7 +154,10 @@ window.QI_BANK_P3 = {
    { v:"moi", t:{ en:"Ministry of industry or trade", fr:"Ministère de l'industrie ou du commerce", ar:"وزارة الصناعة أو التجارة" } },
    { v:"mof", t:{ en:"Ministry of finance", fr:"Ministère des finances", ar:"وزارة المالية" } },
    { v:"mop", t:{ en:"Ministry of planning", fr:"Ministère de la planification", ar:"وزارة التخطيط" } },
-   { v:"moa", t:{ en:"Ministry of agriculture or health", fr:"Ministère de l'agriculture ou de la santé", ar:"وزارة الزراعة أو الصحة" } },
+   { v:"moa", t:{ en:"Ministry of agriculture", fr:"Ministère de l'agriculture", ar:"وزارة الزراعة" } },
+   { v:"moh", t:{ en:"Ministry of health", fr:"Ministère de la santé", ar:"وزارة الصحة" } },
+   { v:"moe", t:{ en:"Ministry of environment", fr:"Ministère de l'environnement", ar:"وزارة البيئة" } },
+   { v:"mod", t:{ en:"Ministry of digitalization / communications", fr:"Ministère du numérique / des communications", ar:"وزارة الرقمنة / الاتصالات" } },
    { v:"qi", t:{ en:"QI institutions", fr:"Institutions de l'IQ", ar:"مؤسسات البنية التحتية للجودة" } },
    { v:"ps", t:{ en:"Private sector representatives", fr:"Représentants du secteur privé", ar:"ممثلو القطاع الخاص" } },
    { v:"dp", t:{ en:"Development partners", fr:"Partenaires au développement", ar:"الشركاء الإنمائيون" } },
@@ -226,8 +230,7 @@ window.QI_BANK_P3 = {
       fr:"Quelles reconnaissances internationales votre institution détient-elle actuellement ? Sélectionnez tout ce qui s'applique.",
       ar:"ما جوانب الاعتراف الدولي التي تحوزها مؤسستكم حالياً؟ اختاروا كل ما ينطبق." },
   opts:[
-   { v:"ilac", t:{ en:"ILAC MRA signatory status (own or through AFRAC)", fr:"Statut de signataire du MRA de l'ILAC (en propre ou via l'AFRAC)", ar:"صفة الموقِّع على ترتيب ILAC MRA (مباشرة أو عبر أفراك)" } },
-   { v:"iaf", t:{ en:"IAF MLA signatory status", fr:"Statut de signataire du MLA de l'IAF", ar:"صفة الموقِّع على اتفاق IAF MLA" } },
+   { v:"gaci", t:{ en:"Global ACI (formerly IAF/ILAC) recognition", fr:"Reconnaissance Global ACI (anciennement IAF/ILAC)", ar:"اعتراف Global ACI (سابقاً IAF/ILAC)" } },
    { v:"cmc", t:{ en:"CMCs published in the BIPM KCDB", fr:"CMC publiées dans la KCDB du BIPM", ar:"قدرات معايرة وقياس منشورة في قاعدة KCDB" } },
    { v:"17025", t:{ en:"ISO/IEC 17025 accreditation", fr:"Accréditation ISO/IEC 17025", ar:"اعتماد ISO/IEC 17025" } },
    { v:"othacc", t:{ en:"ISO/IEC 17020, 17021-1, 17065 or 15189 accreditation", fr:"Accréditation ISO/IEC 17020, 17021-1, 17065 ou 15189", ar:"اعتماد ISO/IEC 17020 أو 17021-1 أو 17065 أو 15189" } },
@@ -380,7 +383,7 @@ window.QI_BANK_P3 = {
    { v:"noacc", t:{ en:"No locally accredited option", fr:"Pas d'option accréditée localement", ar:"غياب خيار معتمد محلياً" } },
    { v:"doc", t:{ en:"Documentation complexity", fr:"Complexité documentaire", ar:"تعقيد المستندات" } },
    { v:"benefit", t:{ en:"Low perceived benefit", fr:"Bénéfice perçu faible", ar:"ضعف الجدوى المتصوَّرة" } },
-   { v:"fin", t:{ en:"Cannot finance compliance costs", fr:"Impossibilité de financer la mise en conformité", ar:"تعذُّر تمويل تكاليف الامتثال" } }
+   { v:"fin", t:{ en:"Cannot finance compliance costs / conformity costs", fr:"Impossibilité de financer les coûts de conformité / d'évaluation de la conformité", ar:"تعذُّر تمويل تكاليف الامتثال / المطابقة" } }
   ] },
 { id:"F-PSU-3", tag:"PERCEPTION", type:"scale",
   t:{ en:"How adequate are turnaround times for the QI services your members use? 1 = Very inadequate, 5 = Fully adequate.",
@@ -444,6 +447,22 @@ window.QI_BANK_P3 = {
    { v:"aware", t:{ en:"Aware but little used", fr:"Connus mais peu utilisés", ar:"معروفة لكن قليلة الاستخدام" } },
    { v:"noaware", t:{ en:"Not aware", fr:"Non connus", ar:"غير معروفة" } },
    { v:"none", t:{ en:"No such schemes exist", fr:"Aucun dispositif de ce type n'existe", ar:"لا توجد مخططات من هذا النوع" } }
+  ] },
+{ id:"F-PSU-9", tag:"PERCEPTION", type:"multi",
+  t:{ en:"Would your members have any interest to co-finance PPP initiatives to develop local conformity assessment facilities? Select all considerations that apply to your members.",
+      fr:"Vos membres seraient-ils intéressés par le cofinancement d'initiatives de PPP visant à développer des installations locales d'évaluation de la conformité ? Sélectionnez toutes les considérations qui s'appliquent à vos membres.",
+      ar:"هل لدى أعضائكم اهتمام بالمشاركة في تمويل مبادرات شراكة بين القطاعين العام والخاص لتطوير مرافق محلية لتقييم المطابقة؟ اختاروا كل الاعتبارات التي تنطبق على أعضائكم." },
+  opts:[
+   { v:"viab", t:{ en:"Interest would depend on the project's commercial viability, development impact, and alignment with members' strategic priorities", fr:"L'intérêt dépendrait de la viabilité commerciale du projet, de son impact sur le développement et de son alignement avec les priorités stratégiques des membres", ar:"يتوقف الاهتمام على الجدوى التجارية للمشروع وأثره التنموي واتساقه مع الأولويات الاستراتيجية للأعضاء" } },
+   { v:"costs", t:{ en:"Local conformity assessment facilities can reduce testing and certification costs, shorten time-to-market, and improve competitiveness of local industries", fr:"Des installations locales d'évaluation de la conformité peuvent réduire les coûts d'essais et de certification, raccourcir les délais de mise sur le marché et renforcer la compétitivité des industries locales", ar:"يمكن للمرافق المحلية لتقييم المطابقة خفض تكاليف الاختبار وإصدار الشهادات وتقصير مدة الوصول إلى الأسواق وتعزيز تنافسية الصناعات المحلية" } },
+   { v:"qi", t:{ en:"Such facilities can strengthen quality infrastructure, facilitate compliance with international standards, and support export diversification", fr:"De telles installations peuvent renforcer l'infrastructure de la qualité, faciliter la conformité aux normes internationales et soutenir la diversification des exportations", ar:"يمكن لهذه المرافق تعزيز البنية التحتية للجودة وتيسير الامتثال للمعايير الدولية ودعم تنويع الصادرات" } },
+   { v:"ppp", t:{ en:"PPP models can help leverage public support while ensuring private-sector efficiency, sustainability, and market responsiveness", fr:"Les modèles de PPP peuvent mobiliser l'appui public tout en garantissant l'efficience du secteur privé, la durabilité et la réactivité au marché", ar:"يمكن لنماذج الشراكة بين القطاعين حشد الدعم العام مع ضمان كفاءة القطاع الخاص والاستدامة والاستجابة للسوق" } },
+   { v:"demand", t:{ en:"Members may be particularly interested where there is demonstrated industry demand and a clear pipeline of clients/users", fr:"Les membres pourraient être particulièrement intéressés lorsqu'une demande industrielle avérée et un portefeuille clair de clients/utilisateurs existent", ar:"قد يبدي الأعضاء اهتماماً خاصاً حيثما وُجد طلب صناعي مُثبت وقاعدة واضحة من العملاء/المستخدمين" } },
+   { v:"mix", t:{ en:"Co-financing could be considered through a mix of equity, concessional finance, blended finance instruments, guarantees, or technical assistance", fr:"Le cofinancement pourrait être envisagé via une combinaison de fonds propres, de financements concessionnels, d'instruments de financement mixte, de garanties ou d'assistance technique", ar:"يمكن النظر في التمويل المشترك عبر مزيج من المساهمة في رأس المال والتمويل الميسّر وأدوات التمويل المختلط والضمانات أو المساعدة الفنية" } },
+   { v:"prio", t:{ en:"Priority may be given to facilities that support SMEs, industrial upgrading, green transition, food safety, health products, or strategic export sectors", fr:"La priorité pourrait aller aux installations qui soutiennent les PME, la montée en gamme industrielle, la transition verte, la sécurité sanitaire des aliments, les produits de santé ou les secteurs d'exportation stratégiques", ar:"قد تُمنح الأولوية للمرافق التي تدعم المنشآت الصغيرة والمتوسطة والتطوير الصناعي والتحول الأخضر وسلامة الأغذية والمنتجات الصحية وقطاعات التصدير الاستراتيجية" } },
+   { v:"gov", t:{ en:"Key considerations would include governance arrangements, financial sustainability, risk-sharing mechanisms, regulatory framework, and expected development outcomes", fr:"Les considérations clés incluraient les dispositifs de gouvernance, la viabilité financière, les mécanismes de partage des risques, le cadre réglementaire et les résultats de développement attendus", ar:"تشمل الاعتبارات الأساسية ترتيبات الحوكمة والاستدامة المالية وآليات تقاسم المخاطر والإطار التنظيمي والنتائج التنموية المتوقعة" } },
+   { v:"collab", t:{ en:"Opportunities for collaboration with development finance institutions, donor agencies, and national quality infrastructure bodies would be viewed positively", fr:"Les possibilités de collaboration avec les institutions de financement du développement, les bailleurs et les organismes nationaux d'infrastructure de la qualité seraient perçues positivement", ar:"يُنظر بإيجابية إلى فرص التعاون مع مؤسسات تمويل التنمية والجهات المانحة وهيئات البنية التحتية الوطنية للجودة" } },
+   { v:"feas", t:{ en:"A detailed feasibility study, business plan, and assessment of market demand would typically be required before any financing commitment is considered", fr:"Une étude de faisabilité détaillée, un plan d'affaires et une évaluation de la demande du marché seraient généralement requis avant tout engagement de financement", ar:"يُشترط عادةً إعداد دراسة جدوى مفصلة وخطة أعمال وتقييم لطلب السوق قبل النظر في أي التزام تمويلي" } }
   ] }
 ],
 
@@ -489,6 +508,29 @@ window.QI_BANK_P3 = {
    { v:3, t:{ en:"3 Occasionally bankable", fr:"3 Parfois bancables", ar:"3 قابلة أحياناً" } },
    { v:4, t:{ en:"4 Often bankable", fr:"4 Souvent bancables", ar:"4 قابلة غالباً" } },
    { v:5, t:{ en:"5 Consistently bankable", fr:"5 Systématiquement bancables", ar:"5 قابلة باستمرار" } }
+  ] },
+{ id:"F-BDF-3b", tag:"PERCEPTION", type:"multi",
+  t:{ en:"What gaps do you typically observe in QI project proposals from Member Countries? Select all that apply.",
+      fr:"Quelles lacunes observez-vous généralement dans les propositions de projets d'IQ des pays membres ? Sélectionnez tout ce qui s'applique.",
+      ar:"ما الثغرات التي تلاحظونها عادة في مقترحات مشاريع البنية التحتية للجودة المقدمة من البلدان الأعضاء؟ اختاروا كل ما ينطبق." },
+  opts:[
+   { v:"diag", t:{ en:"Weak problems diagnosis and baseline data", fr:"Diagnostic des problèmes et données de référence faibles", ar:"ضعف تشخيص المشكلات وبيانات خط الأساس" } },
+   { v:"demand", t:{ en:"Insufficient evidence of demand / market analysis", fr:"Preuves insuffisantes de la demande / analyse de marché", ar:"أدلة غير كافية على الطلب / تحليل السوق" } },
+   { v:"govfid", t:{ en:"Weak institutional governance and fiduciary systems", fr:"Gouvernance institutionnelle et systèmes fiduciaires faibles", ar:"ضعف الحوكمة المؤسسية والنظم الائتمانية" } },
+   { v:"impl", t:{ en:"Weak implementation arrangements", fr:"Dispositifs de mise en œuvre faibles", ar:"ضعف ترتيبات التنفيذ" } },
+   { v:"sust", t:{ en:"Lack of sustainability / cost recovery plans", fr:"Absence de plans de durabilité / de recouvrement des coûts", ar:"غياب خطط الاستدامة / استرداد التكاليف" } },
+   { v:"impact", t:{ en:"Missing economic or social impact assessments", fr:"Absence d'évaluations d'impact économique ou social", ar:"غياب تقييمات الأثر الاقتصادي أو الاجتماعي" } },
+   { v:"own", t:{ en:"Insufficient government ownership or commitment", fr:"Appropriation ou engagement gouvernemental insuffisant", ar:"عدم كفاية الملكية أو الالتزام الحكومي" } },
+   { v:"cost", t:{ en:"Underestimated costs or unrealistic timelines", fr:"Coûts sous-estimés ou calendriers irréalistes", ar:"تقدير ناقص للتكاليف أو جداول زمنية غير واقعية" } },
+   { v:"finsust", t:{ en:"Weak financial sustainability plan", fr:"Plan de viabilité financière faible", ar:"ضعف خطة الاستدامة المالية" } },
+   { v:"coord", t:{ en:"Insufficient stakeholders' coordination", fr:"Coordination insuffisante des parties prenantes", ar:"تنسيق غير كافٍ بين أصحاب المصلحة" } },
+   { v:"bench", t:{ en:"Lack of regional and international benchmarking", fr:"Absence d'étalonnage régional et international", ar:"غياب المقارنات المرجعية الإقليمية والدولية" } },
+   { v:"budg", t:{ en:"Unrealistic budgets and timelines", fr:"Budgets et calendriers irréalistes", ar:"موازنات وجداول زمنية غير واقعية" } },
+   { v:"esg", t:{ en:"Limited attention to ESG and social impacts", fr:"Attention limitée aux critères ESG et aux impacts sociaux", ar:"اهتمام محدود بمعايير الحوكمة البيئية والاجتماعية وبالآثار الاجتماعية" } },
+   { v:"me", t:{ en:"Weak monitoring and evaluation framework", fr:"Cadre de suivi et d'évaluation faible", ar:"ضعف إطار الرصد والتقييم" } },
+   { v:"equip", t:{ en:"Overemphasis on equipment and underemphasis on the systems", fr:"Accent excessif sur les équipements au détriment des systèmes", ar:"تركيز مفرط على المعدات وإغفال النظم" } },
+   { v:"other", t:{ en:"Other", fr:"Autre", ar:"أخرى" },
+     fu:{ key:"other_txt", kind:"text", t:{ en:"Please specify", fr:"Veuillez préciser", ar:"يُرجى التحديد" } } }
   ] },
 { id:"F-BDF-4", tag:"PERCEPTION", type:"rank", k:2,
   t:{ en:"Which conditions would most increase member willingness to finance QI? Rank your top 2.",
