@@ -18,9 +18,11 @@ profile: [
    { v:"fin", fam:"F-FIN", t:{ en:"Ministry of finance, budget or treasury", fr:"Ministère des finances, du budget ou du trésor", ar:"وزارة المالية أو الموازنة أو الخزانة" } },
    { v:"parl", fam:"F-GOV", t:{ en:"National parliament (committee or secretariat)", fr:"Parlement national (commission ou secrétariat)", ar:"البرلمان الوطني (لجنة أو أمانة)" } },
    { v:"nsb", fam:"F-QIP", t:{ en:"National standards body (NSB)", fr:"Organisme national de normalisation (ONN)", ar:"الهيئة الوطنية للمواصفات والتقييس" } },
-   { v:"nmi", fam:"F-QIP", t:{ en:"National metrology institute or legal metrology authority (NMI)", fr:"Institut national de métrologie ou autorité de métrologie légale (INM)", ar:"المعهد الوطني للمترولوجيا أو هيئة المترولوجيا القانونية" } },
+   { v:"nmi", fam:"F-QIP", t:{ en:"National metrology institute (NMI)", fr:"Institut national de métrologie (INM)", ar:"المعهد الوطني للمترولوجيا" } },
+   { v:"nlmb", fam:"F-QIP", t:{ en:"National legal metrology body (NLMB)", fr:"Organisme national de métrologie légale", ar:"الهيئة الوطنية للمترولوجيا القانونية" } },
    { v:"nab", fam:"F-QIP", t:{ en:"National accreditation body or accreditation focal point (NAB)", fr:"Organisme national d'accréditation ou point focal d'accréditation (ONA)", ar:"هيئة الاعتماد الوطنية أو نقطة الاتصال الوطنية للاعتماد" } },
-   { v:"cab", fam:"F-QIP", t:{ en:"Conformity assessment body, public or private (testing, certification, inspection)", fr:"Organisme d'évaluation de la conformité, public ou privé (essais, certification, inspection)", ar:"جهة تقييم المطابقة، عامة أو خاصة (اختبار، إصدار شهادات، تفتيش)" } },
+   { v:"cab_pub", fam:"F-QIP", t:{ en:"Conformity assessment body, public (testing, certification, inspection, verification bodies)", fr:"Organisme d'évaluation de la conformité, public (essais, certification, inspection, organismes de vérification)", ar:"جهة تقييم المطابقة، عامة (اختبار، إصدار شهادات، تفتيش، جهات تحقق)" } },
+   { v:"cab_priv", fam:"F-QIP", t:{ en:"Conformity assessment body, private (testing, certification, inspection, verification bodies)", fr:"Organisme d'évaluation de la conformité, privé (essais, certification, inspection, organismes de vérification)", ar:"جهة تقييم المطابقة، خاصة (اختبار، إصدار شهادات، تفتيش، جهات تحقق)" } },
    { v:"reg", fam:"F-REG", t:{ en:"Market surveillance or technical regulatory authority", fr:"Autorité de surveillance du marché ou de réglementation technique", ar:"هيئة مراقبة السوق أو الجهة التنظيمية الفنية" } },
    { v:"bor", fam:"F-GOV", t:{ en:"Tax, customs, investment, export, SEZ or PPP authority", fr:"Autorité fiscale, douanière, d'investissement, d'exportation, de zones économiques spéciales ou de PPP", ar:"هيئة الضرائب أو الجمارك أو الاستثمار أو التصدير أو المناطق الاقتصادية الخاصة أو الشراكة بين القطاعين" } },
    { v:"psu", fam:"F-PSU", t:{ en:"Business association, chamber, consumer association or individual firm", fr:"Association professionnelle, chambre, association de consommateurs ou entreprise individuelle", ar:"اتحاد أعمال أو غرفة تجارية أو جمعية مستهلكين أو شركة منفردة" } },
@@ -96,7 +98,8 @@ core: [
       ar:"أيٌّ من القوانين التالية ساري المفعول حالياً؟ إجابة واحدة لكل سطر." },
   rows:[
    { v:"std", t:{ en:"Standards act or law", fr:"Loi sur la normalisation", ar:"قانون المواصفات والتقييس" } },
-   { v:"met", t:{ en:"Metrology or legal metrology law", fr:"Loi sur la métrologie ou la métrologie légale", ar:"قانون المترولوجيا أو المترولوجيا القانونية" } },
+   { v:"met", t:{ en:"National Measurement Standards Act or law", fr:"Loi sur les étalons nationaux de mesure", ar:"قانون معايير القياس الوطنية" } },
+   { v:"lmet", t:{ en:"Legal Metrology Act or law", fr:"Loi sur la métrologie légale", ar:"قانون المترولوجيا القانونية" } },
    { v:"acc", t:{ en:"Accreditation law or regulation", fr:"Loi ou règlement sur l'accréditation", ar:"قانون أو لائحة الاعتماد" } },
    { v:"tr", t:{ en:"Technical regulation framework law", fr:"Loi-cadre sur la réglementation technique", ar:"القانون الإطاري للوائح الفنية" } },
    { v:"cp", t:{ en:"Consumer protection or product safety law", fr:"Loi sur la protection des consommateurs ou la sécurité des produits", ar:"قانون حماية المستهلك أو سلامة المنتجات" } },
@@ -115,7 +118,7 @@ core: [
   rows:[
    { v:"nsb", t:{ en:"National standards body", fr:"Organisme national de normalisation", ar:"الهيئة الوطنية للمواصفات" } },
    { v:"nmi", t:{ en:"National metrology institute", fr:"Institut national de métrologie", ar:"المعهد الوطني للمترولوجيا" } },
-   { v:"lm", t:{ en:"Legal metrology authority", fr:"Autorité de métrologie légale", ar:"هيئة المترولوجيا القانونية" } },
+   { v:"lm", t:{ en:"National legal metrology body", fr:"Organisme national de métrologie légale", ar:"الهيئة الوطنية للمترولوجيا القانونية" } },
    { v:"nab", t:{ en:"National accreditation body or focal point", fr:"Organisme national d'accréditation ou point focal", ar:"هيئة الاعتماد الوطنية أو نقطة الاتصال" } },
    { v:"cabs", t:{ en:"Public testing, certification or inspection bodies", fr:"Organismes publics d'essais, de certification ou d'inspection", ar:"جهات عامة للاختبار أو إصدار الشهادات أو التفتيش" } },
    { v:"msv", t:{ en:"Market surveillance authority", fr:"Autorité de surveillance du marché", ar:"هيئة مراقبة السوق" } },
@@ -210,8 +213,8 @@ core: [
    { n:"4", t:{ en:"Adequate: meets most needs to international level", fr:"Suffisante : répond à la plupart des besoins au niveau international", ar:"كافية: تلبي معظم الاحتياجات بمستوى دولي" } },
    { n:"5", t:{ en:"Fully adequate: internationally recognized and dependable", fr:"Pleinement suffisante : reconnue à l'international et fiable", ar:"كافية تماماً: معترف بها دولياً ويمكن الاعتماد عليها" } }
   ],
-  t:{ en:"Rate the current national capacity to deliver internationally recognized QI services. One rating per row. 1 = Very inadequate, 5 = Fully adequate.",
-      fr:"Évaluez la capacité nationale actuelle à fournir des services d'IQ reconnus à l'international. Une note par ligne. 1 = Très insuffisante, 5 = Pleinement suffisante.",
+  t:{ en:"Rate the current national capacity to deliver internationally recognized QI services for priority value chains. One rating per row. 1 = Very inadequate, 5 = Fully adequate.",
+      fr:"Évaluez la capacité nationale actuelle à fournir des services d'IQ reconnus à l'international pour les chaînes de valeur prioritaires. Une note par ligne. 1 = Très insuffisante, 5 = Pleinement suffisante.",
       ar:"قيّموا القدرة الوطنية الحالية على تقديم خدمات بنية تحتية للجودة معترف بها دولياً. تقييم واحد لكل سطر. 1 = غير كافية إطلاقاً، 5 = كافية تماماً." },
   rows:[
    { v:"std", t:{ en:"Standardization", fr:"Normalisation", ar:"التقييس" } },
@@ -236,7 +239,7 @@ core: [
    { v:"infra", t:{ en:"Physical infrastructure (buildings, utilities)", fr:"Infrastructures physiques (bâtiments, réseaux)", ar:"البنية المادية (مبانٍ ومرافق)" } },
    { v:"ict", t:{ en:"ICT systems and digital infrastructure", fr:"Systèmes informatiques et infrastructure numérique", ar:"نظم المعلومات والبنية الرقمية" } },
    { v:"hr", t:{ en:"Staff capacity building and training", fr:"Renforcement des capacités et formation du personnel", ar:"بناء قدرات الموظفين وتدريبهم" } },
-   { v:"intl", t:{ en:"International accreditation and peer evaluation", fr:"Accréditation internationale et évaluation par les pairs", ar:"الاعتماد الدولي وتقييم الأقران" } },
+   { v:"intl", t:{ en:"Access to internationally recognized accreditation and peer evaluation", fr:"Accès à une accréditation et une évaluation par les pairs reconnues à l'international", ar:"الوصول إلى اعتماد وتقييم أقران معترف بهما دولياً" } },
    { v:"qms", t:{ en:"Quality management system implementation", fr:"Mise en place de systèmes de management de la qualité", ar:"تطبيق نظم إدارة الجودة" } },
    { v:"aware", t:{ en:"Outreach and awareness programmes", fr:"Programmes de sensibilisation et de communication", ar:"برامج التوعية والتواصل" } }
   ] },
@@ -256,15 +259,15 @@ core: [
 
 // ---- G4 MSMEs and demand ----
 { id:"A13", group:"G4", tag:"PERCEPTION", type:"scale",
-  t:{ en:"How affordable are QI services for micro, small and medium enterprises (MSMEs) in your country? 1 = Very inadequate (unaffordable), 5 = Fully adequate.",
-      fr:"Dans quelle mesure les services d'IQ sont-ils financièrement accessibles aux micro, petites et moyennes entreprises (MPME) de votre pays ? 1 = Très insuffisant (inabordable), 5 = Pleinement satisfaisant.",
-      ar:"إلى أي مدى تُعدّ خدمات البنية التحتية للجودة ميسورة التكلفة للمنشآت الصغرى والصغيرة والمتوسطة في بلدكم؟ 1 = غير ميسورة إطلاقاً، 5 = ميسورة تماماً." },
+  t:{ en:"Are pricing structures for key QI services adequate for MSMEs in your country? 1 = Very inadequate, 5 = Fully adequate.",
+      fr:"Les structures tarifaires des principaux services d'IQ sont-elles adaptées aux MPME de votre pays ? 1 = Très insuffisantes, 5 = Pleinement adaptées.",
+      ar:"هل هياكل تسعير خدمات البنية التحتية للجودة الرئيسية ملائمة للمنشآت الصغرى والصغيرة والمتوسطة في بلدكم؟ 1 = غير ملائمة إطلاقاً، 5 = ملائمة تماماً." },
   pts:[
-   { v:1, t:{ en:"1 Very inadequate", fr:"1 Très insuffisant", ar:"1 غير ميسورة إطلاقاً" } },
-   { v:2, t:{ en:"2 Inadequate", fr:"2 Insuffisant", ar:"2 غير ميسورة" } },
-   { v:3, t:{ en:"3 Partially adequate", fr:"3 Partiellement satisfaisant", ar:"3 ميسورة جزئياً" } },
-   { v:4, t:{ en:"4 Adequate", fr:"4 Satisfaisant", ar:"4 ميسورة" } },
-   { v:5, t:{ en:"5 Fully adequate", fr:"5 Pleinement satisfaisant", ar:"5 ميسورة تماماً" } }
+   { v:1, t:{ en:"1 Very inadequate", fr:"1 Très insuffisant", ar:"1 غير ملائمة إطلاقاً" } },
+   { v:2, t:{ en:"2 Inadequate", fr:"2 Insuffisant", ar:"2 غير ملائمة" } },
+   { v:3, t:{ en:"3 Partially adequate", fr:"3 Partiellement satisfaisant", ar:"3 ملائمة جزئياً" } },
+   { v:4, t:{ en:"4 Adequate", fr:"4 Satisfaisant", ar:"4 ملائمة" } },
+   { v:5, t:{ en:"5 Fully adequate", fr:"5 Pleinement satisfaisant", ar:"5 ملائمة تماماً" } }
   ] },
 
 { id:"A14", group:"G4", tag:"PERCEPTION", type:"single",
@@ -288,10 +291,10 @@ core: [
    { v:"dist", t:{ en:"Distance or limited geographic coverage", fr:"Distance ou couverture géographique limitée", ar:"البُعد الجغرافي أو محدودية التغطية" } },
    { v:"aware", t:{ en:"Low awareness of available services", fr:"Faible connaissance des services disponibles", ar:"ضعف الوعي بالخدمات المتاحة" } },
    { v:"slow", t:{ en:"Slow turnaround times", fr:"Délais de traitement trop longs", ar:"بطء مدد الإنجاز" } },
-   { v:"noacc", t:{ en:"Lack of locally accredited services (tests must be done abroad)", fr:"Absence de services accrédités localement (essais à réaliser à l'étranger)", ar:"غياب خدمات معتمدة محلياً (تُجرى الاختبارات في الخارج)" } },
+   { v:"noacc", t:{ en:"Lack of locally accredited services (calibrations, tests, certification and inspection services must be sourced from abroad)", fr:"Absence de services accrédités localement (étalonnages, essais, certifications et inspections à obtenir à l'étranger)", ar:"غياب خدمات معتمدة محلياً (يجب الحصول على المعايرات والاختبارات والشهادات وخدمات التفتيش من الخارج)" } },
    { v:"doc", t:{ en:"Complex documentation and procedures", fr:"Documentation et procédures complexes", ar:"تعقيد المستندات والإجراءات" } },
    { v:"benefit", t:{ en:"Low perceived benefit", fr:"Bénéfice perçu comme faible", ar:"ضعف الجدوى المتصوَّرة" } },
-   { v:"fin", t:{ en:"Difficulty financing compliance costs", fr:"Difficulté à financer les coûts de mise en conformité", ar:"صعوبة تمويل تكاليف الامتثال" } }
+   { v:"fin", t:{ en:"Difficulty financing compliance costs / conformity assessment", fr:"Difficulté à financer les coûts de mise en conformité / d'évaluation de la conformité", ar:"صعوبة تمويل تكاليف الامتثال / تقييم المطابقة" } }
   ] },
 
 // ---- G5 Solutions and priorities ----
