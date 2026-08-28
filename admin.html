@@ -11,6 +11,102 @@
 <body>
 <main id="main">
   <div class="adminbanner" id="banner"></div>
+  <section class="pad" style="padding-bottom:6px"><div class="wrap">
+    <div class="console" style="border-color:var(--accent)">
+      <h3><span id="v3-title"></span> <span id="v3-mode"></span></h3>
+      <p class="sub" id="v3-sub" style="font-size:13.5px"></p>
+
+      <form id="v3-login" style="display:none;max-width:420px">
+        <h4 id="v3-li-t" style="color:var(--navy);margin:6px 0"></h4>
+        <label id="v3-li-l1" style="display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin:8px 0 3px"></label>
+        <input id="v3-li-email" type="email" autocomplete="username" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit">
+        <label id="v3-li-l2" style="display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin:8px 0 3px"></label>
+        <input id="v3-li-pw" type="password" autocomplete="current-password" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit">
+        <p style="margin:12px 0 0"><button class="cbtn" id="v3-li-btn" type="submit"></button></p>
+        <div class="gatemsg" id="v3-li-msg"></div>
+      </form>
+
+      <form id="v3-changepw" style="display:none;max-width:420px">
+        <div class="pwmodal"><b id="v3-pw-t"></b>
+          <input id="v3-pw-new" type="password" autocomplete="new-password" minlength="12" style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit">
+          <p style="margin:10px 0 0"><button class="cbtn" id="v3-pw-btn" type="submit"></button></p>
+          <div class="gatemsg" id="v3-pw-msg"></div>
+        </div>
+      </form>
+
+      <div id="v3-console" style="display:none">
+        <div class="cbox">
+          <h4 id="v3-sp-t"></h4>
+          <p class="note" id="v3-sp-n"></p>
+          <div id="v3-spaces"></div>
+        </div>
+
+        <div class="cbox">
+          <h4 id="v3-team-t"></h4>
+          <p class="note" id="v3-team-n"></p>
+          <div id="v3-team-create" style="display:none">
+            <div class="cgrid2">
+              <div><label id="v3-l-email"></label><input id="v3-adm-email" type="email"></div>
+              <div><label id="v3-l-name"></label><input id="v3-adm-name" type="text"></div>
+              <div><label id="v3-l-org"></label><input id="v3-adm-org" type="text"></div>
+              <div><label id="v3-l-role"></label><select id="v3-adm-role"></select></div>
+            </div>
+            <label id="v3-l-regions" style="margin-top:10px"></label>
+            <div class="rights" id="v3-adm-regions"></div>
+            <div class="cgrid2" style="margin-top:8px">
+              <div><label id="v3-l-countries"></label><input id="v3-adm-countries" type="text" placeholder="GHA KEN JAM …"></div>
+              <div style="display:flex;align-items:flex-end"><label class="ck" style="font-size:13px"><input type="checkbox" id="v3-adm-dl" checked> <span id="v3-l-dl"></span></label></div>
+            </div>
+            <p style="margin:12px 0 0"><button class="cbtn" id="v3-adm-btn"></button></p>
+            <div class="gatemsg" id="v3-adm-msg"></div>
+            <div class="pwmodal" id="v3-adm-out" style="display:none"></div>
+          </div>
+          <div id="v3-team-list" style="margin-top:10px"></div>
+        </div>
+
+        <div class="cbox">
+          <h4 id="v3-inv-t"></h4>
+          <p class="note" id="v3-inv-n"></p>
+          <div class="cgrid2">
+            <div><label id="v3-l-iemail"></label><input id="v3-inv-email" type="email"></div>
+            <div><label id="v3-l-iname"></label><input id="v3-inv-name" type="text"></div>
+            <div><label id="v3-l-icountry"></label><select id="v3-inv-country"></select></div>
+            <div><label id="v3-l-icat"></label><select id="v3-inv-cat"></select></div>
+            <div><label id="v3-l-ilevel"></label><select id="v3-inv-level"></select></div>
+          </div>
+          <p style="margin:12px 0 0"><button class="cbtn" id="v3-inv-btn"></button></p>
+          <div class="gatemsg" id="v3-inv-msg"></div>
+          <div class="pwmodal" id="v3-inv-out" style="display:none"></div>
+          <div id="v3-inv-list" style="margin-top:10px"></div>
+        </div>
+
+        <div class="cbox" id="v3-req-box">
+          <h4 id="v3-req-t"></h4>
+          <div id="v3-req-list"></div>
+        </div>
+
+        <div class="cbox" id="v3-dl-box">
+          <h4 id="v3-dl-t"></h4>
+          <p class="note" id="v3-dl-n"></p>
+          <div class="dlgrid">
+            <div><label id="v3-l-scope"></label><select id="v3-dl-scope"></select></div>
+            <div><label id="v3-l-theme"></label><select id="v3-dl-theme"></select></div>
+            <div><label id="v3-l-resp"></label><input id="v3-dl-resp" type="text" placeholder="GHA-NSB-01 / email"></div>
+          </div>
+          <p style="margin:12px 0 0">
+            <button class="cbtn" id="v3-dl-xls">Excel (.xls)</button>
+            <button class="cbtn sec" id="v3-dl-csv">CSV</button>
+          </p>
+        </div>
+
+        <div class="cbox">
+          <h4 id="v3-log-t"></h4>
+          <ul class="alog" id="v3-log"></ul>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
   <section class="pad"><div class="wrap">
 
     <div class="console">
@@ -95,10 +191,12 @@
     </div>
   </div></section>
 </main>
+<script src="config.js"></script>
 <script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="countries.js"></script>
 <script src="bank_part1.js"></script>
+<script src="db.js"></script>
 <script src="access.js"></script>
 <script>
 qiMount("admin");
@@ -165,7 +263,7 @@ var C = {
              fr:"Cette action est réservée au super administrateur. Changez de rôle ci-dessus pour la démontrer.",
              ar:"هذا الإجراء مخصص للمشرف العام. بدّلوا الدور أعلاه لعرضه." }
 };
-var ORGS = { unido:"UNIDO", auda:"AUDA-NEPAD", auc:"AUC" };
+var ORGS = { unido:"UNIDO", auda:"AUDA-NEPAD", auc:"AUC", oacps:"OACPS" };
 var ROLE_KEY = "qi_admin_role";
 function role(){ try { return localStorage.getItem(ROLE_KEY) || "super"; } catch(e){ return "super"; } }
 function setRole(r){ try { localStorage.setItem(ROLE_KEY, r); } catch(e){} paint(); }
@@ -215,7 +313,7 @@ qsel.onchange = paint;
 function paint(){
   var st = QIA.state();
   // role bar
-  var roles = [["super", T(C.superRole)], ["unido","UNIDO"], ["auda","AUDA-NEPAD"], ["auc","AUC"]];
+  var roles = [["super", T(C.superRole)], ["unido","UNIDO"], ["auda","AUDA-NEPAD"], ["auc","AUC"], ["oacps","OACPS"]];
   document.getElementById("rolebar").innerHTML = '<span style="align-self:center;font-size:12.5px;color:var(--grey)">' + esc(T(C.viewAs)) + '</span>' +
     roles.map(function(r){
       return '<button type="button" class="' + (r[0] === "super" ? "super" : "") + '" aria-pressed="' + (role() === r[0]) + '" onclick="setRole(\'' + r[0] + '\')">' + esc(r[1]) + '</button>';
@@ -266,7 +364,7 @@ function paint(){
 
   // rosters
   document.getElementById("roster").innerHTML = Object.keys(ORGS).map(function(org){
-    var list = QIA.state().admins[org];
+    var list = QIA.state().admins[org] || [];
     return '<div class="org"><b>' + ORGS[org] + '</b> <span class="cap">' + list.length + "/5 " + esc(T(C.seats)) + "</span>" +
       "<ul>" + list.map(function(a, i){
         return "<li><span>" + esc(a.name) + '<br><span style="color:var(--grey);font-size:11.5px">' + esc(a.email) + "</span></span>" +
@@ -391,6 +489,7 @@ document.getElementById("queue").innerHTML = queue.map(function(q){
   return '<div class="mrow" style="font-size:13.5px">' + esc(T(q)) + '</div>';
 }).join("");
 </script>
+<script src="admin3.js"></script>
 </body>
 </html>
 
