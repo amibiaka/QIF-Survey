@@ -13,7 +13,7 @@
   <div class="adminbanner" id="banner"></div>
   <section class="pad" style="padding-bottom:6px"><div class="wrap">
     <div class="console" style="border-color:var(--accent)">
-      <h3><span id="v3-title"></span> <span id="v3-mode"></span></h3>
+      <h3 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span id="v3-title"></span> <span id="v3-mode"></span><span style="margin-inline-start:auto;display:inline-flex;gap:8px"><a id="v3-home" href="index.html" style="font-size:12.5px;font-weight:600;color:var(--navy);border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-decoration:none"></a><button type="button" id="v3-out" style="font-size:12.5px;font-weight:700;color:#fff;background:var(--navy);border:0;border-radius:8px;padding:7px 13px;cursor:pointer"></button></span></h3>
       <p class="sub" id="v3-sub" style="font-size:13.5px"></p>
 
       <form id="v3-login" style="display:none;max-width:420px">
@@ -490,6 +490,17 @@ document.getElementById("queue").innerHTML = queue.map(function(q){
 }).join("");
 </script>
 <script src="admin3.js"></script>
+<script>
+(function(){
+  var h = document.getElementById("v3-home"), o = document.getElementById("v3-out");
+  h.href = "index.html?lang=" + qiLang;
+  h.textContent = T({ en:"Home", fr:"Accueil", ar:"الرئيسية" });
+  o.textContent = T(QI_I18N.auth.logout);
+  o.onclick = function(){
+    try { localStorage.removeItem("qi_admin_role"); } catch(e){}
+    Promise.resolve(QIDB.signOut && QIDB.signOut()).then(function(){ location.href = "index.html?lang=" + qiLang; });
+  };
+})();
+</script>
 </body>
 </html>
-
