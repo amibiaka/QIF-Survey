@@ -2,13 +2,13 @@
 window.QI_I18N = {
  langNames: { en:"English", fr:"Français", ar:"العربية" },
  partners: {
-  en:"African Union Development Agency (AUDA-NEPAD) | United Nations Industrial Development Organization (UNIDO) | African Union Commission (AUC) | in collaboration with the Organisation of African, Caribbean and Pacific States (OACPS)",
-  fr:"Agence de développement de l'Union africaine (AUDA-NEPAD) | Organisation des Nations Unies pour le développement industriel (ONUDI) | Commission de l'Union africaine (CUA) | en collaboration avec l'Organisation des États d'Afrique, des Caraïbes et du Pacifique (OEACP)",
-  ar:"وكالة التنمية التابعة للاتحاد الأفريقي (أودا-نيباد) | منظمة الأمم المتحدة للتنمية الصناعية (اليونيدو) | مفوضية الاتحاد الأفريقي | بالتعاون مع منظمة دول أفريقيا والكاريبي والمحيط الهادئ" },
+  en:"United Nations Industrial Development Organization (UNIDO), in collaboration with the Organisation of African, Caribbean and Pacific States (OACPS), the African Union Development Agency (AUDA-NEPAD), the African Union Commission (AUC), the CARICOM Regional Organisation for Standards and Quality (CROSQ) and the Pacific Islands Forum Secretariat (PIFS)",
+  fr:"Organisation des Nations Unies pour le développement industriel (ONUDI), en collaboration avec l'Organisation des États d'Afrique, des Caraïbes et du Pacifique (OEACP), l'Agence de développement de l'Union africaine (AUDA-NEPAD), la Commission de l'Union africaine (CUA), l'Organisation régionale de la CARICOM pour les normes et la qualité (CROSQ) et le Secrétariat du Forum des îles du Pacifique (PIFS)",
+  ar:"منظمة الأمم المتحدة للتنمية الصناعية (اليونيدو)، بالتعاون مع منظمة دول أفريقيا والكاريبي والمحيط الهادئ (الأواكبس)، ووكالة التنمية التابعة للاتحاد الأفريقي (أودا-نيباد)، ومفوضية الاتحاد الأفريقي، والمنظمة الإقليمية للكاريكوم للمواصفات والجودة (كروسك)، وأمانة منتدى جزر المحيط الهادئ" },
  siteTitle: {
-  en:"Financing Quality Infrastructure in Africa",
-  fr:"Financer l'infrastructure de la qualité en Afrique",
-  ar:"تمويل البنية التحتية للجودة في أفريقيا" },
+  en:"Financing Quality Infrastructure in the ACP Region",
+  fr:"Financer l'infrastructure de la qualité dans la région ACP",
+  ar:"تمويل البنية التحتية للجودة في منطقة دول أفريقيا والكاريبي والمحيط الهادئ" },
  prototype: { en:"PROTOTYPE", fr:"PROTOTYPE", ar:"نموذج تجريبي" },
  nav: {
   home:{ en:"Home", fr:"Accueil", ar:"الرئيسية" },
@@ -18,9 +18,9 @@ window.QI_I18N = {
   admin:{ en:"Admin (demo)", fr:"Admin (démo)", ar:"الإدارة (تجريبي)" } },
  hero: {
   kicker:{ en:"ACP Quality Infrastructure Programme", fr:"Programme Infrastructure Qualité ACP", ar:"برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ" },
-  title:{ en:"Survey on Financing Quality Infrastructure and MSME Access to Finance in Africa",
-          fr:"Enquête sur le financement de l'infrastructure de la qualité et l'accès des MPME au financement en Afrique",
-          ar:"استبيان حول تمويل البنية التحتية للجودة ووصول المنشآت الصغرى والصغيرة والمتوسطة إلى التمويل في أفريقيا" },
+  title:{ en:"Survey on Financing Quality Infrastructure and MSME Access to Finance in the ACP Region",
+          fr:"Enquête sur le financement de l'infrastructure de la qualité et l'accès des MPME au financement dans la région ACP",
+          ar:"استبيان حول تمويل البنية التحتية للجودة ووصول المنشآت الصغرى والصغيرة والمتوسطة إلى التمويل في منطقة دول أفريقيا والكاريبي والمحيط الهادئ" },
   lead:{ en:"20 to 25 minutes. One common core, questions adapted to your country's context and to your institution. There are no right or wrong answers: every answer builds an accurate country profile.",
          fr:"20 à 25 minutes. Un tronc commun, des questions adaptées au contexte de votre pays et à votre institution. Il n'y a ni bonnes ni mauvaises réponses : chaque réponse construit un profil pays fidèle.",
          ar:"من 20 إلى 25 دقيقة. جذع مشترك وأسئلة تتكيف مع سياق بلدكم ومؤسستكم. لا توجد إجابات صحيحة أو خاطئة: كل إجابة تسهم في بناء ملف قُطري دقيق." },
@@ -199,7 +199,7 @@ window.QI_I18N = {
     isoLabels: { sub: { en:"Subscriber member", fr:"Membre abonné", ar:"عضو مشترك" } } },
    product: {
     name: { en:"QIF Survey Master", fr:"QIF Survey Master", ar:"QIF Survey Master" },
-    owner: { en:"QIF Survey Master is the property of AUDA-NEPAD.", fr:"QIF Survey Master est la propriété de l'AUDA-NEPAD.", ar:"منصة QIF Survey Master مملوكة لوكالة أودا-نيباد." },
+    owner: { en:"About this platform: developed with the technical contribution of AUDA-NEPAD, whose role in supporting this initiative is gratefully acknowledged.", fr:"À propos de la plateforme : développée avec la contribution technique de l'AUDA-NEPAD, dont le rôle dans l'appui à cette initiative est salué.", ar:"عن هذه المنصة: طُوِّرت بمساهمة تقنية من أودا-نيباد، مع التقدير لدورها في دعم هذه المبادرة." },
     programme: { en:"ACP Quality Infrastructure Programme, funded by the European Union and the OACPS",
                  fr:"Programme ACP pour l'infrastructure de la qualité, financé par l'Union européenne et l'OEACP",
                  ar:"برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ، بتمويل من الاتحاد الأوروبي ومنظمة الأواكبس" } },

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QIF Survey Master · Financing Quality Infrastructure in Africa, the Caribbean and the Pacific</title>
-<meta name="description" content="QIF Survey Master, the AUDA-NEPAD survey platform. Survey on Financing Quality Infrastructure and MSME Access to Finance, run by AUDA-NEPAD, UNIDO and the African Union Commission in collaboration with the OACPS across Africa, the Caribbean and the Pacific.">
+<title>QIF Survey Master · Financing Quality Infrastructure in the ACP Region</title>
+<meta name="description" content="QIF Survey Master, the platform of the Survey on Financing Quality Infrastructure and MSME Access to Finance, conducted by UNIDO in collaboration with the OACPS, AUDA-NEPAD, the African Union Commission, CROSQ and the Pacific Islands Forum Secretariat across Africa, the Caribbean and the Pacific.">
 <meta name="keywords" content="quality infrastructure, QI financing, MSME, AUDA-NEPAD, UNIDO, African Union, OACPS, survey, standards, metrology, accreditation">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://auda-nepad-survey.org/index.html">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="ar" href="https://auda-nepad-survey.org/index.html?lang=ar">
 <meta property="og:type" content="website">
 <meta property="og:title" content="QIF Survey Master">
-<meta property="og:description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance. AUDA-NEPAD | UNIDO | AUC | OACPS.">
+<meta property="og:description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance. UNIDO, in collaboration with the OACPS, AUDA-NEPAD, the AUC, CROSQ and PIFS.">
 <meta property="og:url" content="https://auda-nepad-survey.org/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,7 +82,7 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
 .gatefoot{border-top:1px solid var(--hair);color:var(--mut)}
 
 /* logos */
-.lp-logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.lp-logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
 .lp-logo{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--hair);border-radius:15px;min-height:88px;padding:16px 20px;transition:transform .22s ease,box-shadow .22s ease}
 .lp-logo:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,35,58,.08)}
 .lp-logo img{max-height:50px;max-width:100%;width:auto;height:auto;display:block}
@@ -244,7 +244,7 @@ var HERO = {
 
 var LBL = {
   acc:{ en:"Enter the platform", fr:"Accéder à la plateforme", ar:"الدخول إلى المنصة" },
-  impl:{ en:"Implemented by", fr:"Mis en œuvre par", ar:"الجهات المنفِّذة" },
+  impl:{ en:"In collaboration with", fr:"En collaboration avec", ar:"بالتعاون مع" },
   rTag:{ en:"Respondents", fr:"Répondants", ar:"المجيبون" },
   rT:{ en:"Answer the survey", fr:"Répondre à l'enquête", ar:"المشاركة في الاستبيان" },
   rB:{ en:"Open the personal link from your invitation email to start or resume your questionnaire. No link yet? Request access and receive yours.",
@@ -289,8 +289,9 @@ document.querySelectorAll('#langs button').forEach(function(b){
 });
 
 // Partner logos: official marks served from this site, wordmark fallback.
-var LOGOS = [["auda-nepad.png","AUDA-NEPAD"],["unido.svg","UNIDO"],["auc.webp","African Union Commission"],["oacps.webp","OACPS"]];
+var LOGOS = [["unido.svg","UNIDO"],["oacps.webp","OACPS"],["auda-nepad.png","AUDA-NEPAD"],["auc.webp","African Union Commission"],[null,"CROSQ"],[null,"Pacific Islands Forum"]];
 document.getElementById("plogos").innerHTML = LOGOS.map(function(l){
+  if (!l[0]) return '<span class="lp-logo txt"><i>' + l[1] + '</i></span>';
   return '<span class="lp-logo"><img src="' + l[0] + '" alt="' + l[1] + '" loading="lazy" ' +
     'onerror="this.parentNode.classList.add(\'txt\');this.remove()"><i>' + l[1] + '</i></span>';
 }).join("");
