@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
         "Your QIF Survey Master administrator profile",
         `<p>Dear ${p.name ?? "colleague"},</p>
          <p>An administrator profile has been created for you on <b>QIF Survey Master</b>,
-         the survey platform of AUDA-NEPAD operated with UNIDO, the African Union Commission and the OACPS.</p>
+         the platform of the ACP Quality Infrastructure Programme survey, conducted by UNIDO in collaboration with the OACPS, AUDA-NEPAD, the African Union Commission, CROSQ and the Pacific Islands Forum Secretariat.</p>
          <p>Sign in at <a href="${p.origin ?? ""}/admin.html">${p.origin ?? "the platform"}</a> with:</p>
          <p>Email: <b>${p.email}</b><br>Temporary password: <b>${temp}</b></p>
          <p>You will be asked to change this password at your first sign-in.</p>
@@ -98,8 +98,8 @@ Deno.serve(async (req) => {
         "Invitation: Survey on Financing Quality Infrastructure",
         `<p>Dear ${inv.name ?? "respondent"},</p>
          <p>You are invited to complete the <b>Survey on Financing Quality Infrastructure and MSME Access to Finance</b>,
-         conducted by AUDA-NEPAD, UNIDO and the African Union Commission under the ACP Quality Infrastructure
-         Programme, in collaboration with the OACPS.</p>
+         conducted by UNIDO under the ACP Quality Infrastructure Programme, in collaboration with the OACPS,
+         AUDA-NEPAD, the African Union Commission, CROSQ and the Pacific Islands Forum Secretariat.</p>
          <p><a href="${link}">Start your country's survey</a> (20 to 25 minutes; the link is personal and expires in 7 days).</p>
          <p>QIF Survey Master · © AUDA-NEPAD</p>`,
       );
@@ -111,4 +111,3 @@ Deno.serve(async (req) => {
     return J({ ok: false, why: String(e) }, 500);
   }
 });
-
