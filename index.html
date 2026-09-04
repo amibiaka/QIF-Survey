@@ -89,6 +89,15 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
 .lp-logo i{display:none;font-style:normal;font-weight:700;color:var(--nv);font-size:13.5px;text-align:center;letter-spacing:.05em}
 .lp-logo.txt i{display:block}
 
+/* tutorial video */
+.lp-vid{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:clamp(14px,2.5vw,22px);box-shadow:0 22px 60px rgba(16,35,58,.07)}
+.lp-vhead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 14px}
+.lp-vhead p{margin:0;font-size:13.5px;line-height:1.55;color:var(--mut);max-width:62ch;text-align:start}
+.lp-vpills{display:flex;gap:8px}
+.lp-vpills button{border:1px solid var(--hair);background:#fff;color:var(--nv);font-family:inherit;font-weight:700;font-size:12.5px;letter-spacing:.06em;border-radius:999px;padding:7px 16px;cursor:pointer;transition:background .2s,color .2s}
+.lp-vpills button[aria-pressed="true"]{background:var(--nv);color:#fff;border-color:var(--nv)}
+#tut-vid{display:block;width:100%;aspect-ratio:16/9;border-radius:12px;background:#0F2233;outline:none}
+
 .rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}.lp-door,.lp-logo,.lp-btn,.gatebtn{transition:none}}
@@ -163,13 +172,27 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
         </div>
       </section>
 
+      <section class="rv">
+        <div class="seclab"><i>02</i><span id="g-tut"></span></div>
+        <div class="lp-vid">
+          <div class="lp-vhead">
+            <p id="tut-lede"></p>
+            <div class="lp-vpills" id="vpills" role="group" aria-label="Tutorial language">
+              <button type="button" data-v="en" aria-pressed="false">English</button>
+              <button type="button" data-v="fr" aria-pressed="false">Français</button>
+            </div>
+          </div>
+          <video id="tut-vid" controls playsinline preload="none" poster="tutorial-en.jpg" src="tutorial-en.mp4"></video>
+        </div>
+      </section>
+
       <section class="objbox rv">
-        <div class="seclab"><i>02</i><span id="obj-t"></span></div>
+        <div class="seclab"><i>03</i><span id="obj-t"></span></div>
         <p id="obj-b"></p>
       </section>
 
       <section class="rv">
-        <div class="seclab"><i>03</i><span id="g-impl"></span></div>
+        <div class="seclab"><i>04</i><span id="g-impl"></span></div>
         <div class="lp-logos" id="plogos"></div>
       </section>
 
@@ -256,7 +279,11 @@ var LBL = {
   aB:{ en:"Open countries, create administrators and respondents, monitor participation and download data, according to your rights.",
        fr:"Ouvrez des pays, créez des administrateurs et des répondants, suivez la participation et téléchargez les données, selon vos droits.",
        ar:"افتحوا البلدان وأنشئوا المديرين والمجيبين وتابعوا المشاركة ونزّلوا البيانات وفق صلاحياتكم." },
-  aBtn:{ en:"Administrator sign-in", fr:"Connexion administrateur", ar:"دخول المديرين" }
+  aBtn:{ en:"Administrator sign-in", fr:"Connexion administrateur", ar:"دخول المديرين" },
+  tut:{ en:"How it works", fr:"Comment ça fonctionne", ar:"كيف تعمل المنصة" },
+  tutB:{ en:"A two-and-a-half-minute guided tour: requesting access, signing in, answering the questions and submitting your responses, with our confidentiality and security commitments.",
+         fr:"Une visite guidée de deux minutes trente : demande d'accès, connexion, réponse aux questions et envoi, avec nos engagements de confidentialité et de sécurité.",
+         ar:"جولة إرشادية مدتها دقيقتان ونصف: طلب الوصول وتسجيل الدخول والإجابة عن الأسئلة وإرسالها، مع التزاماتنا بالسرية والأمان." }
 };
 
 document.getElementById("lp-name").textContent = T(I.product.name);
@@ -303,6 +330,30 @@ document.getElementById("d-r-btn").addEventListener("click", function(){
   w.scrollIntoView({ behavior:"smooth", block:"start" });
   setTimeout(function(){ document.getElementById("s-name").focus(); }, 450);
 });
+
+// ---- tutorial video (EN/FR) ----
+document.getElementById("g-tut").textContent = T(LBL.tut);
+document.getElementById("tut-lede").textContent = T(LBL.tutB);
+(function(){
+  var v = document.getElementById("tut-vid");
+  v.setAttribute("aria-label", T(LBL.tut));
+  function pick(l, play){
+    v.pause();
+    v.setAttribute("poster", "tutorial-" + l + ".jpg");
+    v.src = "tutorial-" + l + ".mp4";
+    v.load();
+    document.querySelectorAll("#vpills button").forEach(function(b){
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === l));
+    });
+    if (play) v.play();
+  }
+  document.querySelectorAll("#vpills button").forEach(function(b){
+    b.addEventListener("click", function(){
+      if (b.getAttribute("aria-pressed") !== "true") pick(b.getAttribute("data-v"), !v.paused && !v.ended);
+    });
+  });
+  pick(qiLang === "fr" ? "fr" : "en", false);
+})();
 
 // ---- sign up ----
 document.getElementById("s-intro").textContent = T(GATE.intro);
