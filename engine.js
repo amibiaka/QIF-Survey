@@ -523,7 +523,7 @@ function stepReview(){
   h('<div class="scard">' + pathChips() +
     '<h2 class="sec">' + esc(T(S.review)) + '</h2>' +
     '<div class="review"><dl>' + rows + '</dl></div>' +
-    '<div class="notice">' + esc(T(S.demoNote)) + '</div>' +
+    '<div class="notice">' + esc(T((window.QIDB && QIDB.mode && QIDB.mode() === "live") ? S.liveNote : S.demoNote)) + '</div>' +
     '<div class="navrow"><button class="btn nav sec" onclick="QIE.jump(' + (scr.length - 1) + ')">' + esc(T(S.back)) + '</button>' +
     '<button class="btn nav" id="sbm">' + esc(T(S.submit)) + '</button></div></div>');
   document.getElementById("sbm").onclick = doSubmit;
@@ -636,4 +636,3 @@ function render(){
   else stepScreens();
 }
 })();
-

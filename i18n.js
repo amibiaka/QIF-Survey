@@ -15,7 +15,7 @@ window.QI_I18N = {
   survey:{ en:"Take the survey", fr:"Répondre à l'enquête", ar:"المشاركة في الاستبيان" },
   insights:{ en:"Countries & insights", fr:"Pays et données", ar:"البلدان والبيانات" },
   about:{ en:"Methodology", fr:"Méthodologie", ar:"المنهجية" },
-  admin:{ en:"Admin (demo)", fr:"Admin (démo)", ar:"الإدارة (تجريبي)" } },
+  admin:{ en:"Administration", fr:"Administration", ar:"الإدارة" } },
  hero: {
   kicker:{ en:"ACP Quality Infrastructure Programme", fr:"Programme Infrastructure Qualité ACP", ar:"برنامج البنية التحتية للجودة لدول أفريقيا والكاريبي والمحيط الهادئ" },
   title:{ en:"Survey on Financing Quality Infrastructure and MSME Access to Finance in the ACP Region",
@@ -116,6 +116,9 @@ window.QI_I18N = {
   demoNote:{ en:"Prototype note: in this demo, submissions go to the Netlify Forms inbox of this site.",
              fr:"Note prototype : dans cette démo, les envois arrivent dans la boîte Netlify Forms de ce site.",
              ar:"ملاحظة النموذج التجريبي: في هذا العرض تُرسل الإجابات إلى صندوق Netlify Forms الخاص بالموقع." },
+  liveNote:{ en:"Your responses are submitted securely and treated confidentially. Results are reported only in aggregate.",
+             fr:"Vos réponses sont transmises de manière sécurisée et traitées de façon confidentielle. Les résultats ne sont publiés que sous forme agrégée.",
+             ar:"تُرسل إجاباتكم بشكل آمن وتُعامل بسرية تامة، ولا تُنشر النتائج إلا في صورة مجمّعة." },
   yourPath:{ en:"Your path", fr:"Votre parcours", ar:"مساركم" },
   minutes:{ en:"about 20-25 minutes", fr:"environ 20 à 25 minutes", ar:"نحو 20-25 دقيقة" },
   ratingGuide:{ en:"Rating guide, the same scale applies to every row:", fr:"Guide de notation, la même échelle s'applique à chaque ligne :", ar:"دليل التقييم، ينطبق المقياس نفسه على كل سطر:" },

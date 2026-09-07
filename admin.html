@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Admin demo · Financing Quality Infrastructure in Africa</title>
+<title>Admin demo · Financing Quality Infrastructure in the ACP Region</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="main.css">
 </head>
@@ -202,9 +202,9 @@
 qiMount("admin");
 var C = {
  title:{ en:"Access control console", fr:"Console de contrôle des accès", ar:"وحدة التحكم في الوصول" },
- sub:{ en:"Who can take the survey is decided here. The super admin creates respondent IDs from the profile and level lists; partner admins from UNIDO, AUDA-NEPAD and AUC (maximum 5 per organization, identical privileges) grant access, approve requests and send system emails. Simulated in this prototype; in production this console sits behind partner SSO with MFA.",
-      fr:"C'est ici que se décide qui répond à l'enquête. Le super administrateur crée les identifiants à partir des listes de profils et de niveaux ; les administrateurs partenaires de l'ONUDI, l'AUDA-NEPAD et la CUA (5 maximum par organisation, privilèges identiques) accordent les accès, approuvent les demandes et envoient les courriels du système. Simulé dans ce prototype ; en production, cette console est protégée par SSO partenaire avec MFA.",
-      ar:"هنا يتقرر من يشارك في الاستبيان. ينشئ المشرف العام معرّفات المجيبين وفق قوائم الملفات والمستويات؛ ويمنح مديرو المنظمات الشريكة من اليونيدو وأودا-نيباد والمفوضية (خمسة كحد أقصى لكل منظمة، بصلاحيات متطابقة) الوصول ويعتمدون الطلبات ويرسلون رسائل النظام. محاكاة في هذا النموذج؛ وفي النسخة النهائية تقع هذه الوحدة خلف دخول موحّد مع تحقق متعدد العوامل." },
+ sub:{ en:"Who can take the survey is decided here. The super admin creates respondent IDs from the profile and level lists; partner admins from UNIDO, AUDA-NEPAD and AUC (maximum 5 per organization, identical privileges) grant access, approve requests and send system emails. Access is restricted to authorized administrators; every action is recorded in the audit log.",
+      fr:"C'est ici que se décide qui répond à l'enquête. Le super administrateur crée les identifiants à partir des listes de profils et de niveaux ; les administrateurs partenaires de l'ONUDI, l'AUDA-NEPAD et la CUA (5 maximum par organisation, privilèges identiques) accordent les accès, approuvent les demandes et envoient les courriels du système. L'accès est réservé aux administrateurs autorisés ; chaque action est consignée dans le journal d'audit.",
+      ar:"هنا يتقرر من يشارك في الاستبيان. ينشئ المشرف العام معرّفات المجيبين وفق قوائم الملفات والمستويات؛ ويمنح مديرو المنظمات الشريكة من اليونيدو وأودا-نيباد والمفوضية (خمسة كحد أقصى لكل منظمة، بصلاحيات متطابقة) الوصول ويعتمدون الطلبات ويرسلون رسائل النظام. الوصول مقصور على المديرين المخولين؛ وتُسجل جميع العمليات في سجل التدقيق." },
  viewAs:{ en:"Acting as", fr:"Agir en tant que", ar:"العمل بصفة" },
  superRole:{ en:"Super admin", fr:"Super administrateur", ar:"المشرف العام" },
  roleNote:{ en:"The three partner organizations have the same privileges and the same levels. Only the super admin creates respondent IDs, manages the admin rosters and revokes access.",
