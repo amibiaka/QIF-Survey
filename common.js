@@ -48,7 +48,7 @@
   window.qiFooter = function(){
     return '<footer class="site"><div class="wrap"><div class="cols">' +
       '<div><b>' + T(I.siteTitle) + '</b><br>' + T(I.partners) + '</div>' +
-      '<div>' + T(I.footer.privacy) + '</div>' +
+      '<div>' + T(I.footer.privacy) + ' <a href="privacy.html" style="color:inherit">' + T({en:"Privacy",fr:"Confidentialité",ar:"الخصوصية"}) + '</a> · <a href="terms.html" style="color:inherit">' + T({en:"Terms of use",fr:"Conditions d'utilisation",ar:"شروط الاستخدام"}) + '</a></div>' +
       '<div>' + T(I.footer.logos) + '</div>' +
       '</div><p style="margin-top:16px">' + T(I.product.name) + ' · ' + T(I.product.owner) + ' · v3.5 · September 2026</p></div></footer>';
   };

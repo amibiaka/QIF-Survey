@@ -16,11 +16,9 @@
 <meta property="og:description" content="Survey on Financing Quality Infrastructure and MSME Access to Finance. UNIDO, in collaboration with the OACPS, AUDA-NEPAD, the AUC, CROSQ and PIFS.">
 <meta property="og:url" content="https://auda-nepad-survey.org/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="main.css">
 <style>
+@font-face{font-family:"Space Grotesk";src:url("space-grotesk.ttf") format("truetype");font-weight:300 700;font-display:swap}
 /* ---- v3.3 landing: simplified, direct (collision-free lp- classes) ---- */
 .gate{--cream:#F7F4EE;--ink:#10233A;--hair:rgba(16,35,58,.14);--mut:#55646F;--nv:#14486B;--tl:#0E7C86;--gn:#1E7D5A;--bl:#2E6FDB;
   min-height:100vh;background:
@@ -104,34 +102,35 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
 </style>
 </head>
 <body>
+<noscript><div style="background:#14486B;color:#fff;font:13.5px/1.55 system-ui,Arial,sans-serif;padding:13px 18px;text-align:center">This platform requires JavaScript, which your network appears to be blocking. Please ask your IT service to allow <b>auda-nepad-survey.org</b> and <b>vmvcfhlsloscayhxjdmu.supabase.co</b> (the survey's secure database), or open this site from another network or device.<br>Cette plateforme nécessite JavaScript, que votre réseau semble bloquer. Demandez à votre service informatique d'autoriser <b>auda-nepad-survey.org</b> et <b>vmvcfhlsloscayhxjdmu.supabase.co</b>, ou ouvrez ce site depuis un autre réseau.</div></noscript>
 <div class="gate">
   <div class="gatetop">
-    <div class="lp-brand"><span class="mark">QI</span><span class="lp-name" id="lp-name"></span></div>
+    <div class="lp-brand"><span class="mark">QI</span><span class="lp-name" id="lp-name">QIF Survey Master</span></div>
     <div class="langs" role="group" aria-label="Language" id="langs" style="margin:0"></div>
   </div>
   <main class="gatemain" id="main">
     <div class="gatecard wide">
       <section class="lp-hero rv in">
-        <div class="lp-kick" id="g-app"></div>
-        <h1 id="g-title"></h1>
-        <p class="lp-lede" id="g-lede"></p>
-        <p class="partners" id="g-partners"></p>
+        <div class="lp-kick" id="g-app">QIF Survey Master</div>
+        <h1 id="g-title">Financing Quality Infrastructure and MSME Access to Finance</h1>
+        <p class="lp-lede" id="g-lede">One adaptive, trilingual survey across Africa, the Caribbean and the Pacific, building the evidence base and the investment case for standards, metrology, accreditation and conformity assessment.</p>
+        <p class="partners" id="g-partners">United Nations Industrial Development Organization (UNIDO), in collaboration with the Organisation of African, Caribbean and Pacific States (OACPS), the African Union Development Agency (AUDA-NEPAD), the African Union Commission (AUC), the CARICOM Regional Organisation for Standards and Quality (CROSQ) and the Pacific Islands Forum Secretariat (PIFS)</p>
       </section>
 
       <section class="rv in">
-        <div class="seclab"><i>01</i><span id="g-acc"></span></div>
+        <div class="seclab"><i>01</i><span id="g-acc">Enter the platform</span></div>
         <div class="lp-entry">
           <div class="lp-door resp">
-            <span class="lp-tag" id="d-r-tag"></span>
-            <h3 id="d-r-t"></h3>
-            <p id="d-r-b"></p>
-            <button type="button" class="lp-btn" id="d-r-btn"></button>
+            <span class="lp-tag" id="d-r-tag">Respondents</span>
+            <h3 id="d-r-t">Answer the survey</h3>
+            <p id="d-r-b">Open the personal link from your invitation email to start or resume your questionnaire. No link yet? Request access and receive yours.</p>
+            <button type="button" class="lp-btn" id="d-r-btn">Request access</button>
           </div>
           <div class="lp-door adm">
-            <span class="lp-tag" id="d-a-tag"></span>
-            <h3 id="d-a-t"></h3>
-            <p id="d-a-b"></p>
-            <a class="lp-btn" id="d-a-btn" href="admin.html"></a>
+            <span class="lp-tag" id="d-a-tag">Administration</span>
+            <h3 id="d-a-t">Administrators and super administrators</h3>
+            <p id="d-a-b">Open countries, create administrators and respondents, monitor participation and download data, according to your rights.</p>
+            <a class="lp-btn" id="d-a-btn" href="admin.html">Administrator sign-in</a>
           </div>
         </div>
         <div id="signup-wrap" hidden style="margin-top:16px">
@@ -173,10 +172,10 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
       </section>
 
       <section class="rv">
-        <div class="seclab"><i>02</i><span id="g-tut"></span></div>
+        <div class="seclab"><i>02</i><span id="g-tut">How it works</span></div>
         <div class="lp-vid">
           <div class="lp-vhead">
-            <p id="tut-lede"></p>
+            <p id="tut-lede">A two-and-a-half-minute guided tour: requesting access, signing in, answering the questions and submitting your responses, with our confidentiality and security commitments.</p>
             <div class="lp-vpills" id="vpills" role="group" aria-label="Tutorial language">
               <button type="button" data-v="en" aria-pressed="false">English</button>
               <button type="button" data-v="fr" aria-pressed="false">Français</button>
@@ -187,16 +186,17 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
       </section>
 
       <section class="objbox rv">
-        <div class="seclab"><i>03</i><span id="obj-t"></span></div>
+        <div class="seclab"><i>03</i><span id="obj-t">Why this survey</span></div>
         <p id="obj-b"></p>
       </section>
 
       <section class="rv">
-        <div class="seclab"><i>04</i><span id="g-impl"></span></div>
+        <div class="seclab"><i>04</i><span id="g-impl">In collaboration with</span></div>
         <div class="lp-logos" id="plogos"></div>
       </section>
 
-      <p class="gatehint" id="g-owner" style="margin-top:34px;font-weight:600"></p>
+      <p class="gatehint" id="g-owner" style="margin-top:34px;font-weight:600">About this platform: developed with the technical contribution of AUDA-NEPAD, whose role in supporting this initiative is gratefully acknowledged.</p>
+      <p class="gatehint" style="margin-top:8px"><a id="pv-l" href="privacy.html" style="color:var(--nv)">Privacy and data protection</a> · <a id="tm-l" href="terms.html" style="color:var(--nv)">Terms of use</a></p>
     </div>
   </main>
   <div class="gatefoot" id="g-foot"></div>
@@ -292,6 +292,9 @@ document.getElementById("g-title").textContent = T(HERO.title);
 document.getElementById("g-lede").textContent = T(HERO.lede);
 document.getElementById("g-partners").textContent = T(I.partners);
 document.getElementById("g-owner").textContent = T(I.product.owner);
+var _pv = document.getElementById("pv-l"), _tm = document.getElementById("tm-l");
+_pv.textContent = T({ en:"Privacy and data protection", fr:"Confidentialité et protection des données", ar:"الخصوصية وحماية البيانات" });
+_tm.textContent = T({ en:"Terms of use", fr:"Conditions d'utilisation", ar:"شروط الاستخدام" });
 document.getElementById("g-foot").textContent = T(I.footer.privacy);
 document.getElementById("obj-t").textContent = T(I.objectives.title);
 document.getElementById("obj-b").textContent = T(I.objectives.body);
