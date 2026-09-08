@@ -176,9 +176,9 @@ var L = {
   lang:{ en:"Responses by survey language (sample)", fr:"Réponses par langue de l'enquête (exemple)", ar:"الإجابات حسب لغة الاستبيان (عينة)" },
   mins:{ en:"Median completion minutes by respondent module (sample)", fr:"Minutes médianes de complétion par module (exemple)", ar:"الوسيط بالدقائق حسب وحدة المجيب (عينة)" },
   rbTitle:{ en:"Report builder: search, combine and download", fr:"Générateur de rapports : rechercher, combiner et télécharger", ar:"منشئ التقارير: بحث ودمج وتنزيل" },
-  rbLead:{ en:"Choose any combination of countries and data sections, then download the report in the format you need. Verified register data and DEMO sample aggregates are always labeled.",
-           fr:"Choisissez toute combinaison de pays et de sections de données, puis téléchargez le rapport au format voulu. Les données vérifiées et les agrégats d'exemple DEMO restent toujours étiquetés.",
-           ar:"اختاروا أي مزيج من البلدان وأقسام البيانات ثم نزّلوا التقرير بالصيغة المطلوبة. تبقى البيانات المُتحقَّق منها وعينات DEMO موسومة دائماً." },
+  rbLead:{ en:"Choose any combination of countries and data sections, then download the report in the format you need. Verified register data and sample aggregates are always labeled.",
+           fr:"Choisissez toute combinaison de pays et de sections de données, puis téléchargez le rapport au format voulu. Les données vérifiées et les agrégats d'exemple restent toujours étiquetés.",
+           ar:"اختاروا أي مزيج من البلدان وأقسام البيانات ثم نزّلوا التقرير بالصيغة المطلوبة. تبقى البيانات المُتحقَّق منها والعينات التوضيحية موسومة دائماً." },
   scope:{ en:"Countries", fr:"Pays", ar:"البلدان" },
   scopeAll:{ en:"All ACP countries (Africa, Caribbean, Pacific)", fr:"Tous les pays ACP (Afrique, Caraïbes, Pacifique)", ar:"جميع بلدان مجموعة أفريقيا والكاريبي والمحيط الهادئ" },
   scopeAfrica:{ en:"Africa (55 AU member states)", fr:"Afrique (55 États membres de l'UA)", ar:"أفريقيا (55 دولة عضواً في الاتحاد الأفريقي)" },
@@ -192,9 +192,9 @@ var L = {
   s_reg:{ en:"Country recognition register (verified)", fr:"Registre de reconnaissance par pays (vérifié)", ar:"سجل الاعتراف حسب البلد (مُتحقَّق)" },
   s_tier:{ en:"Tier and wave summary (verified)", fr:"Synthèse paliers et vagues (vérifié)", ar:"ملخص الفئات والموجات (مُتحقَّق)" },
   s_route:{ en:"Recognition route summaries (verified)", fr:"Synthèses des voies de reconnaissance (vérifié)", ar:"ملخصات مسارات الاعتراف (مُتحقَّق)" },
-  s_fund:{ en:"Funding-source composition (DEMO sample)", fr:"Composition des financements (exemple DEMO)", ar:"تركيبة مصادر التمويل (عينة DEMO)" },
-  s_sev:{ en:"Financing constraint severity (DEMO sample)", fr:"Sévérité de la contrainte (exemple DEMO)", ar:"شدة قيد التمويل (عينة DEMO)" },
-  s_gap:{ en:"Funding-gap bands (DEMO sample)", fr:"Fourchettes de déficit (exemple DEMO)", ar:"نطاقات الفجوة التمويلية (عينة DEMO)" },
+  s_fund:{ en:"Funding-source composition (sample)", fr:"Composition des financements (exemple)", ar:"تركيبة مصادر التمويل (عينة DEMO)" },
+  s_sev:{ en:"Financing constraint severity (sample)", fr:"Sévérité de la contrainte (exemple)", ar:"شدة قيد التمويل (عينة DEMO)" },
+  s_gap:{ en:"Funding-gap bands (sample)", fr:"Fourchettes de déficit (exemple)", ar:"نطاقات الفجوة التمويلية (عينة DEMO)" },
   fmt:{ en:"Download the report", fr:"Télécharger le rapport", ar:"تنزيل التقرير" },
   meta:{ en:"Files are generated on your device from the data above; nothing is sent to a server. Excel and Word files open directly in Office and LibreOffice; the PowerPoint file is a native .pptx.",
          fr:"Les fichiers sont générés sur votre appareil à partir des données ci-dessus ; rien n'est envoyé à un serveur. Excel et Word s'ouvrent directement dans Office et LibreOffice ; le fichier PowerPoint est un .pptx natif.",
@@ -651,4 +651,3 @@ el("rb-ppt").onclick = function(e){
   dl(new Blob([QIR_pptx(r)], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" }), stampName("pptx"));
 };
 })();
-
