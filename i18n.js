@@ -321,6 +321,7 @@ window.QI_I18N = {
                ar:"مطلوب لتصلكم نسخة تأكيد بإجاباتكم يمكنكم حفظها وإرسالها بالبريد إلى المنسقين. لا يتم إنشاء أي كلمة مرور." },
     needEmail:{ en:"Please enter a valid email address.", fr:"Veuillez saisir une adresse courriel valide.", ar:"يُرجى إدخال بريد إلكتروني صحيح." },
     confirmBtn:{ en:"Download my responses as a Word document", fr:"Télécharger mes réponses en document Word", ar:"تنزيل إجاباتي كمستند Word" },
+    confirmBtnXls:{ en:"Download as Excel (CSV)", fr:"Télécharger en Excel (CSV)", ar:"تنزيل كملف Excel (CSV)" },
     confirmReady:{ en:"A Word document with all your questions and answers has been prepared and should download automatically. If it did not, use the button below. Keep it for your records, and you may email it to the survey organisers at AUDA-NEPAD, UNIDO and the OACPS.",
                    fr:"Un document Word reprenant toutes vos questions et réponses a été préparé et devrait se télécharger automatiquement. Sinon, utilisez le bouton ci-dessous. Conservez-le ; vous pouvez l'envoyer par courriel aux organisateurs de l'enquête : l'AUDA-NEPAD, l'ONUDI et l'OEACP.",
                    ar:"جرى إعداد مستند Word يتضمن جميع أسئلتكم وإجاباتكم ومن المفترض أن يُنزَّل تلقائياً. وإن لم يحدث، استخدموا الزر أدناه. احتفظوا به، ويمكنكم إرساله بالبريد إلى منظمي الاستبيان: أودا-نيباد واليونيدو والأواكبس." },

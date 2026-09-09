@@ -32,6 +32,23 @@ function institutionLabel(){
 }
 function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e || "").trim()); }
 
+// ---- live participation heartbeat (records in-progress / submitted server-side) ----
+function ensureSid(){ if (!state.sid) { state.sid = "S-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8); save(); } return state.sid; }
+function sessionMeta(status){
+  var c = country();
+  var region = state.mode === "international"
+    ? ((state.scope.regions || []).indexOf("global") >= 0 ? "global" : ((state.scope.regions || []).length > 1 ? "multi" : ((state.scope.regions || [])[0] || "multi")))
+    : ((c && c.region) || "africa");
+  var scr = screens();
+  return { sid: ensureSid(), name: state.who.name || "", email: state.who.email || "",
+    mode: state.mode, iso3: c ? state.country : "", region: region,
+    institution: state.mode === "international" ? institutionLabel() : "",
+    coverage: state.mode === "international" ? scopeLabel() : "",
+    category: (state.answers.P2 && state.answers.P2.v) || "", family: state.family || "",
+    screen: state.screen, total: scr.length, status: status || "in_progress" };
+}
+function heartbeat(status){ try { if (window.QIDB && QIDB.touchSession) return QIDB.touchSession(sessionMeta(status)); } catch(e){} return Promise.resolve({ ok:false }); }
+
 function save(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); }catch(e){} }
 function load(){ try{ var s = localStorage.getItem(DRAFT_KEY); return s ? JSON.parse(s) : null; }catch(e){ return null; } }
 function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
@@ -751,14 +768,41 @@ function downloadDoc(){
     return true;
   } catch(e){ return false; }
 }
+function buildConfirmationCsv(){
+  var scr = screens(), rows = [["Question ID", "Question", "Your answer"]];
+  rows.push(["", T(EN.fRespondent), state.who.name || ""]);
+  rows.push(["", T(EN.fEmail), state.who.email || ""]);
+  scr.forEach(function(sc){ sc.qs.forEach(function(q){ var a = state.answers[q.id]; rows.push([q.id, T(q.t), a ? labelFor(q, a) : "—"]); }); });
+  function qcsv(v){ return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; }
+  return "﻿" + rows.map(function(r){ return r.map(qcsv).join(","); }).join("\r\n");
+}
+function downloadCsv(){
+  try {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([buildConfirmationCsv()], { type:"text/csv;charset=utf-8" }));
+    a.download = docFilename().replace(/\.doc$/, ".csv");
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+  } catch(e){}
+}
 function finish(sent){
   state.submitted = true; save();
   var warn = sent ? "" : '<div class="notice">' + esc(T(S.submitError)) + '</div>';
   downloadDoc();   // best-effort auto-download of the Word confirmation
+  // record the session as submitted, then have the platform email the confirmation (Word doc attached)
+  var docB64 = ""; try { docB64 = btoa(unescape(encodeURIComponent(buildConfirmationDoc()))); } catch(e){}
+  var c = country();
+  var conf = { sid: ensureSid(), email: state.who.email || "", name: state.who.name || "",
+    scope: state.mode === "international" ? (institutionLabel() + (scopeLabel() ? " — " + scopeLabel() : "")) : (c ? c[qiLang] : ""),
+    origin: location.origin, docBase64: docB64, docName: docFilename() };
+  heartbeat("submitted").then(function(){
+    try { if (window.QIDB && QIDB.sendRespondentConfirmation && validEmail(conf.email)) QIDB.sendRespondentConfirmation(conf); } catch(e){}
+  });
   h('<div class="scard tc"><h2 class="sec">' + esc(T(S.thanksTitle)) + '</h2>' +
     '<p class="sub" style="margin:10px auto;max-width:40em">' + esc(T(S.thanks)) + '</p>' + warn +
     '<div class="okbox" style="margin:14px auto;max-width:44em;text-align:start">' + esc(T(EN.confirmReady)) + '</div>' +
-    '<p style="margin-top:18px"><button class="btn nav" onclick="QIE.receipt()">' + esc(T(EN.confirmBtn)) + '</button></p>' +
+    '<p style="margin-top:18px"><button class="btn nav" onclick="QIE.receipt()">' + esc(T(EN.confirmBtn)) + '</button> ' +
+    '<button class="btn nav sec" onclick="QIE.receiptExcel()">' + esc(T(EN.confirmBtnXls)) + '</button></p>' +
     '<p><a class="btn nav sec" href="insights.html?lang=' + qiLang + '">' + esc(T(I.nav.insights)) + '</a></p></div>');
   clearDraft();
 }
@@ -787,7 +831,7 @@ window.QIE = {
   toEntry: function(){ state.step = (state.mode === "international") ? "intl" : "country"; save(); render(); },
   agree: function(){
     state.step = "screens"; state.screen = 0;
-    save(); render();
+    save(); render(); heartbeat("in_progress");
   },
   resume: function(){ var d = load(); if (d) { state = d; render(); } },
   reset: function(){
@@ -811,10 +855,11 @@ window.QIE = {
       if (opt) state.family = opt.fam;
     }
     if (state.screen === scr.length - 1) { state.step = "review"; } else { state.screen++; }
-    save(); render();
+    save(); render(); heartbeat("in_progress");
   },
-  jump: function(si){ state.step = "screens"; state.screen = si; save(); render(); },
-  receipt: function(){ downloadDoc(); }
+  jump: function(si){ state.step = "screens"; state.screen = si; save(); render(); heartbeat("in_progress"); },
+  receipt: function(){ downloadDoc(); },
+  receiptExcel: function(){ downloadCsv(); }
 };
 function render(){
   if (state.step === "type") stepType();

@@ -124,6 +124,31 @@
       return rest("responses?select=*&order=submitted_at.desc").catch(function(){ return []; });
     },
 
+    // ---- live participation tracking (in progress / stopped / submitted) ----
+    touchSession: function(p){
+      if (!LIVE) {
+        var d = dload(); d.sessions = d.sessions || {};
+        var prev = d.sessions[p.sid] || {};
+        d.sessions[p.sid] = Object.assign({}, prev, p, {
+          started_at: prev.started_at || new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          status: (prev.status === "submitted") ? "submitted" : (p.status || "in_progress")
+        });
+        dsave(d); return Promise.resolve({ ok:true });
+      }
+      return rpc("touch_session", { p: p }, false);
+    },
+    fetchSessions: function(){
+      if (!LIVE) { var d = dload(); return Promise.resolve(Object.keys(d.sessions || {}).map(function(k){ return d.sessions[k]; })); }
+      return rest("survey_sessions?select=*&order=updated_at.desc").catch(function(){ return []; });
+    },
+    sendRespondentConfirmation: function(p){
+      if (!LIVE) return Promise.resolve({ ok:true, emailed:false });
+      return fetch(CFG.url + "/functions/v1/admin-ops", {
+        method:"POST", headers:hdrs(false), body: JSON.stringify({ action:"respondent_confirmation", p:p })
+      }).then(function(r){ return r.json(); }).catch(function(){ return { ok:false, why:"network" }; });
+    },
+
     // ---- public access requests (sign-up) ----
     requestAccess: function(p){
       if (!LIVE) return Promise.resolve(null); // demo path handled by QIA
@@ -217,4 +242,3 @@
     demoStore: dload
   };
 })();
-

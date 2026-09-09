@@ -238,25 +238,48 @@ function partRegionLabel(r){
   var c = QI_COUNTRIES.find(function(x){ return x.iso3 === r.iso3; });
   return c ? c[qiLang] : (r.iso3 || "");
 }
+var SESSION_STALE_MS = 30 * 60 * 1000;   // in-progress but idle > 30 min → "stopped"
 function paintParticipation(){
-  Promise.all([QIDB.fetchResponses(), QIDB.listInvites()]).then(function(res){
+  Promise.all([QIDB.fetchResponses(), QIDB.listInvites(), QIDB.fetchSessions()]).then(function(res){
     var responses = (res[0] || []).filter(function(r){
       if ((r.mode === "international") || !r.iso3) return true;   // international responses visible to all admins
       var c = QI_COUNTRIES.find(function(x){ return x.iso3 === r.iso3; });
       return !c || inScope(c);
     });
     var invites = res[1] || [];
+    var sessions = (res[2] || []).filter(function(s){
+      if ((s.mode === "international") || !s.iso3) return true;
+      var c = QI_COUNTRIES.find(function(x){ return x.iso3 === s.iso3; });
+      return !c || inScope(c);
+    });
+    var now = Date.now();
+    var live = sessions.filter(function(s){ return s.status !== "submitted"; });
+    var inprog = live.filter(function(s){ return (now - new Date(s.updated_at).getTime()) <= SESSION_STALE_MS; });
+    var stopped = live.filter(function(s){ return (now - new Date(s.updated_at).getTime()) > SESSION_STALE_MS; });
     var total = responses.length;
-    var intl = responses.filter(function(r){ return (r.mode === "international") || !r.iso3; }).length;
-    var natl = total - intl;
     var kdefs = [
-      [total, { en:"Responses", fr:"Réponses", ar:"الإجابات" }],
-      [natl, { en:"Country responses", fr:"Réponses pays", ar:"إجابات قُطرية" }],
-      [intl, { en:"Organisation responses", fr:"Réponses d'organisations", ar:"إجابات المنظمات" }]
+      [total, { en:"Submitted", fr:"Envoyées", ar:"مُرسلة" }],
+      [inprog.length, { en:"In progress", fr:"En cours", ar:"قيد الإنجاز" }],
+      [stopped.length, { en:"Stopped (idle)", fr:"Interrompues", ar:"متوقفة" }]
     ];
     el("v3-part-kpis").innerHTML = kdefs.map(function(k){
       return '<div class="partkpi"><b>' + k[0] + '</b><span>' + esc(T(k[1])) + '</span></div>';
     }).join("");
+    // live sessions (in progress / stopped), newest activity first
+    el("v3-part-live-t").textContent = T({ en:"In progress and stopped", fr:"En cours et interrompues", ar:"قيد الإنجاز والمتوقفة" }) + " (" + live.length + ")";
+    el("v3-part-live").innerHTML = live.sort(function(a,b){ return new Date(b.updated_at) - new Date(a.updated_at); }).slice(0, 60).map(function(s){
+      var stale = (now - new Date(s.updated_at).getTime()) > SESSION_STALE_MS;
+      var who = (s.respondent_name || "") + (s.respondent_email ? " · " + s.respondent_email : "");
+      var where = (s.mode === "international") ? (s.institution || "") + (s.coverage ? " — " + s.coverage : "") : ((QI_COUNTRIES.find(function(x){ return x.iso3 === s.iso3; }) || {})[qiLang] || s.iso3 || "");
+      var prog = (s.screen != null && s.total) ? (" · " + T({ en:"screen", fr:"écran", ar:"الشاشة" }) + " " + (Number(s.screen) + 1) + "/" + s.total) : "";
+      return '<div class="respitem"><div class="grow"><b>' + esc(who || T({ en:"(no name)", fr:"(sans nom)", ar:"(بدون اسم)" })) + '</b>' +
+        '<br><span style="font-size:12px;color:var(--grey)">' + esc(where) + esc(prog) + '</span></div>' +
+        '<div style="text-align:end"><span class="statuschip ' + (stale ? "stopped" : "inprog") + '">' +
+        esc(T(stale ? { en:"Stopped", fr:"Interrompue", ar:"متوقفة" } : { en:"In progress", fr:"En cours", ar:"قيد الإنجاز" })) + '</span>' +
+        '<br><time>' + esc(fmtWhen(s.updated_at)) + '</time></div></div>';
+    }).join("") || '<p class="note">—</p>';
+    // submitted responses
+    el("v3-part-resp-t").textContent = T({ en:"Submitted responses", fr:"Réponses envoyées", ar:"الإجابات المُرسلة" }) + " (" + total + ")";
     el("v3-part-list").innerHTML = responses.slice(0, 100).map(function(r){
       var who = r.respondent_id || r.respondent_name || T({ en:"Anonymous respondent", fr:"Répondant anonyme", ar:"مجيب مجهول" });
       var sub = [partRegionLabel(r), (r.family ? T(I.families[r.family] || { en:r.family }) : ""), (r.category || "")].filter(Boolean).join(" · ");
