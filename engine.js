@@ -1,6 +1,6 @@
 // Survey engine: routing, screens of max 4 questions, widgets, validation, save/resume, submit.
 (function(){
-var I = QI_I18N, S = I.survey;
+var I = QI_I18N, S = I.survey, EN = I.entry;
 var BANK = {
   profile: QI_BANK_P1.profile, core: QI_BANK_P1.core,
   T1: QI_BANK_P2.T1, T2: QI_BANK_P2.T2, T3: QI_BANK_P2.T3, closing: QI_BANK_P2.closing,
@@ -8,7 +8,28 @@ var BANK = {
 };
 var DRAFT_KEY = "qi_draft_v1";
 
-var state = { step:"country", country:null, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false };
+var state = { step:"type", mode:"national", country:null,
+  scope:{ institution:"", institutionOther:"", regions:[] },
+  who:{ name:"", email:"" },
+  family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false };
+
+// human-readable label for the selected international coverage
+function scopeLabel(){
+  var codes = state.scope.regions || [];
+  var map = { global:EN.global, "africa-all":EN.africaAll, "af-north":EN.afNorth, "af-west":EN.afWest,
+    "af-central":EN.afCentral, "af-east":EN.afEast, "af-southern":EN.afSouthern,
+    caribbean:EN.caribbean, pacific:EN.pacific };
+  var parts = codes.map(function(c){ return map[c] ? T(map[c]) : c; });
+  if (state.scope.institutionOther && codes.indexOf("__other")>=0) parts.push(state.scope.institutionOther);
+  return parts.join(", ");
+}
+function institutionLabel(){
+  var v = state.scope.institution;
+  if (v === "other") return state.scope.institutionOther || T({en:"Other organisation",fr:"Autre organisation",ar:"منظمة أخرى"});
+  var found = "";
+  (I.institutions.groups || []).forEach(function(g){ g.items.forEach(function(it){ if (it[0] === v) found = it[1]; }); });
+  return found || v;
+}
 
 function save(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); }catch(e){} }
 function load(){ try{ var s = localStorage.getItem(DRAFT_KEY); return s ? JSON.parse(s) : null; }catch(e){ return null; } }
@@ -26,30 +47,35 @@ function applyProfile(s){
 
 // ---- screens definition (groups of max 4) ----
 function screens(){
-  var c = country(); if (!c) return [];
-  var tierQs = BANK["T" + c.tier];
+  var intl = state.mode === "international";
+  var c = intl ? null : country();
+  if (!intl && !c) return [];
   var famQs = BANK.fams[state.family || "F-GOV"];
   var sn = sess();
-  var pr = BANK.profile.filter(function(q){ return q.id !== "P1" && !(sn && q.id === "P2"); }); // P1 = country step; P2 comes from the access profile
+  var pr = BANK.profile.filter(function(q){ return q.id !== "P1" && !(sn && q.id === "P2"); }); // P1 = entry step; P2 from access profile when invited
   var core = BANK.core;
   function byGroup(g){ return core.filter(function(q){ return q.group === g; }); }
-  return [
+  var list = [
     { title:"Profile 1/2", qs: pr.slice(0,3) },
     { title:"Profile 2/2", qs: pr.slice(3) },
     { title:"G1", qs: byGroup("G1") },
     { title:"G2", qs: byGroup("G2") },
     { title:"G3", qs: byGroup("G3") },
     { title:"G4", qs: byGroup("G4") },
-    { title:"G5", qs: byGroup("G5") },
-    { title:"Tier 1/2", qs: tierQs.slice(0,4) },
-    { title:"Tier 2/2", qs: tierQs.slice(4) },
-    { title:"Module 1/2", qs: famQs.slice(0,4) },
-    { title:"Module 2/2", qs: famQs.slice(4) },
-    { title:"Closing", qs: BANK.closing, closing:true }
+    { title:"G5", qs: byGroup("G5") }
   ];
+  if (!intl) {   // country-tier module applies to national respondents only
+    var tierQs = BANK["T" + c.tier];
+    list.push({ title:"Tier 1/2", qs: tierQs.slice(0,4) });
+    list.push({ title:"Tier 2/2", qs: tierQs.slice(4) });
+  }
+  list.push({ title:"Module 1/2", qs: famQs.slice(0,4) });
+  list.push({ title:"Module 2/2", qs: famQs.slice(4) });
+  list.push({ title:"Closing", qs: BANK.closing, closing:true });
+  return list;
 }
 function totalQuestions(){
-  return screens().reduce(function(n, sc){ return n + sc.qs.length; }, 0) + (sess() ? 0 : 1); // +1 country step when not signed in
+  return screens().reduce(function(n, sc){ return n + sc.qs.length; }, 0) + (sess() ? 0 : 1); // +1 entry step when not invited
 }
 
 // ---- rendering ----
@@ -125,47 +151,139 @@ function afterAnswer(qid, complete){
 }
 
 function pathChips(){
-  var c = country(); if (!c) return "";
-  var bits = ['<span>' + esc(c[qiLang]) + '</span>', '<span>' + esc(T(I.tiers[c.tier].name)) + '</span>'];
+  var bits = [];
+  if (state.mode === "international") {
+    bits.push('<span>' + esc(institutionLabel()) + '</span>');
+    var sl = scopeLabel(); if (sl) bits.push('<span>' + esc(sl) + '</span>');
+  } else {
+    var c = country(); if (!c) return "";
+    bits.push('<span>' + esc(c[qiLang]) + '</span>');
+    bits.push('<span>' + esc(T(I.tiers[c.tier].name)) + '</span>');
+  }
   var p2 = state.answers["P2"];
   if (state.family && p2 && !p2.miss && p2.v) bits.push('<span>' + esc(T(I.families[state.family])) + '</span>');
   var sn = sess();
   if (sn) bits.unshift('<span>' + esc(sn.id) + '</span>');
+  else if (state.who && state.who.name) bits.unshift('<span>' + esc(state.who.name) + '</span>');
   bits.push('<span>' + totalQuestions() + ' · ' + esc(T(S.minutes)) + '</span>');
   return '<div class="pathchips">' + bits.join("") + '</div>';
 }
 
-function stepCountry(){
+function resumeBox(){
   var draft = load();
-  var resume = (draft && draft.country && draft.step === "screens") ?
+  return (draft && (draft.country || draft.mode === "international") && draft.step === "screens" && !draft.submitted) ?
     '<div class="okbox">' + esc(T(S.progressSaved)) + ' <button class="btn small nav" style="margin-inline-start:8px" onclick="QIE.resume()">' + esc(T(S.resume)) + '</button> <button class="btn small nav sec" onclick="QIE.reset()">' + esc(T(S.startOver)) + '</button></div>' : "";
-  var opts = QI_COUNTRIES.slice().sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); })
-    .map(function(c){
-      return '<option value="' + c.iso3 + '"' + (c.w1 ? "" : " disabled") + '>' + esc(c[qiLang]) + (c.w1 ? "" : " · " + esc(T(I.countries.later))) + '</option>';
-    }).join("");
-  h('<div class="scard">' + resume +
-    '<h2 class="sec">' + esc(T(S.chooseCountry)) + '</h2><p class="sub">' + esc(T(S.countryNote)) + '</p>' +
-    '<select id="csel" style="width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:inherit"><option value="">…</option>' + opts + '</select>' +
-    '<div class="notice">' + esc(T(S.notActive)) + '</div>' +
-    '<div class="navrow"><span></span><button class="btn nav" id="cnext" disabled>' + esc(T(S.next)) + '</button></div></div>');
+}
+var STY = 'width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:inherit;box-sizing:border-box';
+function idFields(){
+  return '<div style="display:grid;gap:8px;margin-top:14px">' +
+    '<input type="text" id="who-name" placeholder="' + esc(T(EN.yourName)) + '" value="' + esc(state.who.name || "") + '" style="' + STY + '">' +
+    '<input type="email" id="who-email" placeholder="' + esc(T(EN.yourEmail)) + '" value="' + esc(state.who.email || "") + '" style="' + STY + '"></div>';
+}
+function bindId(){
+  var n = document.getElementById("who-name"), e = document.getElementById("who-email");
+  if (n) n.addEventListener("input", function(){ state.who.name = n.value; save(); });
+  if (e) e.addEventListener("input", function(){ state.who.email = e.value; save(); });
+}
+
+function stepType(){
+  h('<div class="scard">' + resumeBox() +
+    '<h2 class="sec">' + esc(T(EN.who)) + '</h2><p class="sub">' + esc(T(EN.whoNote)) + '</p>' +
+    '<div class="entrytypes">' +
+    '<button type="button" class="entrytype" onclick="QIE.pick(\'national\')"><b>' + esc(T(EN.national)) + '</b><span>' + esc(T(EN.nationalNote)) + '</span></button>' +
+    '<button type="button" class="entrytype" onclick="QIE.pick(\'international\')"><b>' + esc(T(EN.international)) + '</b><span>' + esc(T(EN.internationalNote)) + '</span></button>' +
+    '</div></div>');
+}
+
+function stepCountry(){
+  var opts = QI_COUNTRIES.filter(function(c){ return c.region !== "partners"; })
+    .sort(function(a,b){ return a[qiLang].localeCompare(b[qiLang], qiLang); })
+    .map(function(c){ return '<option value="' + c.iso3 + '">' + esc(c[qiLang]) + '</option>'; }).join("");
+  var partners = QI_COUNTRIES.filter(function(c){ return c.region === "partners"; })
+    .map(function(c){ return '<option value="' + c.iso3 + '">' + esc(c[qiLang]) + '</option>'; }).join("");
+  h('<div class="scard">' +
+    '<h2 class="sec">' + esc(T(S.chooseCountry)) + '</h2>' +
+    '<select id="csel" style="' + STY + '"><option value="">…</option>' + opts +
+    (partners ? '<optgroup label="' + esc(T(I.regions.partners)) + '">' + partners + '</optgroup>' : "") + '</select>' +
+    idFields() +
+    '<div class="gatemsg" id="e-msg"></div>' +
+    '<div class="navrow"><button class="btn nav sec" onclick="QIE.toType()">' + esc(T(S.back)) + '</button>' +
+    '<button class="btn nav" id="cnext">' + esc(T(EN.start)) + '</button></div></div>');
   var sel = document.getElementById("csel");
   if (state.country) sel.value = state.country;
-  sel.addEventListener("change", function(){ document.getElementById("cnext").disabled = !this.value; });
-  document.getElementById("cnext").disabled = !sel.value;
+  bindId();
   document.getElementById("cnext").onclick = function(){
-    state.country = sel.value; state.step = "consent"; save(); render();
+    var msg = document.getElementById("e-msg");
+    if (!sel.value) { msg.className = "gatemsg err"; msg.textContent = T(EN.needCountry); return; }
+    if (!state.who.name || !state.who.name.trim()) { msg.className = "gatemsg err"; msg.textContent = T(EN.needName); return; }
+    state.mode = "national"; state.country = sel.value; state.step = "consent"; save(); render();
+  };
+}
+
+function stepIntl(){
+  var instOpts = (I.institutions.groups || []).map(function(g){
+    return '<optgroup label="' + esc(T(g.label)) + '">' +
+      g.items.map(function(it){ return '<option value="' + it[0] + '">' + esc(it[1]) + '</option>'; }).join("") + '</optgroup>';
+  }).join("");
+  function ck(code, label, cls){
+    var on = (state.scope.regions || []).indexOf(code) >= 0;
+    return '<label class="ck ' + (cls||"") + '"><input type="checkbox" data-scope="' + code + '"' + (on ? " checked" : "") + '> <span>' + esc(T(label)) + '</span></label>';
+  }
+  h('<div class="scard">' +
+    '<h2 class="sec">' + esc(T(EN.selectInstitution)) + '</h2>' +
+    '<select id="isel" style="' + STY + '"><option value="">…</option>' + instOpts + '</select>' +
+    '<input type="text" id="iother" placeholder="' + esc(T(EN.institutionOther)) + '" value="' + esc(state.scope.institutionOther || "") + '" style="' + STY + ';margin-top:8px;display:' + (state.scope.institution === "other" ? "block" : "none") + '">' +
+    '<h3 style="font-size:15px;margin:20px 0 4px">' + esc(T(EN.scopeTitle)) + '</h3><p class="sub">' + esc(T(EN.scopeNote)) + '</p>' +
+    '<div class="scopegrid">' +
+      ck("global", EN.global) +
+      ck("africa-all", EN.africaAll) +
+      '<div class="scopesub">' + ck("af-north",EN.afNorth) + ck("af-west",EN.afWest) + ck("af-central",EN.afCentral) + ck("af-east",EN.afEast) + ck("af-southern",EN.afSouthern) + '</div>' +
+      ck("caribbean", EN.caribbean) +
+      ck("pacific", EN.pacific) +
+    '</div>' +
+    idFields() +
+    '<div class="gatemsg" id="e-msg"></div>' +
+    '<div class="navrow"><button class="btn nav sec" onclick="QIE.toType()">' + esc(T(S.back)) + '</button>' +
+    '<button class="btn nav" id="inext">' + esc(T(EN.start)) + '</button></div></div>');
+  var isel = document.getElementById("isel"), iother = document.getElementById("iother");
+  if (state.scope.institution) isel.value = state.scope.institution;
+  isel.addEventListener("change", function(){
+    state.scope.institution = isel.value;
+    iother.style.display = isel.value === "other" ? "block" : "none"; save();
+  });
+  iother.addEventListener("input", function(){ state.scope.institutionOther = iother.value; save(); });
+  root.querySelectorAll("[data-scope]").forEach(function(elm){
+    elm.addEventListener("change", function(){
+      var code = elm.getAttribute("data-scope");
+      var arr = state.scope.regions || (state.scope.regions = []);
+      var i = arr.indexOf(code);
+      if (elm.checked) { if (i < 0) arr.push(code); if (code === "africa-all") ["af-north","af-west","af-central","af-east","af-southern"].forEach(function(x){ if (arr.indexOf(x)<0) arr.push(x); }); }
+      else { if (i >= 0) arr.splice(i, 1); if (code === "africa-all") state.scope.regions = arr.filter(function(x){ return x.indexOf("af-") !== 0; }); }
+      save();
+    });
+  });
+  bindId();
+  document.getElementById("inext").onclick = function(){
+    var msg = document.getElementById("e-msg");
+    if (!state.scope.institution || (state.scope.institution === "other" && !state.scope.institutionOther.trim())) { msg.className = "gatemsg err"; msg.textContent = T(EN.needInstitution); return; }
+    if (!(state.scope.regions || []).length) { msg.className = "gatemsg err"; msg.textContent = T(EN.needScope); return; }
+    if (!state.who.name || !state.who.name.trim()) { msg.className = "gatemsg err"; msg.textContent = T(EN.needName); return; }
+    state.mode = "international"; state.country = null; state.step = "consent"; save(); render();
   };
 }
 
 function stepConsent(){
+  var intlBanner = (state.mode === "international") ?
+    '<div class="notice">' + esc(T(EN.intlBanner)) + '</div>' : "";
   h('<div class="scard">' + pathChips() +
     '<h2 class="sec">' + esc(T(S.consentTitle)) + '</h2>' +
     '<div class="objbox" style="margin:12px 0"><h2 style="font-size:15px">' + esc(T(I.objectives.title)) + '</h2><p>' + esc(T(I.objectives.body)) + '</p></div>' +
+    intlBanner +
     '<p style="font-size:14.5px">' + esc(T(S.consent)) + '</p>' +
     '<p class="hint">' + esc(T(S.noRightWrong)) + '</p>' +
     '<div class="navrow">' +
     (sess() ? '<a class="btn nav sec" href="home.html?lang=' + qiLang + '">' + esc(T(S.back)) + '</a>'
-            : '<button class="btn nav sec" onclick="QIE.toCountry()">' + esc(T(S.back)) + '</button>') +
+            : '<button class="btn nav sec" onclick="QIE.toEntry()">' + esc(T(S.back)) + '</button>') +
     '<button class="btn nav" onclick="QIE.agree()">' + esc(T(S.agree)) + '</button></div></div>');
 }
 
@@ -529,15 +647,29 @@ function stepReview(){
   document.getElementById("sbm").onclick = doSubmit;
 }
 
+function respLabel(){
+  var sn = sess();
+  if (sn && sn.id) return sn.id;
+  var who = (state.who && state.who.name) ? state.who.name : "";
+  var where = state.mode === "international" ? (institutionLabel() + (scopeLabel() ? " · " + scopeLabel() : "")) : (country() ? country().en : "");
+  var lab = [where, who].filter(Boolean).join(" · ") || (state.who && state.who.email) || "open";
+  return lab.slice(0, 160);
+}
 function payload(){
   var c = country();
   return {
-    schema: "qi-survey-v2.0-prototype",
+    schema: "qi-survey-v3.7",
     submitted_at: new Date().toISOString(),
     language: qiLang,
-    country: c ? c.en : null, country_iso3: state.country,
+    mode: state.mode,
+    country: c ? c.en : null, country_iso3: c ? state.country : "",
+    institution: state.mode === "international" ? institutionLabel() : "",
+    coverage: state.mode === "international" ? scopeLabel() : "",
+    scope_codes: state.mode === "international" ? (state.scope.regions || []) : [],
+    respondent_name: (state.who && state.who.name) || "",
+    respondent_email: (state.who && state.who.email) || "",
     tier: c ? c.tier : null, family: state.family,
-    respondent_id: (sess() && sess().id) || "",
+    respondent_id: respLabel(),
     contact: state.contact,
     answers: state.answers
   };
@@ -548,9 +680,15 @@ function doSubmit(){
   var c = country();
   var rt = "";
   try { rt = sessionStorage.getItem("qi_invite_rt") || ""; } catch(e){}
-  var meta = { respondent_id: p.respondent_id, iso3: p.country_iso3, region: (c && c.region) || "africa",
+  var region = state.mode === "international"
+    ? ((state.scope.regions || []).indexOf("global") >= 0 ? "global"
+       : (state.scope.regions || []).length > 1 ? "multi" : ((state.scope.regions || [])[0] || "multi"))
+    : ((c && c.region) || "africa");
+  var meta = { respondent_id: p.respondent_id, iso3: p.country_iso3, region: region,
     tier: p.tier, family: p.family, language: p.language,
-    category: (state.answers.P2 && state.answers.P2.v) || "", level: (state.answers.P3 && state.answers.P3.v) || "" };
+    category: (state.answers.P2 && state.answers.P2.v) || "", level: (state.answers.P3 && state.answers.P3.v) || "",
+    mode: p.mode, institution: p.institution, coverage: p.coverage, scope_codes: p.scope_codes,
+    respondent_name: p.respondent_name, respondent_email: p.respondent_email };
   var dbCall = (window.QIDB ? QIDB.submitResponse(rt, meta, p.answers) : Promise.resolve({ ok:false }));
   dbCall.then(function(r){
     if (r && r.ok) { finish(true); return; }
@@ -582,16 +720,22 @@ window.QIE = {
     root = mount;
     var draft = load();
     var s = sess();
-    if (s) {
+    if (s) {   // invited via a personal link: national, country pre-set
       if (draft && draft.country === s.iso3 && !draft.submitted) { state = draft; }
-      else { state = { step:"consent", country:s.iso3, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false }; }
+      else { state = { step:"consent", mode:"national", country:s.iso3, scope:{ institution:"", institutionOther:"", regions:[] }, who:{ name:s.name||"", email:"" }, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false }; }
       applyProfile(s);
       render(); return;
     }
-    if (draft && draft.country) { state = draft; if (state.submitted) { state = { step:"country", screen:0, answers:{}, contact:{org:"",email:""} }; } }
+    if (draft && (draft.country || draft.mode === "international") && !draft.submitted) { state = draft; }
     render();
   },
-  toCountry: function(){ state.step = "country"; save(); render(); },
+  pick: function(mode){
+    state.mode = mode;
+    state.step = (mode === "international") ? "intl" : "country";
+    save(); render();
+  },
+  toType: function(){ state.step = "type"; save(); render(); },
+  toEntry: function(){ state.step = (state.mode === "international") ? "intl" : "country"; save(); render(); },
   agree: function(){
     state.step = "screens"; state.screen = 0;
     save(); render();
@@ -600,8 +744,8 @@ window.QIE = {
   reset: function(){
     clearDraft();
     var s = sess();
-    state = { step: s ? "consent" : "country", country: s ? s.iso3 : null, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false };
-    if (s) applyProfile(s);
+    if (s) { state = { step:"consent", mode:"national", country:s.iso3, scope:{ institution:"", institutionOther:"", regions:[] }, who:{ name:s.name||"", email:"" }, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false }; applyProfile(s); }
+    else { state = { step:"type", mode:"national", country:null, scope:{ institution:"", institutionOther:"", regions:[] }, who:{ name:"", email:"" }, family:null, screen:0, answers:{}, contact:{org:"",email:""}, submitted:false }; }
     render();
   },
   prev: function(){
@@ -630,7 +774,9 @@ window.QIE = {
   }
 };
 function render(){
-  if (state.step === "country") stepCountry();
+  if (state.step === "type") stepType();
+  else if (state.step === "country") stepCountry();
+  else if (state.step === "intl") stepIntl();
   else if (state.step === "consent") stepConsent();
   else if (state.step === "review") stepReview();
   else stepScreens();

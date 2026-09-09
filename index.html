@@ -123,8 +123,8 @@ html[dir="rtl"] #g-title{letter-spacing:0;line-height:1.22;text-transform:none}
           <div class="lp-door resp">
             <span class="lp-tag" id="d-r-tag">Respondents</span>
             <h3 id="d-r-t">Answer the survey</h3>
-            <p id="d-r-b">Open the personal link from your invitation email to start or resume your questionnaire. No link yet? Request access and receive yours.</p>
-            <button type="button" class="lp-btn" id="d-r-btn">Request access</button>
+            <p id="d-r-b">The survey is open. Start now, no password needed: choose your country or your organisation, then answer. Your progress saves automatically on this device.</p>
+            <a class="lp-btn" id="d-r-btn" href="survey.html">Start the survey</a>
           </div>
           <div class="lp-door adm">
             <span class="lp-tag" id="d-a-tag">Administration</span>
@@ -270,10 +270,10 @@ var LBL = {
   impl:{ en:"In collaboration with", fr:"En collaboration avec", ar:"بالتعاون مع" },
   rTag:{ en:"Respondents", fr:"Répondants", ar:"المجيبون" },
   rT:{ en:"Answer the survey", fr:"Répondre à l'enquête", ar:"المشاركة في الاستبيان" },
-  rB:{ en:"Open the personal link from your invitation email to start or resume your questionnaire. No link yet? Request access and receive yours.",
-       fr:"Ouvrez le lien personnel reçu par email pour commencer ou reprendre votre questionnaire. Pas encore de lien ? Demandez l'accès pour recevoir le vôtre.",
-       ar:"افتحوا الرابط الشخصي الوارد في بريد الدعوة لبدء الاستبيان أو استئنافه. لا يوجد رابط بعد؟ اطلبوا الوصول لاستلام رابطكم." },
-  rBtn:{ en:"Request access", fr:"Demander l'accès", ar:"طلب الوصول" },
+  rB:{ en:"The survey is open. Start now, no password needed: choose your country or your organisation, then answer. Your progress saves automatically on this device.",
+       fr:"L'enquête est ouverte. Commencez maintenant, sans mot de passe : choisissez votre pays ou votre organisation, puis répondez. Votre progression est enregistrée automatiquement sur cet appareil.",
+       ar:"الاستبيان مفتوح. ابدأ الآن دون كلمة مرور: اختر بلدك أو مؤسستك ثم أجب. تُحفظ إجاباتك تلقائياً على هذا الجهاز." },
+  rBtn:{ en:"Start the survey", fr:"Commencer l'enquête", ar:"ابدأ الاستبيان" },
   aTag:{ en:"Administration", fr:"Administration", ar:"الإدارة" },
   aT:{ en:"Administrators and super administrators", fr:"Administrateurs et super administrateurs", ar:"المديرون والمشرفون العامون" },
   aB:{ en:"Open countries, create administrators and respondents, monitor participation and download data, according to your rights.",
@@ -326,13 +326,8 @@ document.getElementById("plogos").innerHTML = LOGOS.map(function(l){
     'onerror="this.parentNode.classList.add(\'txt\');this.remove()"><i>' + l[1] + '</i></span>';
 }).join("");
 
-// Respondent door: reveal the request-access form.
-document.getElementById("d-r-btn").addEventListener("click", function(){
-  var w = document.getElementById("signup-wrap");
-  w.hidden = false;
-  w.scrollIntoView({ behavior:"smooth", block:"start" });
-  setTimeout(function(){ document.getElementById("s-name").focus(); }, 450);
-});
+// Respondent door: open the survey directly (passwordless), preserving language.
+document.getElementById("d-r-btn").setAttribute("href", "survey.html?lang=" + qiLang);
 
 // ---- tutorial video (EN/FR) ----
 document.getElementById("g-tut").textContent = T(LBL.tut);

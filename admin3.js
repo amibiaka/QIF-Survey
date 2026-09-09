@@ -35,7 +35,7 @@ function showLogin(){
 function showConsole(){
   el("v3-login").style.display = "none";
   el("v3-console").style.display = "block";
-  paintMode(); paintSpaces(); paintTeam(); paintInvites(); paintRequests(); paintDownloads(); paintLog();
+  paintMode(); paintSpaces(); paintTeam(); paintInvites(); paintRequests(); paintParticipation(); paintDownloads(); paintLog();
 }
 function boot(){
   paintMode();
@@ -229,6 +229,59 @@ function paintRequests(){
   });
 }
 
+// ---------------- participation (who connected / responded) ----------------
+function fmtWhen(s){ return String(s || "").replace("T", " ").slice(0, 16); }
+function partRegionLabel(r){
+  if ((r.mode === "international") || !r.iso3) {
+    return r.coverage || (I.regions[r.region] ? T(I.regions[r.region]) : (r.region || T({ en:"International", fr:"International", ar:"دولي" })));
+  }
+  var c = QI_COUNTRIES.find(function(x){ return x.iso3 === r.iso3; });
+  return c ? c[qiLang] : (r.iso3 || "");
+}
+function paintParticipation(){
+  Promise.all([QIDB.fetchResponses(), QIDB.listInvites()]).then(function(res){
+    var responses = (res[0] || []).filter(function(r){
+      if ((r.mode === "international") || !r.iso3) return true;   // international responses visible to all admins
+      var c = QI_COUNTRIES.find(function(x){ return x.iso3 === r.iso3; });
+      return !c || inScope(c);
+    });
+    var invites = res[1] || [];
+    var total = responses.length;
+    var intl = responses.filter(function(r){ return (r.mode === "international") || !r.iso3; }).length;
+    var natl = total - intl;
+    var kdefs = [
+      [total, { en:"Responses", fr:"Réponses", ar:"الإجابات" }],
+      [natl, { en:"Country responses", fr:"Réponses pays", ar:"إجابات قُطرية" }],
+      [intl, { en:"Organisation responses", fr:"Réponses d'organisations", ar:"إجابات المنظمات" }]
+    ];
+    el("v3-part-kpis").innerHTML = kdefs.map(function(k){
+      return '<div class="partkpi"><b>' + k[0] + '</b><span>' + esc(T(k[1])) + '</span></div>';
+    }).join("");
+    el("v3-part-list").innerHTML = responses.slice(0, 100).map(function(r){
+      var who = r.respondent_id || r.respondent_name || T({ en:"Anonymous respondent", fr:"Répondant anonyme", ar:"مجيب مجهول" });
+      var sub = [partRegionLabel(r), (r.family ? T(I.families[r.family] || { en:r.family }) : ""), (r.category || "")].filter(Boolean).join(" · ");
+      return '<div class="respitem"><div class="grow"><b>' + esc(who) + '</b>' +
+        '<br><span style="font-size:12px;color:var(--grey)">' + esc(sub) + '</span></div>' +
+        '<div style="text-align:end"><span class="statuschip submitted">' + esc(T({ en:"Submitted", fr:"Envoyée", ar:"مُرسلة" })) + '</span>' +
+        '<br><time>' + esc(fmtWhen(r.submitted_at)) + '</time></div></div>';
+    }).join("") || '<p class="note">' + esc(T({ en:"No responses yet.", fr:"Aucune réponse pour l'instant.", ar:"لا توجد إجابات بعد." })) + '</p>';
+    // invited respondents who have not yet responded
+    var respKeys = responses.map(function(r){ return String(r.respondent_id || "").toLowerCase() + " " + String(r.respondent_email || "").toLowerCase(); }).join(" | ");
+    var awaiting = invites.filter(function(v){
+      if (v.used_at) return false;
+      if (new Date(v.expires_at) < new Date()) return false;
+      var e = String(v.email || "").toLowerCase();
+      return !(e && respKeys.indexOf(e) >= 0);
+    });
+    el("v3-part-awt-t").textContent = T({ en:"Invited, awaiting response", fr:"Invités, en attente de réponse", ar:"مدعوون بانتظار الإجابة" }) + " (" + awaiting.length + ")";
+    el("v3-part-await").innerHTML = awaiting.slice(0, 60).map(function(v){
+      return '<div class="respitem"><div class="grow"><b>' + esc(v.email) + '</b> · ' + esc(v.iso3 || "") +
+        '<br><span style="font-size:12px;color:var(--grey)">' + esc(v.category || "") + " / " + esc(v.level || "") + '</span></div>' +
+        '<span class="statuschip await">' + esc(T({ en:"Not yet", fr:"Pas encore", ar:"ليس بعد" })) + '</span></div>';
+    }).join("") || '<p class="note">—</p>';
+  });
+}
+
 // ---------------- data downloads ----------------
 var THEMES = [
   ["profile", { en:"Respondent profile (P)", fr:"Profil du répondant (P)", ar:"ملف المجيب (P)" }, /^P\d/],
@@ -364,6 +417,10 @@ el("v3-l-icat").textContent = T({ en:"Organization type / sector", fr:"Type d'or
 el("v3-l-ilevel").textContent = T({ en:"Hierarchical level", fr:"Niveau hiérarchique", ar:"المستوى الوظيفي" });
 el("v3-inv-btn").textContent = T({ en:"Create respondent and generate link", fr:"Créer le répondant et générer le lien", ar:"إنشاء المجيب وتوليد الرابط" });
 el("v3-req-t").textContent = T({ en:"Pending sign-up requests", fr:"Demandes d'accès en attente", ar:"طلبات الوصول قيد الانتظار" });
+el("v3-part-t").textContent = T({ en:"Participation and response status", fr:"Participation et statut des réponses", ar:"المشاركة وحالة الإجابات" });
+el("v3-part-n").textContent = T({ en:"Who has connected and submitted a response, across countries and organisations. Invited respondents who have not yet responded are listed below. A submitted response appears here as soon as it is sent.",
+  fr:"Qui s'est connecté et a envoyé une réponse, pour les pays et les organisations. Les répondants invités qui n'ont pas encore répondu figurent ci-dessous. Une réponse envoyée apparaît ici dès sa transmission.",
+  ar:"من اتصل وأرسل إجابة، على مستوى البلدان والمنظمات. وتظهر أدناه أسماء المدعوين الذين لم يجيبوا بعد. وتظهر أي إجابة مُرسلة هنا فور إرسالها." });
 el("v3-dl-t").textContent = T(AX.downloads);
 el("v3-dl-n").textContent = T(AX.downloadsNote);
 el("v3-l-scope").textContent = T({ en:"Scope", fr:"Portée", ar:"النطاق" });
@@ -373,4 +430,3 @@ el("v3-log-t").textContent = T({ en:"Activity log", fr:"Journal d'activité", ar
 
 boot();
 })();
-

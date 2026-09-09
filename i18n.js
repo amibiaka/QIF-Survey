@@ -294,3 +294,113 @@ window.QI_I18N = {
   }
   merge(window.QI_I18N, X);
 })();
+
+// ============================================================================
+// v3.7: passwordless open entry, respondent-type chooser, international /
+// regional respondents (institutions + region/continent/global scope).
+// ============================================================================
+(function(){
+  var X = {
+   entry: {
+    who:{ en:"Who is responding?", fr:"Qui répond ?", ar:"من الذي يجيب؟" },
+    whoNote:{ en:"Choose how you take part. No password is needed: your answers are saved on this device as you go.",
+              fr:"Choisissez votre mode de participation. Aucun mot de passe n'est requis : vos réponses sont enregistrées sur cet appareil au fur et à mesure.",
+              ar:"اختر طريقة مشاركتك. لا حاجة إلى كلمة مرور: تُحفظ إجاباتك على هذا الجهاز أثناء تقدّمك." },
+    national:{ en:"A country", fr:"Un pays", ar:"دولة" },
+    nationalNote:{ en:"You answer for one country (a ministry, QI institution, regulator, bank, business or partner in that country).",
+                   fr:"Vous répondez pour un pays (ministère, institution d'IQ, régulateur, banque, entreprise ou partenaire de ce pays).",
+                   ar:"تجيب باسم دولة واحدة (وزارة أو مؤسسة جودة أو جهة تنظيمية أو مصرف أو شركة أو شريك في ذلك البلد)." },
+    international:{ en:"An international, regional or development organisation", fr:"Une organisation internationale, régionale ou de développement", ar:"منظمة دولية أو إقليمية أو إنمائية" },
+    internationalNote:{ en:"Development banks (MDBs/DFIs), UN and international bodies, regional organisations. You answer across the regions or continents within your mandate.",
+                        fr:"Banques de développement (BMD/IFD), organismes onusiens et internationaux, organisations régionales. Vous répondez pour les régions ou continents relevant de votre mandat.",
+                        ar:"بنوك التنمية (المتعددة الأطراف/مؤسسات التمويل الإنمائي)، وهيئات الأمم المتحدة والهيئات الدولية، والمنظمات الإقليمية. تجيب على مستوى المناطق أو القارات ضمن ولايتك." },
+    yourName:{ en:"Your name", fr:"Votre nom", ar:"اسمك" },
+    yourEmail:{ en:"Your email (optional)", fr:"Votre courriel (facultatif)", ar:"بريدك الإلكتروني (اختياري)" },
+    selectInstitution:{ en:"Select your organisation", fr:"Sélectionnez votre organisation", ar:"اختر مؤسستك" },
+    institutionOther:{ en:"If \"Other\", please name your organisation", fr:"Si « Autre », indiquez le nom de votre organisation", ar:"إذا اخترت «أخرى»، فاذكر اسم مؤسستك" },
+    scopeTitle:{ en:"Which regions do you cover?", fr:"Quelles régions couvrez-vous ?", ar:"ما المناطق التي تغطيها؟" },
+    scopeNote:{ en:"Tick every region, continent or the global level within your mandate. Your single response covers all of them together.",
+                fr:"Cochez chaque région, continent ou le niveau mondial relevant de votre mandat. Votre réponse unique les couvre tous ensemble.",
+                ar:"حدّد كل منطقة أو قارة أو المستوى العالمي ضمن ولايتك. تغطي إجابتك الواحدة جميعها معاً." },
+    global:{ en:"Global / worldwide mandate", fr:"Mandat mondial", ar:"ولاية عالمية" },
+    africaAll:{ en:"Africa (all five regions)", fr:"Afrique (les cinq régions)", ar:"أفريقيا (المناطق الخمس)" },
+    afNorth:{ en:"North Africa", fr:"Afrique du Nord", ar:"شمال أفريقيا" },
+    afWest:{ en:"West Africa", fr:"Afrique de l'Ouest", ar:"غرب أفريقيا" },
+    afCentral:{ en:"Central Africa", fr:"Afrique centrale", ar:"وسط أفريقيا" },
+    afEast:{ en:"East Africa", fr:"Afrique de l'Est", ar:"شرق أفريقيا" },
+    afSouthern:{ en:"Southern Africa", fr:"Afrique australe", ar:"الجنوب الأفريقي" },
+    caribbean:{ en:"Caribbean", fr:"Caraïbes", ar:"الكاريبي" },
+    pacific:{ en:"Pacific", fr:"Pacifique", ar:"المحيط الهادئ" },
+    otherRegions:{ en:"Other regions (please specify)", fr:"Autres régions (à préciser)", ar:"مناطق أخرى (يُرجى التحديد)" },
+    start:{ en:"Start the survey", fr:"Commencer l'enquête", ar:"ابدأ الاستبيان" },
+    needName:{ en:"Please enter your name.", fr:"Veuillez saisir votre nom.", ar:"يُرجى إدخال اسمك." },
+    needCountry:{ en:"Please select your country.", fr:"Veuillez sélectionner votre pays.", ar:"يُرجى اختيار بلدك." },
+    needInstitution:{ en:"Please select or name your organisation.", fr:"Veuillez sélectionner ou nommer votre organisation.", ar:"يُرجى اختيار مؤسستك أو تسميتها." },
+    needScope:{ en:"Please tick at least one region, continent or the global level.", fr:"Veuillez cocher au moins une région, un continent ou le niveau mondial.", ar:"يُرجى تحديد منطقة أو قارة واحدة على الأقل أو المستوى العالمي." },
+    scopeLabel:{ en:"Coverage", fr:"Couverture", ar:"التغطية" },
+    intlBanner:{ en:"You are answering at the regional / organisational level. Where a question refers to \"your country\", please answer for the regions and countries within your mandate, shown above.",
+                 fr:"Vous répondez au niveau régional / institutionnel. Lorsqu'une question mentionne « votre pays », répondez pour les régions et pays relevant de votre mandat, indiqués ci-dessus.",
+                 ar:"أنت تجيب على المستوى الإقليمي/المؤسسي. وحين يشير سؤال إلى «بلدك»، أجب عن المناطق والبلدان ضمن ولايتك المبيّنة أعلاه." }
+   },
+   institutions: {
+    groups: [
+     { label:{ en:"Development banks and DFIs", fr:"Banques de développement et IFD", ar:"بنوك التنمية ومؤسسات التمويل الإنمائي" },
+       items:[
+        ["afdb", "African Development Bank (AfDB)"],
+        ["wb", "World Bank Group"],
+        ["afc", "Africa Finance Corporation (AFC)"],
+        ["tdb", "Trade and Development Bank (TDB)"],
+        ["boad", "West African Development Bank (BOAD)"],
+        ["bdeac", "Development Bank of Central African States (BDEAC)"],
+        ["dbsa", "Development Bank of Southern Africa (DBSA)"],
+        ["afrexim", "African Export-Import Bank (Afreximbank)"],
+        ["badea", "Arab Bank for Economic Development in Africa (BADEA)"],
+        ["isdb", "Islamic Development Bank (IsDB)"],
+        ["eib", "European Investment Bank (EIB)"],
+        ["cdb", "Caribbean Development Bank (CDB)"],
+        ["adb", "Asian Development Bank (ADB)"]
+       ] },
+     { label:{ en:"UN and international organisations", fr:"ONU et organisations internationales", ar:"الأمم المتحدة والمنظمات الدولية" },
+       items:[
+        ["unido", "UNIDO"],
+        ["un", "United Nations (other UN agency)"],
+        ["eu", "European Union (EU)"],
+        ["oacps", "Organisation of African, Caribbean and Pacific States (OACPS)"],
+        ["arso", "African Organisation for Standardisation (ARSO)"],
+        ["itc", "International Trade Centre (ITC)"]
+       ] },
+     { label:{ en:"African Union and regional economic communities", fr:"Union africaine et communautés économiques régionales", ar:"الاتحاد الأفريقي والجماعات الاقتصادية الإقليمية" },
+       items:[
+        ["auc", "African Union Commission (AUC)"],
+        ["auda", "AUDA-NEPAD"],
+        ["ecowas", "ECOWAS"],
+        ["eccas", "ECCAS"],
+        ["sadc", "SADC"],
+        ["comesa", "COMESA"],
+        ["eac", "East African Community (EAC)"],
+        ["igad", "IGAD"],
+        ["uma", "Arab Maghreb Union (UMA)"],
+        ["censad", "CEN-SAD"]
+       ] },
+     { label:{ en:"Caribbean, Pacific and Indian Ocean organisations", fr:"Organisations des Caraïbes, du Pacifique et de l'océan Indien", ar:"منظمات الكاريبي والمحيط الهادئ والمحيط الهندي" },
+       items:[
+        ["caricom", "CARICOM"],
+        ["crosq", "CARICOM Regional Organisation for Standards and Quality (CROSQ)"],
+        ["oecs", "Organisation of Eastern Caribbean States (OECS)"],
+        ["pifs", "Pacific Islands Forum Secretariat (PIFS)"],
+        ["spc", "Pacific Community (SPC)"],
+        ["ioc", "Indian Ocean Commission (IOC / COI)"]
+       ] },
+     { label:{ en:"Other", fr:"Autre", ar:"أخرى" },
+       items:[ ["other", "Other organisation"] ] }
+    ]
+   }
+  };
+  function merge(dst, src){
+    Object.keys(src).forEach(function(k){
+      if (dst[k] && typeof dst[k] === "object" && typeof src[k] === "object" && !Array.isArray(src[k])) merge(dst[k], src[k]);
+      else dst[k] = src[k];
+    });
+  }
+  merge(window.QI_I18N, X);
+})();
