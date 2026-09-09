@@ -30,6 +30,7 @@ function institutionLabel(){
   (I.institutions.groups || []).forEach(function(g){ g.items.forEach(function(it){ if (it[0] === v) found = it[1]; }); });
   return found || v;
 }
+function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e || "").trim()); }
 
 function save(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); }catch(e){} }
 function load(){ try{ var s = localStorage.getItem(DRAFT_KEY); return s ? JSON.parse(s) : null; }catch(e){ return null; } }
@@ -178,7 +179,8 @@ var STY = 'width:100%;padding:11px;border:1px solid var(--line);border-radius:8p
 function idFields(){
   return '<div style="display:grid;gap:8px;margin-top:14px">' +
     '<input type="text" id="who-name" placeholder="' + esc(T(EN.yourName)) + '" value="' + esc(state.who.name || "") + '" style="' + STY + '">' +
-    '<input type="email" id="who-email" placeholder="' + esc(T(EN.yourEmail)) + '" value="' + esc(state.who.email || "") + '" style="' + STY + '"></div>';
+    '<input type="email" id="who-email" placeholder="' + esc(T(EN.yourEmail)) + '" value="' + esc(state.who.email || "") + '" style="' + STY + '">' +
+    '<div class="hint">' + esc(T(EN.emailWhy)) + '</div></div>';
 }
 function bindId(){
   var n = document.getElementById("who-name"), e = document.getElementById("who-email");
@@ -216,6 +218,7 @@ function stepCountry(){
     var msg = document.getElementById("e-msg");
     if (!sel.value) { msg.className = "gatemsg err"; msg.textContent = T(EN.needCountry); return; }
     if (!state.who.name || !state.who.name.trim()) { msg.className = "gatemsg err"; msg.textContent = T(EN.needName); return; }
+    if (!validEmail(state.who.email)) { msg.className = "gatemsg err"; msg.textContent = T(EN.needEmail); return; }
     state.mode = "national"; state.country = sel.value; state.step = "consent"; save(); render();
   };
 }
@@ -268,6 +271,7 @@ function stepIntl(){
     if (!state.scope.institution || (state.scope.institution === "other" && !state.scope.institutionOther.trim())) { msg.className = "gatemsg err"; msg.textContent = T(EN.needInstitution); return; }
     if (!(state.scope.regions || []).length) { msg.className = "gatemsg err"; msg.textContent = T(EN.needScope); return; }
     if (!state.who.name || !state.who.name.trim()) { msg.className = "gatemsg err"; msg.textContent = T(EN.needName); return; }
+    if (!validEmail(state.who.email)) { msg.className = "gatemsg err"; msg.textContent = T(EN.needEmail); return; }
     state.mode = "international"; state.country = null; state.step = "consent"; save(); render();
   };
 }
@@ -704,12 +708,57 @@ function doSubmit(){
       .catch(function(){ finish(false); });
   });
 }
+function docFilename(){
+  var base = state.mode === "international" ? (state.scope.institution || "organisation") : (state.country || "survey");
+  return "QIF-response-" + String(base).replace(/[^A-Za-z0-9]+/g, "-").slice(0, 40) + ".doc";
+}
+function buildConfirmationDoc(){
+  var scr = screens(), rows = "";
+  scr.forEach(function(sc){
+    sc.qs.forEach(function(q){
+      var a = state.answers[q.id];
+      var ansTxt = a ? esc(labelFor(q, a)) : "—";
+      rows += '<tr><td style="border:1px solid #b8c4cf;padding:6px 8px;vertical-align:top;width:58%"><b>' + q.id + '</b> &#160; ' + esc(T(q.t)) + '</td>' +
+        '<td style="border:1px solid #b8c4cf;padding:6px 8px;vertical-align:top">' + ansTxt + '</td></tr>';
+    });
+  });
+  var c = country();
+  var scopeTxt = state.mode === "international" ? (institutionLabel() + (scopeLabel() ? " — " + scopeLabel() : "")) : (c ? c[qiLang] : "");
+  var meta = '<table style="border-collapse:collapse;margin:0 0 14px">' +
+    '<tr><td style="padding:2px 12px 2px 0"><b>' + esc(T(EN.fRespondent)) + ':</b></td><td>' + esc(state.who.name || "") + '</td></tr>' +
+    '<tr><td style="padding:2px 12px 2px 0"><b>' + esc(T(EN.fEmail)) + ':</b></td><td>' + esc(state.who.email || "") + '</td></tr>' +
+    '<tr><td style="padding:2px 12px 2px 0"><b>' + esc(T(EN.fScope)) + ':</b></td><td>' + esc(scopeTxt) + '</td></tr>' +
+    '<tr><td style="padding:2px 12px 2px 0"><b>' + esc(T(EN.fSubmitted)) + ':</b></td><td>' + esc(new Date().toLocaleString()) + '</td></tr></table>';
+  var dir = (qiLang === "ar") ? ' dir="rtl"' : '';
+  return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+    '<head><meta charset="utf-8"><title>' + esc(T(EN.confirmDocTitle)) + '</title></head>' +
+    '<body' + dir + ' style="font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#10233A">' +
+    '<h2 style="color:#14486B">' + esc(T(EN.confirmDocTitle)) + '</h2>' +
+    '<p>' + esc(T(EN.confirmIntro)) + '</p>' + meta +
+    '<table style="border-collapse:collapse;width:100%">' +
+    '<tr><th style="border:1px solid #b8c4cf;background:#14486B;color:#fff;padding:6px 8px;text-align:start">' + esc(T(EN.colQuestion)) + '</th>' +
+    '<th style="border:1px solid #b8c4cf;background:#14486B;color:#fff;padding:6px 8px;text-align:start">' + esc(T(EN.colAnswer)) + '</th></tr>' + rows + '</table>' +
+    '<p style="margin-top:16px;font-size:9pt;color:#55646F">' + esc(T(I.partners)) + '</p></body></html>';
+}
+function downloadDoc(){
+  try {
+    var blob = new Blob(['﻿' + buildConfirmationDoc()], { type:"application/msword" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = docFilename();
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    return true;
+  } catch(e){ return false; }
+}
 function finish(sent){
   state.submitted = true; save();
   var warn = sent ? "" : '<div class="notice">' + esc(T(S.submitError)) + '</div>';
+  downloadDoc();   // best-effort auto-download of the Word confirmation
   h('<div class="scard tc"><h2 class="sec">' + esc(T(S.thanksTitle)) + '</h2>' +
     '<p class="sub" style="margin:10px auto;max-width:40em">' + esc(T(S.thanks)) + '</p>' + warn +
-    '<p style="margin-top:18px"><button class="btn nav" onclick="QIE.receipt()">' + esc(T(S.receipt)) + '</button></p>' +
+    '<div class="okbox" style="margin:14px auto;max-width:44em;text-align:start">' + esc(T(EN.confirmReady)) + '</div>' +
+    '<p style="margin-top:18px"><button class="btn nav" onclick="QIE.receipt()">' + esc(T(EN.confirmBtn)) + '</button></p>' +
     '<p><a class="btn nav sec" href="insights.html?lang=' + qiLang + '">' + esc(T(I.nav.insights)) + '</a></p></div>');
   clearDraft();
 }
@@ -765,13 +814,7 @@ window.QIE = {
     save(); render();
   },
   jump: function(si){ state.step = "screens"; state.screen = si; save(); render(); },
-  receipt: function(){
-    var blob = new Blob([JSON.stringify(payload(), null, 2)], { type:"application/json" });
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "qi-survey-receipt-" + (state.country || "xxx") + ".json";
-    document.body.appendChild(a); a.click(); a.remove();
-  }
+  receipt: function(){ downloadDoc(); }
 };
 function render(){
   if (state.step === "type") stepType();
